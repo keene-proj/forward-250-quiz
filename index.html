@@ -155,7 +155,7 @@
 
   <div id="event-area">
     <div class="section-label" id="section-label">Drag the card to 1897 on the timeline:</div>
-    <div class="event-card" id="current-card"><em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.</div>
+    <div class="event-card" id="current-card">The <em>Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.</div>
   </div>
 
   <div id="timeline-section">
@@ -226,7 +226,7 @@ const ALL_EVENTS=[
    fact:"Meant to celebrate American Reform Judaism’s coming of age, the non-kosher menu outraged traditionalists who saw it as proof that Reform had abandoned Jewish law entirely. The scandal accelerated the founding of the Jewish Theological Seminary three years later and crystallized the Conservative movement as a distinct denomination."},
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
    fact:"Founded as a reaction to what traditional Jews saw as Reform Judaism’s abandonment of Jewish law, JTS became the intellectual home of Conservative Judaism under Solomon Schechter from 1902, and remains one of the world’s leading centers of Jewish scholarship today."},
-  {html:"<em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.",tip:"The Forward founded",year:1897,isPractice:true,isForward:true,
+  {html:"The <em>Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.",tip:"The Forward founded",year:1897,isPractice:true,isForward:true,
    fact:"Then called <em>Der Forverts</em>, the print daily quickly became one of the most widely read foreign-language newspapers in America. The Forward publishes online today in both Yiddish and English, reaching millions of unique readers per month."},
   {html:"Emma Lazarus’s sonnet <em>The New Colossus</em> is engraved on the base of the Statue of Liberty.",tip:"“The New Colossus” engraved on Statue of Liberty",year:1903,
    fact:"Lazarus wrote <em>The New Colossus</em> in 1883, but died 16 years before its famous lines — among them “Give me your tired, your poor, your huddled masses” — were added to the pedestal."},
@@ -377,7 +377,7 @@ function startGame(){
   document.getElementById('section-label').textContent=isMobile()?'Tap the card to select it, then tap 1897 on the timeline:':'Drag the card to 1897 on the timeline:';
   buildTicks();
   gameEvents=selectEvents();
-  document.getElementById('current-card').innerHTML='<em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.';
+  document.getElementById('current-card').innerHTML='The <em>Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.';
   // Show modal over the game screen, not the splash
   setTimeout(function(){
     document.getElementById('practice-modal-overlay').style.display='flex';
