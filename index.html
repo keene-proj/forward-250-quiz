@@ -894,8 +894,8 @@ function launchFirework(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach(p=>{
       p.x+=p.vx; p.y+=p.vy;
-      p.vy+=0.08;
-      p.vx*=0.97; p.life-=0.032;
+      p.vy+=0.05;
+      p.vx*=0.97; p.life-=0.018;
       p.alpha=Math.max(0,p.life);
       ctx.globalAlpha=p.alpha;
       ctx.beginPath();
@@ -905,7 +905,7 @@ function launchFirework(){
     });
     ctx.globalAlpha=1;
     frame++;
-    if(frame<90)requestAnimationFrame(animate);
+    if(frame<120)requestAnimationFrame(animate);
     else ctx.clearRect(0,0,canvas.width,canvas.height);
   }
   animate();
