@@ -864,7 +864,7 @@ function launchFirework(){
   if(activePinWrapper){
     const labels=activePinWrapper.querySelectorAll('div');
     let labelEl=null;
-    labels.forEach(el=>{if(el.textContent&&el.style.borderRadius==='10px')labelEl=el;});
+    labels.forEach(el=>{if(el.textContent&&el.style.borderRadius==='12px')labelEl=el;});
     if(labelEl){
       const r=labelEl.getBoundingClientRect();
       cx=r.left+r.width/2; cy=r.top+r.height/2;
