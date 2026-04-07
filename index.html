@@ -51,7 +51,7 @@
   .event-card.answered:hover{box-shadow:0 1px 4px rgba(0,0,0,.06);border-color:var(--border2);}
   #feedback{min-height:36px;font-size:16px;color:var(--text2);margin:1rem 0;text-align:center;line-height:1.5;}
   .pts-badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border-radius:20px;margin-right:6px;font-family:'Source Sans 3',sans-serif;}
-  .pts-6{background:#26215C;color:#fff;}
+  .pts-6{background:#1D9E75;color:#fff;}
   .pts-5{background:#EEEDFE;color:#3C3489;}
   .pts-4{background:#E1F5EE;color:#085041;}
   .pts-3{background:#FAEEDA;color:#633806;}
@@ -147,7 +147,7 @@
     <span class="badge" id="score-badge">Score: 0</span>
     <span class="badge" id="round-badge">Practice</span>
   </div>
-  <div class="game-title-full">250 Years of American Jewish History</div>
+  <div class="game-title-full">The <em>Forward</em>'s American Jewish Chronology Quiz</div>
 
   <div id="practice-banner">
     <strong>Practice round:</strong> Find <strong>1897</strong> on the timeline and drag the card to it.
@@ -214,7 +214,7 @@ const ALL_EVENTS=[
   {html:"The Virginia Statute for Religious Freedom is signed into law, becoming the first legal guarantee of religious liberty in the Americas.",tip:"Virginia Statute for Religious Freedom",year:1786,
    fact:"For American Jews, it was the first time a government explicitly rejected the idea that civic participation required religious conformity. James Madison’s successful push for the statute made Virginia the model for the First Amendment, ratified five years later."},
   {html:"George Washington writes a letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington’s religious liberty letter",year:1790,
-   fact:"President Washington’s famous vow that the U.S. would give “to bigotry no sanction” were actually borrowed words: They originated in the congratulatory letter from the synagogue’s warden, Moses Seixas — to whom Washington was responding."},
+   fact:”President Washington’s famous vow that the U.S. would give “to bigotry no sanction” was actually a borrowed phrase: It originated in the congratulatory letter from the synagogue’s warden, Moses Seixas, to whom Washington was responding.”},
   {html:"Rebecca Gratz founds the first American Jewish Sunday school.",tip:"First American Jewish Sunday school",year:1838,
    fact:"Gratz modeled the Hebrew Sunday School of Philadelphia on Protestant schools but with an entirely Jewish curriculum. The school became the template for Jewish education across America."},
   {html:"Lehman Brothers is founded in Montgomery, Ala., by three Jewish immigrant brothers from Bavaria.",tip:"Lehman Brothers founded",year:1850,
@@ -223,8 +223,8 @@ const ALL_EVENTS=[
    fact:"<em>When Harry Met Sally</em>’s most famous scene — “I’ll have what she’s having” — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase “Send a salami to your boy in the Army” during World War II."},
   {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the “Trefa Banquet.”",tip:"The Trefa Banquet",year:1883,
    fact:"Meant to celebrate American Reform Judaism’s coming of age, the non-kosher menu outraged traditionalists who saw it as proof that Reform had abandoned Jewish law entirely. The scandal accelerated the founding of the Jewish Theological Seminary three years later and crystallized the Conservative movement as a distinct denomination."},
-  {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
-   fact:"Founded as a reaction to what traditional Jews saw as Reform Judaism’s abandonment of Jewish law, JTS became the intellectual home of Conservative Judaism under Solomon Schechter from 1902, and remains one of the world’s leading centers of Jewish scholarship today."},
+  {html:"The Jewish Theological Seminary of America is founded in New York City.",tip:"Jewish Theological Seminary founded",year:1886,
+   fact:"Founded in reaction to what traditional Jews saw as Reform Judaism’s abandonment of halacha, JTS became the intellectual home of Conservative Judaism under the leadership of Rabbi Solomon Schechter."},
   {html:"<em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.",tip:"The Forward founded",year:1897,isPractice:true,isForward:true,
    fact:"Then called <em>Der Forverts</em>, it quickly became one of the most widely read foreign-language newspapers in America, and today reaches millions of unique readers each month."},
   {html:"Emma Lazarus’s sonnet <em>The New Colossus</em> is engraved on the base of the Statue of Liberty.",tip:"“The New Colossus” engraved on Statue of Liberty",year:1903,
@@ -399,7 +399,7 @@ function yrPct(y){return Math.max(0,Math.min(1,(y-MIN_Y)/RANGE));}
 function pctToYr(p){return Math.round(MIN_Y+Math.max(0,Math.min(1,p))*RANGE);}
 function calcPts(g,a){const d=Math.abs(g-a);return d===0?6:d<=5?5:d<=10?3:d<=25?2:d<=50?1:0;}
 function ptClass(p){return['pts-0','pts-1','pts-2','pts-3','pts-5','pts-5','pts-6'][p]||'pts-0';}
-function pinColor(p){return p===6?'#26215C':p===5?'#534AB7':p===3?'#BA7517':p===2?'#D4537E':p===1?'#F5C842':'#888780';}
+function pinColor(p){return p===6?'#1D9E75':p===5?'#534AB7':p===3?'#BA7517':p===2?'#D4537E':p===1?'#F5C842':'#888780';}
 
 function buildTicks(){
   const el=document.getElementById('decade-ticks');
@@ -611,7 +611,7 @@ function handlePracticeGuess(guessY){
     :`<span style="color:var(--amber);font-weight:600;">Almost!</span> You placed it at ${guessY} — the Forward was founded in 1897. Let's try the real quiz now!`;
   const practicePts=calcPts(guessY,1897);
   activePinWrapper=placeForwardPin(1897,guessY,practicePts);
-  if(practicePts===6)launchFirework();
+  if(practicePts===6)setTimeout(launchFirework,2100);
   showFact(FORWARD_EVENT,true);
   document.getElementById('next-btn').textContent='Start the quiz';
   document.getElementById('next-btn').classList.add('btn-primary');
@@ -631,7 +631,7 @@ function handleGuess(guessY){
   const exactMsg=d===0?'You got it!':d===1?'Off by a year!':d===2?'Nice \u2014 two years off.':msgs[pts];
   document.getElementById('feedback').innerHTML=`<span class="pts-badge ${ptClass(pts)}">${pts>0?'+'+pts+' pts':'0 pts'}</span>${exactMsg} <span style="color:var(--text2);">Your guess: <strong>${guessY}</strong> &nbsp;·&nbsp; Actual: <strong>${evt.year}</strong></span>`;
   activePinWrapper=placePin(evt.year,pts,evt.tip,false,guessY);
-  if(pts===6)launchFirework();
+  if(pts===6)setTimeout(launchFirework,2100);
   showFact(evt,false);
   logEntries.push({year:evt.year,text:evt.tip,guess:guessY,pts});
   rebuildLog();
@@ -748,8 +748,8 @@ function showEnd(maxPts){
   ec.appendChild(mg);
 
   const shareTitle=document.createElement('div');
-  shareTitle.style.cssText='font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;text-align:center;';
-  shareTitle.textContent='Share your score';
+  shareTitle.style.cssText='font-size:11px;font-weight:600;color:var(--green);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;text-align:center;';
+  shareTitle.textContent='Share your score!';
   ec.appendChild(shareTitle);
 
   const btnRow=document.createElement('div');
@@ -760,8 +760,8 @@ function showEnd(maxPts){
     b.style.cssText='display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:"Source Sans 3",sans-serif;';
     b.innerHTML=svgHtml+label;
     b.addEventListener('click',clickFn);
-    b.addEventListener('mouseover',()=>b.style.background='#f3f0ea');
-    b.addEventListener('mouseout',()=>b.style.background='');
+    b.addEventListener('mouseover',()=>b.style.background='#e8e4dc');
+    b.addEventListener('mouseout',()=>b.style.background='var(--surface)');
     return b;
   }
 
@@ -777,7 +777,7 @@ function showEnd(maxPts){
   if(!isBonusRound){
     const more=document.createElement('button');
     more.className='main-btn';
-    more.style.marginBottom='0.75rem';
+    more.style.marginBottom='1.25rem';
     more.textContent='Keep Playing';
     more.addEventListener('click',startBonusRound);
     ec.appendChild(more);
@@ -785,7 +785,7 @@ function showEnd(maxPts){
 
   const playAgain=document.createElement('button');
   playAgain.className='main-btn';
-  playAgain.textContent='Play again';
+  playAgain.textContent='Start Over';
   playAgain.addEventListener('click',restart);
   ec.appendChild(playAgain);
 
