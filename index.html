@@ -39,12 +39,12 @@
   #confirm-bar{display:none;position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:200;background:var(--accent);color:#fff;font-family:'Playfair Display',serif;font-size:15px;font-weight:600;padding:12px 32px;border-radius:32px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(74,63,160,0.35);transition:background .15s;}
   #confirm-bar:hover{background:#3a30a0;}
   .card-selected{border-color:var(--accent-mid)!important;box-shadow:0 0 0 2px var(--accent-mid)!important;}
-  .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;gap:8px;}
+  .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;gap:8px;}
   .game-title-sm{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--text);text-align:center;flex:1;line-height:1.3;}
-  .game-title-full{font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,26px);font-weight:600;color:var(--text);text-align:center;line-height:1.3;margin-bottom:1.5rem;display:none;}
+  .game-title-full{font-family:'Playfair Display',serif;font-size:clamp(14px,2vw,20px);font-weight:600;color:var(--text);text-align:center;line-height:1.3;flex:1;display:none;}
   .badge{font-size:14px;font-weight:600;padding:6px 14px;border-radius:20px;background:var(--surface2);color:var(--text2);border:.5px solid var(--border);font-family:'Source Sans 3',sans-serif;white-space:nowrap;}
   .section-label{font-size:13px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
-  #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem;}
+  #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1rem;}
   .event-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:1.75rem 2.5rem;user-select:none;-webkit-user-select:none;touch-action:none;font-size:20px;color:var(--text);line-height:1.6;cursor:grab;font-family:'Playfair Display',Georgia,serif;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .15s,border-color .15s;display:inline-block;max-width:620px;text-align:center;}
   .event-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);border-color:var(--accent-mid);}
   .event-card.answered{cursor:default;}
@@ -145,9 +145,9 @@
 <div id="game">
   <div class="game-header">
     <span class="badge" id="score-badge">Score: 0</span>
+    <div class="game-title-full" id="game-title-full">The Forward's American Jewish Timeline Game</div>
     <span class="badge" id="round-badge">Practice</span>
   </div>
-  <div class="game-title-full">250 Years of American Jewish History</div>
 
   <div id="practice-banner">
     <strong>Practice round:</strong> Find <strong>1897</strong> on the timeline and drag the card to it.
@@ -663,7 +663,7 @@ function advanceRound(){
     document.getElementById('current-card').innerHTML=gameEvents[0].html;
     document.getElementById('round-badge').textContent='1 / '+NUM_ROUNDS;
     document.getElementById('pins-layer').innerHTML='';
-    document.querySelector('.game-title-full').style.display='block';
+    document.querySelector('.game-title-full').style.display='';
     return;
   }
   if(roundIdx>=gameEvents.length){showEnd(isBonusRound?bonusMaxPts:MAX_PTS);return;}
@@ -844,7 +844,7 @@ function restart(){
   document.getElementById('btn-area').innerHTML='';
   document.getElementById('practice-modal-overlay').style.display='none';
   document.getElementById('practice-banner').style.display='none';
-  document.querySelector('.game-title-full').style.display='block';
+  document.querySelector('.game-title-full').style.display='';
   document.getElementById('year-1897-marker').style.display='none';
   document.getElementById('section-label').style.visibility='visible';
   document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
