@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>250 Years of American Jewish History</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#faf8f4;--surface:#ffffff;--surface2:#f3f0ea;
+    --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);
+    --text:#1a1714;--text2:#5a5550;--text3:#9a9490;
+    --accent:#4a3fa0;--accent-light:#eeedfe;--accent-mid:#7F77DD;
+    --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#085041;
+    --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#633806;
+    --red:#C0392B;--red-light:#FCEBEB;--red-dark:#791F1F;
+    --gray:#888780;--radius:10px;--radius-sm:6px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'Source Sans 3',Georgia,sans-serif;color:var(--text);min-height:100vh;}
+
+  /* SPLASH */
+  #splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1.5rem;text-align:center;}
+  .splash-eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;}
+  .splash-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(28px,6vw,42px);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:.6rem;max-width:480px;}
+  .splash-subtitle{font-family:'Playfair Display',Georgia,serif;font-size:clamp(17px,3.5vw,22px);font-weight:400;font-style:italic;color:var(--text2);margin-bottom:2.5rem;max-width:400px;}
+  .splash-divider{width:48px;height:3px;background:var(--accent);border-radius:2px;margin:0 auto 2rem;}
+  .splash-desc{font-size:18px;color:var(--text2);line-height:1.7;max-width:420px;margin-bottom:2.5rem;}
+  .splash-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;cursor:pointer;letter-spacing:.02em;transition:background .15s,transform .1s;}
+  .splash-btn:hover{background:#3a30a0;transform:translateY(-1px);}
+  .splash-btn:active{transform:translateY(0);}
+  .splash-note{font-size:11px;color:var(--text3);margin-top:1rem;}
+
+  /* GAME */
+  #game{display:none;padding:2rem 2rem 5rem;max-width:800px;margin:0 auto;}
+  body{overscroll-behavior-y:contain;}
+  #confirm-bar{display:none;position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:200;background:var(--accent);color:#fff;font-family:'Playfair Display',serif;font-size:15px;font-weight:600;padding:12px 32px;border-radius:32px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(74,63,160,0.35);transition:background .15s;}
+  #confirm-bar:hover{background:#3a30a0;}
+  .card-selected{border-color:var(--accent-mid)!important;box-shadow:0 0 0 2px var(--accent-mid)!important;}
+  .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;gap:8px;}
+  .game-title-sm{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--text);text-align:center;flex:1;line-height:1.3;}
+  .game-title-full{font-family:'Playfair Display',serif;font-size:clamp(18px,3vw,26px);font-weight:600;color:var(--text);text-align:center;line-height:1.3;margin-bottom:1.5rem;display:none;}
+  .badge{font-size:14px;font-weight:600;padding:6px 14px;border-radius:20px;background:var(--surface2);color:var(--text2);border:.5px solid var(--border);font-family:'Source Sans 3',sans-serif;white-space:nowrap;}
+  .section-label{font-size:13px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+  #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem;}
+  .event-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:1.75rem 2.5rem;user-select:none;-webkit-user-select:none;touch-action:none;font-size:20px;color:var(--text);line-height:1.6;cursor:grab;font-family:'Playfair Display',Georgia,serif;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .15s,border-color .15s;display:inline-block;max-width:620px;text-align:center;}
+  .event-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);border-color:var(--accent-mid);}
+  .event-card.answered{cursor:default;}
+  .event-card.answered:hover{box-shadow:0 1px 4px rgba(0,0,0,.06);border-color:var(--border2);}
+  #feedback{min-height:36px;font-size:16px;color:var(--text2);margin:1rem 0;text-align:center;line-height:1.5;}
+  .pts-badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border-radius:20px;margin-right:6px;font-family:'Source Sans 3',sans-serif;}
+  .pts-6{background:#26215C;color:#fff;}
+  .pts-5{background:#EEEDFE;color:#3C3489;}
+  .pts-4{background:#E1F5EE;color:#085041;}
+  .pts-3{background:#FAEEDA;color:#633806;}
+  .pts-2{background:#FBEAF0;color:#72243E;}
+  .pts-1{background:#FEF9C3;color:#854d0e;}
+  .pts-0{background:var(--surface2);color:var(--text3);}
+  #fact-box{display:none;background:var(--surface);border-left:4px solid var(--accent-mid);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:18px;color:var(--text);line-height:1.7;margin-bottom:1rem;border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border);overflow:hidden;}
+  #fact-image{display:none;width:100%;max-height:180px;object-fit:cover;}
+  #fact-body{padding:1.5rem 1.75rem 1.25rem;}
+  .fact-label{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+  #fact-footer{display:flex;justify-content:center;margin-top:1rem;}
+  #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s;}
+  #next-btn:hover{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);}
+  #next-btn.btn-primary{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;display:block;margin:1rem auto 0;}
+  #next-btn.btn-primary:hover{background:#3a30a0;border:none;color:#fff;}
+  #timeline-section{margin-top:1rem;margin-bottom:.5rem;padding:0 1rem;}
+  .tl-label-row{position:relative;height:22px;margin-bottom:8px;}
+  .tl-label-row span{position:absolute;font-size:13px;color:var(--text3);font-weight:600;letter-spacing:.03em;transform:translateX(-50%);white-space:nowrap;}
+  .tl-label-row span:first-child{transform:translateX(0);}
+  .tl-label-row span:last-child{transform:translateX(-100%);}
+  @media(max-width:480px){
+    .tl-label-row span{font-size:9px;}
+    .tl-label-row{height:16px;}
+  }
+  #timeline-track{position:relative;height:96px;margin-top:0;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface2);overflow:visible;box-shadow:inset 0 1px 3px rgba(0,0,0,.05);touch-action:none;}
+  #drag-indicator{position:absolute;top:0;bottom:0;width:2px;background:var(--accent-mid);pointer-events:none;display:none;border-radius:2px;z-index:5;}
+  #year-tooltip{position:absolute;top:-32px;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:14px;font-weight:600;padding:4px 12px;border-radius:20px;white-space:nowrap;font-family:'Source Sans 3',sans-serif;}
+  #pins-layer{position:absolute;inset:0;pointer-events:none;overflow:visible;}
+  .pin-dot{position:absolute;width:16px;height:16px;border-radius:50%;border:3px solid var(--surface2);transform:translate(-50%,-50%);top:50%;cursor:pointer;pointer-events:auto;transition:transform .1s;box-shadow:0 1px 4px rgba(0,0,0,.25);}
+  .pin-dot:hover{transform:translate(-50%,-50%) scale(1.4);}
+  .pin-forward{position:absolute;transform:translate(-50%,-50%);top:50%;cursor:pointer;pointer-events:auto;transition:transform .1s;}
+  .pin-forward:hover{transform:translate(-50%,-50%) scale(1.3);}
+  #tooltip-popup{position:absolute;pointer-events:none;display:none;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 9px;font-size:11px;color:var(--text);line-height:1.45;max-width:165px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.1);}
+  .scoring-hint{font-size:13px;color:var(--text3);margin-top:10px;text-align:center;letter-spacing:.02em;}
+  #log-section{margin-top:1.75rem;display:none;}
+  .log-section-title{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
+  #history-log{display:flex;flex-direction:column;gap:5px;}
+  .log-row{display:flex;align-items:center;gap:8px;font-size:14px;padding:8px 12px;border-radius:var(--radius-sm);border:.5px solid var(--border);background:var(--surface);}
+  .log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .log-year{font-weight:600;color:var(--text2);min-width:40px;font-size:13px;}
+  .log-text{flex:1;color:var(--text);}
+  .log-off{white-space:nowrap;font-size:12px;color:var(--text3);margin-left:4px;}
+  #btn-area{text-align:center;margin-top:1.25rem;}
+  .main-btn{font-size:14px;font-weight:600;padding:9px 22px;border-radius:24px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s,border-color .12s;}
+  .main-btn:hover{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);}
+  #end-card{padding:1.5rem 0;text-align:center;}
+  .end-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1;}
+  .end-max{font-size:18px;color:var(--text3);font-family:'Source Sans 3',sans-serif;}
+  .end-nick{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--accent);margin:12px 0 8px;font-style:italic;}
+  .end-msg{font-size:17px;color:var(--text2);margin-bottom:1.5rem;}
+  #share-box{background:var(--surface2);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:13px;color:var(--text);font-family:monospace;margin-bottom:.75rem;line-height:1.7;border:.5px solid var(--border);text-align:left;}
+  #copy-btn{font-size:13px;font-weight:600;padding:6px 18px;border-radius:20px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s;margin-right:8px;}
+  #copy-btn:hover{background:var(--green-light);border-color:var(--green);color:var(--green-dark);}
+  #copy-confirm{font-size:12px;color:var(--green);font-weight:600;display:none;}
+  #firework-canvas{position:fixed;inset:0;pointer-events:none;z-index:300;}
+  #ghost{position:fixed;pointer-events:none;z-index:9999;background:var(--surface);border:1.5px solid var(--accent-mid);border-radius:var(--radius);padding:.9rem 1.1rem;font-size:14px;line-height:1.4;color:var(--text);opacity:.88;display:none;max-width:300px;font-family:'Playfair Display',serif;box-shadow:0 4px 16px rgba(74,63,160,.15);}
+  #practice-intro{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1rem 1.5rem;margin-bottom:1rem;}
+  #practice-intro h2{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,32px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
+  #practice-intro p{font-size:15px;color:var(--text2);line-height:1.7;max-width:380px;}
+  #practice-intro .arrow-hint{font-size:13px;color:var(--text3);margin-top:.75rem;font-style:italic;}
+  #practice-banner{background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:var(--radius);padding:.75rem 1.1rem;margin-bottom:.75rem;font-size:14px;color:var(--accent);line-height:1.6;display:none;}
+  #practice-banner strong{font-weight:600;}
+  #year-1897-marker{position:absolute;pointer-events:none;z-index:1;top:0;bottom:0;}
+  #year-1897-marker .marker-line{position:absolute;top:0;bottom:0;width:0;border-left:2px solid rgba(74,63,160,0.7);left:0;}
+  #year-1897-marker .marker-label{position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:700;color:#fff;background:var(--accent);border:2px solid var(--accent);padding:3px 10px;border-radius:12px;white-space:nowrap;box-shadow:0 2px 6px rgba(74,63,160,0.35);}
+  @keyframes markerPulse{0%,100%{box-shadow:0 2px 6px rgba(74,63,160,0.35);}50%{box-shadow:0 2px 14px rgba(74,63,160,0.6);}}
+  #year-1897-marker .marker-label{animation:markerPulse 1.8s ease-in-out infinite;}
+  @keyframes practiceSlideUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  .practice-animate{animation:practiceSlideUp 0.4s ease both;}
+  #practice-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+  #practice-modal{background:var(--surface);border-radius:var(--radius-lg,14px);padding:2rem 1.75rem;max-width:400px;width:100%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);}
+  #practice-modal h2{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
+  #practice-modal p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:1.5rem;}  #ready-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:28px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .15s,transform .1s;}
+  #ready-btn:hover{background:#3a30a0;transform:translateY(-1px);}
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-eyebrow">A <em>Forward</em> Quiz</div>
+  <div class="splash-title">250 Years of American Jewish History.</div>
+  <div class="splash-subtitle">How Well Do You Know It?</div>
+  <div class="splash-divider"></div>
+  <div class="splash-desc">Ten events. One timeline. Drag each card to the year you think it happened — the closer you get, the more points you earn.</div>
+  <button class="splash-btn" onclick="startGame()">Let's Play &rarr;</button>
+  <div class="splash-note">Works on mobile &amp; desktop</div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="game">
+  <div class="game-header">
+    <span class="badge" id="score-badge">Score: 0</span>
+    <span class="badge" id="round-badge">Practice</span>
+  </div>
+  <div class="game-title-full">250 Years of American Jewish History</div>
+
+  <div id="practice-banner">
+    <strong>Practice round:</strong> Find <strong>1897</strong> on the timeline and drag the card to it.
+  </div>
+
+  <div id="event-area">
+    <div class="section-label" id="section-label">Tap the card to select it, then tap 1897 on the timeline:</div>
+    <div class="event-card" id="current-card"><em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.</div>
+  </div>
+
+  <div id="timeline-section">
+    <div class="tl-label-row" id="tl-label-row"></div>
+    <div id="timeline-track">
+      <div id="decade-ticks"></div>
+      <div id="year-1897-marker" style="display:none;">
+        <div class="marker-line"></div>
+        <div class="marker-label">1897</div>
+      </div>
+      <div id="drag-indicator"><div id="year-tooltip"></div></div>
+      <div id="pins-layer"></div>
+      <div id="tooltip-popup"></div>
+    </div>
+    <div class="scoring-hint"><span style="color:#26215C;font-weight:600;">Exact = 6 pts</span> &nbsp;·&nbsp; <span style="color:#534AB7;font-weight:600;">Within 5 years = 5 pts</span> &nbsp;·&nbsp; <span style="color:#BA7517;font-weight:600;">Within 10 years = 3 pts</span> &nbsp;·&nbsp; <span style="color:#D4537E;font-weight:600;">Within 25 years = 2 pts</span> &nbsp;·&nbsp; <span style="color:#ca8a04;font-weight:600;">Within 50 years = 1 pt</span></div>
+  </div>
+
+  <div id="feedback"></div>
+
+  <div id="fact-box">
+    <img id="fact-image" src="" alt="">
+    <div id="fact-body">
+      <div class="fact-label">Did you know?</div>
+      <div id="fact-text"></div>
+      <div id="fact-footer">
+        <button id="next-btn" onclick="advanceRound()">Next event</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="log-section">
+    <div class="log-section-title">Events so far — chronological order</div>
+    <div id="history-log"></div>
+  </div>
+
+  <div id="btn-area"></div>
+</div>
+<!-- PRACTICE MODAL -->
+<div id="practice-modal-overlay" style="display:none;">
+  <div id="practice-modal">
+    <h2>Let's practice first.</h2>
+    <p>The <em>Forward</em> published its first issue in <strong>1897</strong>. Drag the card on the next screen to that year on the timeline — we'll mark where it is.</p>
+    <button id="ready-btn" onclick="dismissPracticeModal()">I'm ready</button>
+  </div>
+</div>
+<canvas id="firework-canvas"></canvas>
+<button id="confirm-bar" onclick="confirmPlacement()">Place it here</button>
+<div id="ghost"></div>
+
+<script>
+const MIN_Y=1776,MAX_Y=2026,RANGE=MAX_Y-MIN_Y,NUM_ROUNDS=10,MAX_PTS=50;
+const GAME_URL='https://claude.ai/public/artifacts/f11a2e12-0a3e-4465-bf78-c4df878bfdbb';
+const FORWARD_SVG=`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100"><rect width="100" height="100" rx="6" fill="#c41230"/><text x="50" y="76" font-family="Georgia,serif" font-size="82" font-weight="700" text-anchor="middle" fill="#ffffff">F</text></svg>`;
+
+const ALL_EVENTS=[
+  {html:"The Virginia Statute for Religious Freedom is signed into law, becoming the first legal guarantee of religious liberty in the Americas.",tip:"Virginia Statute for Religious Freedom",year:1786,
+   fact:"For American Jews, it was the first time a government explicitly rejected the idea that civic participation required religious conformity. James Madison’s successful push for the statute made Virginia the model for the First Amendment, ratified five years later."},
+  {html:"George Washington writes a letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington’s religious liberty letter",year:1790,
+   fact:"President Washington’s famous vow that the U.S. would give “to bigotry no sanction” were actually borrowed words: They originated in the congratulatory letter from the synagogue’s warden, Moses Seixas — to whom Washington was responding."},
+  {html:"Rebecca Gratz founds the first American Jewish Sunday school.",tip:"First American Jewish Sunday school",year:1838,
+   fact:"Gratz modeled the Hebrew Sunday School of Philadelphia on Protestant schools but with an entirely Jewish curriculum. The school became the template for Jewish education across America."},
+  {html:"Lehman Brothers is founded in Montgomery, Ala., by three Jewish immigrant brothers from Bavaria.",tip:"Lehman Brothers founded",year:1850,
+   fact:"Founded as a dry goods store, the firm pivoted to cotton trading, then commodities, then finance, eventually building one of Wall Street’s most powerful investment banks — until its catastrophic collapse in 2008."},
+  {html:"Katz’s Delicatessen opens on the Lower East Side of Manhattan.",tip:"Katz’s Delicatessen opens",year:1888,
+   fact:"<em>When Harry Met Sally</em>’s most famous scene — “I’ll have what she’s having” — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase “Send a salami to your boy in the Army” during World War II."},
+  {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the “Trefa Banquet.”",tip:"The Trefa Banquet",year:1883,
+   fact:"Meant to celebrate American Reform Judaism’s coming of age, the non-kosher menu outraged traditionalists who saw it as proof that Reform had abandoned Jewish law entirely. The scandal accelerated the founding of the Jewish Theological Seminary three years later and crystallized the Conservative movement as a distinct denomination."},
+  {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
+   fact:"Founded as a reaction to what traditional Jews saw as Reform Judaism’s abandonment of Jewish law, JTS became the intellectual home of Conservative Judaism under Solomon Schechter from 1902, and remains one of the world’s leading centers of Jewish scholarship today."},
+  {html:"<em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.",tip:"The Forward founded",year:1897,isPractice:true,isForward:true,
+   fact:"Then called <em>Der Forverts</em>, it quickly became one of the most widely read foreign-language newspapers in America, and today reaches millions of unique readers each month."},
+  {html:"Emma Lazarus’s sonnet <em>The New Colossus</em> is engraved on the base of the Statue of Liberty.",tip:"“The New Colossus” engraved on Statue of Liberty",year:1903,
+   fact:"Lazarus wrote <em>The New Colossus</em> in 1883, but died 16 years before its famous lines — among them “Give me your tired, your poor, your huddled masses” — were added to the pedestal."},
+  {html:"The Triangle Shirtwaist Factory fire kills 146 workers — mostly young Jewish and Italian immigrant women — in a locked building in Lower Manhattan.",tip:"Triangle Shirtwaist Factory fire",year:1911,
+   fact:"The catastrophe directly spurred landmark fire safety and labor legislation in New York State, and many survivors went on to become central organizers of the International Ladies’ Garment Workers’ Union."},
+  {html:"Hadassah sends its first medical mission to Palestine to fight trachoma and other diseases among the local population.",tip:"Hadassah’s first medical mission",year:1913,
+   fact:"Founded by Henrietta Szold in 1912, it grew into the largest Jewish organization in the United States, and its hospitals in Jerusalem still operate today, treating patients regardless of religion or nationality."},
+  {html:"Leo Frank, a Jewish factory manager in Atlanta, is falsely convicted of murder and later lynched.",tip:"Leo Frank lynched",year:1915,
+   fact:"After Frank’s death sentence was commuted to life in prison, a mob kidnapped and lynched him. The case shocked American Jews into founding the Anti-Defamation League to fight antisemitism."},
+  {html:"Louis Brandeis is confirmed as the first Jewish justice on the US Supreme Court.",tip:"Brandeis confirmed to Supreme Court",year:1916,
+   fact:"His nomination by President Woodrow Wilson triggered a four-month Senate confirmation fight that was inflamed by antisemitism. Brandeis went on to become one of the Court’s great champions of free speech and privacy rights."},
+  {html:"The first Hillel chapter is founded at the University of Illinois.",tip:"First Hillel chapter founded",year:1926,
+   fact:"Rabbi Benjamin Frankel founded B’nai B’rith Hillel at the University of Illinois to provide Jewish students with community, identity, and support on campus. Today, there are more than 500 Hillel chapters worldwide."},
+  {html:"The <em>MS St. Louis</em>, carrying 937 Jewish refugees of Nazi Germany, is turned away by Cuba and the United States and forced to return to Europe.",tip:"MS St. Louis turned away",year:1939,
+   fact:"Despite holding valid Cuban visas, the passengers were refused entry by Cuba and then the United States. Historians estimate that approximately 254 of the passengers eventually died in the Holocaust."},
+  {html:"Stan Lee publishes his first work in <em>Captain America Comics</em>.",tip:"Stan Lee’s first comic published",year:1941,
+   fact:"Born Stanley Lieber in Manhattan to Romanian Jewish immigrants, Lee went on to co-create Spider-Man, the X-Men, Iron Man, Thor, and the Hulk — characters whose themes of otherness, prejudice, and hidden identity reflected his own Jewish experience."},
+  {html:"The first day school affiliated with Conservative Judaism opens in Rockaway Park, N.Y.",tip:"First Conservative Jewish day school opens",year:1951,
+   fact:"The Beth El Day School sparked a movement: within two decades, dozens of Solomon Schechter schools opened across the United States and Canada."},
+  {html:"Julius and Ethel Rosenberg are executed at Sing Sing Prison.",tip:"Rosenbergs executed",year:1953,
+   fact:"The Rosenbergs, convicted of passing nuclear secrets to the Soviet Union, were the only American civilians put to death for espionage during the Cold War. Their case divided American Jews: Some viewed the Rosenbergs as victims of antisemitism, while others feared the case would fuel accusations of disloyalty among all Jews."},
+  {html:"Rabbi Menachem Mendel Schneerson becomes the seventh Lubavitcher Rebbe, making him the leader of the Chabad movement.",tip:"Schneerson becomes Lubavitcher Rebbe",year:1957,
+   fact:"Under Schneerson’s 44-year leadership, Chabad-Lubavitch transformed from a small Hasidic sect into a global outreach movement with emissaries in over 100 countries."},
+  {html:"<em>Fiddler on the Roof</em> opens on Broadway.",tip:"Fiddler on the Roof opens on Broadway",year:1964,
+   fact:"Based on Sholem Aleichem’s beloved Tevye stories, it captured the anxiety of Jewish assimilation, tradition, and displacement — and became the first musical to surpass 3,000 performances."},
+  {html:"Jewish civil rights organizers Michael Schwerner and Andrew Goodman are lynched by the Klan in Mississippi.",tip:"Schwerner and Goodman murdered in Mississippi",year:1964,
+   fact:"Schwerner, Goodman and James Chaney traveled to Mississippi to register Black voters. Their deaths galvanized the nation and built support for the passage of the Civil Rights Act."},
+  {html:"Sandy Koufax sits out Game 1 of the World Series in observance of Yom Kippur.",tip:"Koufax sits out Yom Kippur World Series game",year:1965,
+   fact:"Koufax’s stand-in, Don Drysdale, had a bad outing that day. But the Jewish southpaw came back to pitch Games 5 and 7 for the Dodgers, winning both on complete-game shutouts and taking home the series’ Most Valuable Player award."},
+  {html:"12-year-old New Yorker Judith Kaplan celebrates the first bat mitzvah in the United States.",tip:"First bat mitzvah in the United States",year:1922,
+   fact:"Kaplan’s father, Rabbi Mordecai Kaplan, went on to found Reconstructionist Judaism, a religious movement at the forefront of gender inclusion. Judith Kaplan read from a Torah book, rather than a Torah scroll, at her bat mitzvah."},
+  {html:"Rabbi Sally J. Priesand becomes the first woman in North America to be ordained as a rabbi.",tip:"First female rabbi ordained in North America",year:1972,
+   fact:"The first woman ordained a rabbi anywhere was Regina Jonas, who was murdered at Auschwitz. Priesand’s ordination by Hebrew Union College, a Reform seminary, opened the door for countless women to follow."},
+  {html:"Harvey Milk becomes the first openly gay man elected to major city office in the United States.",tip:"Harvey Milk elected to San Francisco Board",year:1977,
+   fact:"Milk won his seat on the San Francisco Board of Supervisors on his third attempt. He was assassinated the following year and was posthumously awarded the Presidential Medal of Freedom."},
+  {html:"Isaac Bashevis Singer wins the Nobel Prize in Literature.",tip:"Singer wins Nobel Prize in Literature",year:1978,
+   fact:"Singer gave his acceptance speech in Yiddish, calling it the language “of martyrs and saints, of dreamers and kabbalists” — and he noted with satisfaction that the Swedish Academy had recognized a language with no land, no army, and no borders."},
+  {html:"The Camp David Accords are signed, producing the first peace treaty between Israel and an Arab nation.",tip:"Camp David Accords signed",year:1978,
+   fact:"President Jimmy Carter brokered the secret negotiations between Israeli Prime Minister Menachem Begin and Egyptian President Anwar Sadat, which brought to an end three decades of war between the countries."},
+  {html:"Jonathan Pollard, a US Navy intelligence analyst, is arrested for passing classified documents to Israel over the previous 18 months.",tip:"Jonathan Pollard arrested",year:1985,
+   fact:"His arrest caused a rupture in US-Israel relations and divided American Jews over questions of dual loyalty. He served thirty years in federal prison before his release in 2015 and eventual emigration to Israel."},
+  {html:"The Beastie Boys release <em>Licensed to Ill</em>, the first rap album to reach No. 1 on the Billboard 200.",tip:"Beastie Boys release Licensed to Ill",year:1986,
+   fact:"All three Beastie Boys — Ad-Rock, MCA, and Mike D — were Jewish New Yorkers, though MCA later became a prominent Buddhist activist."},
+  {html:"Elie Wiesel, Auschwitz survivor and author of <em>Night</em>, is awarded the Nobel Peace Prize.",tip:"Elie Wiesel wins Nobel Peace Prize",year:1986,
+   fact:"In his Nobel acceptance speech, Wiesel said: “We must take sides. Neutrality helps the oppressor, never the victim. Silence encourages the tormentor, never the tormented.”"},
+  {html:"Barbra Streisand completes the EGOT, becoming the first recording artist to win Emmy, Grammy, Oscar, and Tony awards.",tip:"Streisand completes the EGOT",year:1970,
+   fact:"Receiving a Lifetime Achievement Tony Award completed Barb’s achievement in just a six-year span."},
+  {html:"The <em>Seinfeld</em> pilot airs on NBC, launching one of the most influential sitcoms in television history.",tip:"Seinfeld pilot airs on NBC",year:1989,
+   fact:"NBC executives nearly cancelled it after the pilot aired to modest ratings. But the “show about nothing” wound up lasting nine seasons, giving us Soup Nazis, close talkers, Festivus and “yada yada yada.”"},
+  {html:"Rabbi Meir Kahane, founder of Israel’s far-right Kach party, is assassinated at a Manhattan hotel.",tip:"Meir Kahane assassinated",year:1990,
+   fact:"Kahane, a New York native who in the US founded the Jewish Defense League, was convicted of multiple acts of terrorism in the United States and in Israel before his assassination by El-Sayyid Nosair, an Egyptian national."},
+  {html:"Ruth Bader Ginsburg is confirmed as the first Jewish woman, and only the second woman ever, appointed to the Supreme Court.",tip:"Ginsburg confirmed to Supreme Court",year:1993,
+   fact:"Ginsburg grew up in a working-class Jewish family in Brooklyn, and her Jewish identity was central to her sense of justice — she often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (“justice, justice, shall you pursue”) as her guiding principle."},
+  {html:"The Oslo Accords are signed, producing a historic handshake between Yasser Arafat and Yitzhak Rabin on the White House lawn.",tip:"Oslo Accords signed",year:1993,
+   fact:"Negotiated in secret over months of back-channel talks in Norway, the Accords resulted in the PLO recognizing Israel’s right to exist and the creation of the Palestinian Authority for limited self-rule in the West Bank and Gaza Strip."},
+  {html:"Philip Roth wins the Pulitzer Prize for <em>American Pastoral</em>.",tip:"Philip Roth wins Pulitzer for American Pastoral",year:1997,
+   fact:"Roth grew up in Newark’s heavily Jewish neighborhood Weequahic and drew on that world throughout his career. Reflecting on his work late in life, Roth quoted the boxer Joe Louis: “I did the best I could with what I had.”"},
+  {html:"Oreo cookies receive kosher certification from the Orthodox Union.",tip:"Oreos go kosher",year:1997,
+   fact:"For decades, Oreos were made with lard — pork fat — making them non-kosher. Nabisco changed the recipe to use vegetable shortening in 1997."},
+  {html:"Al Gore selects Sen. Joe Lieberman as his running mate, making Lieberman the first Jewish candidate on a major-party presidential ticket.",tip:"Lieberman nominated for Vice President",year:2000,
+   fact:"Though he did not typically wear a kippah, Lieberman spoke openly and frequently about his Orthodox Jewish practice — observing Shabbat, keeping kosher — on the campaign trail."},
+  {html:"The Conservative movement’s law committee votes to allow rabbis to officiate same-sex marriages and commitment ceremonies.",tip:"Conservative movement allows same-sex ceremonies",year:2006,
+   fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
+];
+
+const FORWARD_EVENT=ALL_EVENTS.find(e=>e.isForward);
+
+const WASHINGTON_EVENT=ALL_EVENTS.find(e=>e.year===1790);
+
+function selectEvents(){
+  const pool=ALL_EVENTS.filter(e=>!e.isForward&&e!==WASHINGTON_EVENT);
+  const selected=[];
+  const usedYears=new Set([FORWARD_EVENT.year]);
+  function canAdd(year){
+    if(usedYears.has(year))return false;
+    for(const y of usedYears){if(Math.abs(y-year)<=5)return false;}
+    return true;
+  }
+  // Always include Washington as one of first 2 clues (slot 0 or 1)
+  const washingtonSlot=Math.random()<0.5?0:1;
+  selected.length=0;
+  usedYears.add(WASHINGTON_EVENT.year);
+
+  const earlyOk=pool.filter(e=>!e.notEarlyRound);
+  const lateOnly=pool.filter(e=>e.notEarlyRound);
+  const shuffledEarly=[...earlyOk].sort(()=>Math.random()-0.5);
+  const shuffledLate=[...lateOnly].sort(()=>Math.random()-0.5);
+
+  // Fill slots, inserting Washington at its designated slot
+  let filledSlots=0;
+  for(const e of shuffledEarly){
+    if(filledSlots>=NUM_ROUNDS)break;
+    if(filledSlots===washingtonSlot){
+      selected.push(WASHINGTON_EVENT);
+      filledSlots++;
+      if(filledSlots>=NUM_ROUNDS)break;
+    }
+    if(canAdd(e.year)){selected.push(e);usedYears.add(e.year);filledSlots++;}
+  }
+  // If Washington hasn't been inserted yet (e.g. slot 1 but only 1 early event fit)
+  if(!selected.includes(WASHINGTON_EVENT)){
+    selected.splice(Math.min(washingtonSlot,selected.length),0,WASHINGTON_EVENT);
+  }
+  // Fill remaining slots
+  const remaining=[...shuffledLate,...shuffledEarly.filter(e=>!selected.includes(e))];
+  for(const e of remaining){
+    if(selected.length>=NUM_ROUNDS)break;
+    if(canAdd(e.year)){selected.push(e);usedYears.add(e.year);}
+  }
+  return selected.slice(0,NUM_ROUNDS);
+}
+
+function selectBonusEvents(){
+  const played=new Set(logEntries.map(e=>e.year));
+  played.add(FORWARD_EVENT.year);
+  played.add(WASHINGTON_EVENT.year);
+  const pool=ALL_EVENTS.filter(e=>!e.isForward&&!played.has(e.year));
+  const selected=[];
+  const usedYears=new Set([...played]);
+  function canAddBonus(year){
+    if(usedYears.has(year))return false;
+    let count=0;
+    for(const y of usedYears){if(Math.abs(y-year)<=5)count++;}
+    return count<2;
+  }
+  // Guarantee at least one 21st-century event
+  const century21=pool.filter(e=>e.year>=2000);
+  const shuffled21=[...century21].sort(()=>Math.random()-0.5);
+  for(const e of shuffled21){
+    if(canAddBonus(e.year)){selected.push(e);usedYears.add(e.year);break;}
+  }
+  // Fill remaining slots from full pool
+  const shuffled=[...pool].sort(()=>Math.random()-0.5);
+  for(const e of shuffled){
+    if(selected.length>=NUM_ROUNDS)break;
+    if(canAddBonus(e.year)){selected.push(e);usedYears.add(e.year);}
+  }
+  // Shuffle so guaranteed event isn't always first
+  return selected.sort(()=>Math.random()-0.5).slice(0,NUM_ROUNDS);
+}
+
+let gameEvents=[],roundIdx=0,score=0,answered=false,dragging=false,logEntries=[],isPracticePhase=true,activePinWrapper=null;
+let usedEventSet=new Set(),isBonusRound=false,bonusMaxPts=60;
+
+function startGame(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('game').style.display='block';
+  buildTicks();
+  gameEvents=selectEvents();
+  document.getElementById('current-card').innerHTML='<em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.';
+  // Show modal over the game screen, not the splash
+  setTimeout(function(){
+    document.getElementById('practice-modal-overlay').style.display='flex';
+  },50);
+}
+
+function dismissPracticeModal(){
+  document.getElementById('practice-modal-overlay').style.display='none';
+  // Now show the 1897 marker
+  setTimeout(function(){
+    const marker=document.getElementById('year-1897-marker');
+    marker.style.left=(yrPct(1897)*100)+'%';
+    marker.style.display='block';
+  },100);
+}
+
+function yrPct(y){return Math.max(0,Math.min(1,(y-MIN_Y)/RANGE));}
+function pctToYr(p){return Math.round(MIN_Y+Math.max(0,Math.min(1,p))*RANGE);}
+function calcPts(g,a){const d=Math.abs(g-a);return d===0?6:d<=5?5:d<=10?3:d<=25?2:d<=50?1:0;}
+function ptClass(p){return['pts-0','pts-1','pts-2','pts-3','pts-5','pts-5','pts-6'][p]||'pts-0';}
+function pinColor(p){return p===6?'#26215C':p===5?'#534AB7':p===3?'#BA7517':p===2?'#D4537E':p===1?'#F5C842':'#888780';}
+
+function buildTicks(){
+  const el=document.getElementById('decade-ticks');
+  el.innerHTML='';
+  for(let y=1780;y<MAX_Y;y+=10){
+    const d=document.createElement('div');
+    d.style.cssText=`position:absolute;left:${yrPct(y)*100}%;top:0;bottom:0;width:${y%50===0?'1px':'0.5px'};background:rgba(0,0,0,0.1);pointer-events:none;`;
+    el.appendChild(d);
+  }
+  const labelRow=document.getElementById('tl-label-row');
+  labelRow.innerHTML='';
+  const isMobileView=window.innerWidth<=480;
+  const labelYears=isMobileView?[1776,1850,1900,1950,2000,2026]:[1776,1800,1850,1900,1950,2000,2026];
+  labelYears.forEach((y,i)=>{
+    const span=document.createElement('span');
+    span.textContent=y;
+    span.style.left=(yrPct(y)*100)+'%';
+    if(i===0) span.style.transform='translateX(0)';
+    else if(i===labelYears.length-1) span.style.transform='translateX(-100%)';
+    else span.style.transform='translateX(-50%)';
+    labelRow.appendChild(span);
+  });
+}
+
+function placeForwardPin(year,guessYear,pts){
+  const layer=document.getElementById('pins-layer');
+  const color=pinColor(pts!=null?pts:calcPts(guessYear,year));
+  const startPct=guessYear!=null?yrPct(guessYear)*100:yrPct(year)*100;
+  const endPct=yrPct(year)*100;
+
+  const outer=document.createElement('div');
+  outer.style.cssText='position:absolute;top:0;bottom:0;pointer-events:none;';
+  outer.style.left=startPct+'%';
+  outer.style.transition='left 1.5s cubic-bezier(.4,0,.2,1)';
+
+  const dot=document.createElement('div');
+  dot.className='pin-dot';
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';border-color:#fff;';
+  dot.style.transition='none';
+
+  // Short connector from bottom of dot downward
+  const fwdConnector=document.createElement('div');
+  fwdConnector.style.cssText='position:absolute;left:0;transform:translateX(-50%);'
+    +'width:1.5px;background:'+color+';'
+    +'top:calc(50% + 7px);height:14px;'
+    +'pointer-events:none;opacity:0;transition:opacity 0.3s;';
+
+  // Year label below the track — starts at guessYear, counts to correct year
+  const yearLabel=document.createElement('div');
+  yearLabel.textContent=guessYear!=null?guessYear:year;
+  const fwdLabelTextColor=color==='#F5C842'?'#1a1714':'#fff';
+  yearLabel.style.cssText='position:absolute;left:0;transform:translateX(-50%);'
+    +'top:calc(50% + 26px);'
+    +'background:'+color+';color:'+fwdLabelTextColor+';font-size:14px;font-weight:700;padding:4px 10px;'
+    +'border-radius:12px;white-space:nowrap;pointer-events:none;'
+    +'opacity:0;transition:opacity 0.3s;';
+
+  outer.appendChild(dot);
+  outer.appendChild(fwdConnector);
+  outer.appendChild(yearLabel);
+  layer.appendChild(outer);
+
+  dot.addEventListener('mouseenter',()=>showTip(year,'The Forward founded',3));
+  dot.addEventListener('mouseleave',hideTip);
+
+  requestAnimationFrame(()=>{ yearLabel.style.opacity='1'; fwdConnector.style.opacity='1'; });
+  setTimeout(()=>{
+    outer.style.left=endPct+'%';
+    if(guessYear!=null && guessYear!==year){
+      const steps=20;
+      const duration=1500;
+      const stepMs=duration/steps;
+      let step=0;
+      const interval=setInterval(()=>{
+        step++;
+        const frac=step/steps;
+        const displayed=Math.round(guessYear+(year-guessYear)*frac);
+        yearLabel.textContent=displayed;
+        if(step>=steps){clearInterval(interval);yearLabel.textContent=year;}
+      },stepMs);
+    }
+  }, 500);
+  return outer;
+}
+
+function placePin(year,pts,label,isForward,guessYear){
+  if(isForward){placeForwardPin(year);return;}
+  const layer=document.getElementById('pins-layer');
+  const color=pinColor(pts);
+  const startPct=guessYear!=null?yrPct(guessYear)*100:yrPct(year)*100;
+  const endPct=yrPct(year)*100;
+
+  // Wrapper slides across the track
+  const wrapper=document.createElement('div');
+  wrapper.className='pin-wrapper';
+  wrapper.style.cssText='position:absolute;top:0;bottom:0;pointer-events:none;';
+  wrapper.style.left=startPct+'%';
+  wrapper.style.transition='left 1.5s cubic-bezier(.4,0,.2,1)';
+
+  const dot=document.createElement('div');
+  dot.className='pin-dot';
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';';
+  dot.style.transition='none';
+
+  // Short connector from bottom of dot downward
+  const connector=document.createElement('div');
+  connector.style.cssText='position:absolute;left:0;transform:translateX(-50%);'
+    +'width:2px;background:'+color+';'
+    +'top:calc(50% + 10px);height:16px;'
+    +'pointer-events:none;opacity:0;transition:opacity 0.3s;';
+
+  // Year label below the dot — starts at guessYear, updates to correct year as it slides
+  const yearLabel=document.createElement('div');
+  yearLabel.textContent=guessYear!=null?guessYear:year;
+  const labelTextColor=color==='#F5C842'?'#1a1714':'#fff';
+  yearLabel.style.cssText='position:absolute;left:0;transform:translateX(-50%);'
+    +'top:calc(50% + 26px);'
+    +'background:'+color+';color:'+labelTextColor+';font-size:14px;font-weight:700;padding:4px 10px;'
+    +'border-radius:12px;white-space:nowrap;pointer-events:none;'
+    +'opacity:0;transition:opacity 0.3s;';
+
+  wrapper.appendChild(yearLabel);
+  wrapper.appendChild(connector);
+  wrapper.appendChild(dot);
+  layer.appendChild(wrapper);
+
+  dot.addEventListener('mouseenter',()=>showTip(year,label,pts));
+  dot.addEventListener('mouseleave',hideTip);
+  dot.addEventListener('touchstart',e=>{e.preventDefault();showTip(year,label,pts);},{passive:false});
+
+  // Reveal label + connector immediately (shows guessed year)
+  requestAnimationFrame(()=>{
+    yearLabel.style.opacity='1';
+    connector.style.opacity='1';
+  });
+
+  // After pause, slide to correct year and count up/down the label
+  setTimeout(()=>{
+    wrapper.style.left=endPct+'%';
+    // Animate the year number while sliding
+    if(guessYear!=null && guessYear!==year){
+      const steps=20;
+      const duration=1500;
+      const stepMs=duration/steps;
+      let step=0;
+      const interval=setInterval(()=>{
+        step++;
+        const frac=step/steps;
+        const displayed=Math.round(guessYear+(year-guessYear)*frac);
+        yearLabel.textContent=displayed;
+        if(step>=steps){clearInterval(interval);yearLabel.textContent=year;}
+      },stepMs);
+    }
+  }, 500);
+  return wrapper;
+}
+
+function showTip(year,label,pts){
+  const popup=document.getElementById('tooltip-popup');
+  const track=document.getElementById('timeline-track');
+  popup.innerHTML=`<span style="font-weight:600;color:${pinColor(pts)};">${year}</span><br>${label}`;
+  popup.style.display='block';
+  const x=yrPct(year)*track.offsetWidth;
+  popup.style.left=Math.min(Math.max(x-80,4),track.offsetWidth-170)+'px';
+  popup.style.top='-76px';
+}
+function hideTip(){document.getElementById('tooltip-popup').style.display='none';}
+
+function showFact(evt,isForward){
+  const img=document.getElementById('fact-image');
+  if(evt.image){img.src=evt.image;img.style.display='block';}
+  else{img.style.display='none';}
+  document.getElementById('fact-text').innerHTML=evt.fact;
+  document.getElementById('fact-box').style.display='block';
+}
+
+function rebuildLog(){
+  const sorted=[...logEntries].sort((a,b)=>a.year-b.year);
+  const log=document.getElementById('history-log');
+  log.innerHTML='';
+  sorted.forEach(e=>{
+    const color=pinColor(e.pts);
+    const diff=Math.abs(e.guess-e.year);
+    const row=document.createElement('div');
+    row.className='log-row';
+    row.innerHTML=`<div class="log-dot" style="background:${color};"></div><span class="log-year">${e.year}</span><div class="log-text">${e.text}</div><div class="log-off">${diff>0?'off '+diff+'y':'exact'}</div><span class="pts-badge ${ptClass(e.pts)}" style="margin-left:4px;">${e.pts}pt</span>`;
+    log.appendChild(row);
+  });
+  document.getElementById('log-section').style.display='block';
+}
+
+function collapsePracticeIntro(){
+  // Modal has already been dismissed; nothing to collapse
+}
+
+function handlePracticeGuess(guessY){
+  if(answered)return;
+  answered=true;
+  document.getElementById('current-card').classList.add('answered');
+  document.getElementById('section-label').style.visibility='hidden';
+  collapsePracticeIntro();
+  // Hide the full 1897 marker immediately when card is dropped
+  document.getElementById('year-1897-marker').style.display='none';
+  const d=Math.abs(guessY-1897);
+  const close=d<=15;
+  document.getElementById('feedback').innerHTML=close
+    ?`<span style="color:var(--green);font-weight:600;">Well done!</span> You placed it ${d===0?'exactly on':'about '+d+' year'+(d===1?'':'s')+' from'} 1897. Now the real quiz begins!`
+    :`<span style="color:var(--amber);font-weight:600;">Almost!</span> You placed it at ${guessY} — the Forward was founded in 1897. Let's try the real quiz now!`;
+  const practicePts=calcPts(guessY,1897);
+  activePinWrapper=placeForwardPin(1897,guessY,practicePts);
+  if(practicePts===6)launchFirework();
+  showFact(FORWARD_EVENT,true);
+  document.getElementById('next-btn').textContent='Start the quiz';
+  document.getElementById('next-btn').classList.add('btn-primary');
+}
+
+function handleGuess(guessY){
+  if(answered)return;
+  answered=true;
+  document.getElementById('current-card').classList.add('answered');
+  document.getElementById('section-label').style.visibility='hidden';
+  const evt=gameEvents[roundIdx];
+  const pts=calcPts(guessY,evt.year);
+  score+=pts;
+  document.getElementById('score-badge').textContent='Score: '+score;
+  const d=Math.abs(guessY-evt.year);
+  const msgs=['Off by '+d+' years.','Getting warmer — off by '+d+' years.','Close — off by '+d+' years.','Nice — within '+d+' years.','Great — within '+d+' years.','',''];
+  const exactMsg=d===0?'You got it!':d===1?'Off by a year!':d===2?'Nice \u2014 two years off.':msgs[pts];
+  document.getElementById('feedback').innerHTML=`<span class="pts-badge ${ptClass(pts)}">${pts>0?'+'+pts+' pts':'0 pts'}</span>${exactMsg} <span style="color:var(--text2);">Your guess: <strong>${guessY}</strong> &nbsp;·&nbsp; Actual: <strong>${evt.year}</strong></span>`;
+  activePinWrapper=placePin(evt.year,pts,evt.tip,false,guessY);
+  if(pts===6)launchFirework();
+  showFact(evt,false);
+  logEntries.push({year:evt.year,text:evt.tip,guess:guessY,pts});
+  rebuildLog();
+  roundIdx++;
+}
+
+function advanceRound(){
+  document.getElementById('fact-box').style.display='none';
+  document.getElementById('feedback').innerHTML='';
+  document.getElementById('current-card').classList.remove('answered');
+  answered=false;
+  if(activePinWrapper){
+    activePinWrapper.querySelectorAll('div').forEach(el=>{
+      if(el.style.opacity==='1'&&el!==activePinWrapper.querySelector('.pin-dot')&&el.className!=='pin-dot'){
+        el.style.opacity='0';
+      }
+    });
+    activePinWrapper=null;
+  }
+  if(isPracticePhase){
+    isPracticePhase=false;
+    document.getElementById('practice-banner').style.display='none';
+    document.getElementById('year-1897-marker').style.display='none';
+    document.getElementById('section-label').style.visibility='visible';
+  document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
+    document.getElementById('next-btn').textContent='Next event';
+    document.getElementById('next-btn').classList.remove('btn-primary');
+    document.getElementById('current-card').innerHTML=gameEvents[0].html;
+    document.getElementById('round-badge').textContent='1 / '+NUM_ROUNDS;
+    document.getElementById('pins-layer').innerHTML='';
+    document.querySelector('.game-title-full').style.display='block';
+    return;
+  }
+  if(roundIdx>=gameEvents.length){showEnd(isBonusRound?bonusMaxPts:MAX_PTS);return;}
+  document.getElementById('current-card').innerHTML=gameEvents[roundIdx].html;
+  document.getElementById('round-badge').textContent=isBonusRound?'Bonus '+(roundIdx+1)+' / '+gameEvents.length:(roundIdx+1)+' / '+NUM_ROUNDS;
+}
+
+function getNickname(s,maxPts){
+  maxPts=maxPts||MAX_PTS;
+  const pct=s/maxPts;
+  if(pct>=1)return{nick:"You're literally RBG.",msg:"A perfect score. Ruth Bader Ginsburg would be honored."};
+  if(pct>=0.8)return{nick:"Louis Brandeis would be proud.",msg:"You have a formidable command of American Jewish history."};
+  if(pct>=0.6)return{nick:"A real mensch.",msg:"Solid knowledge — you know your history and you show up for it."};
+  if(pct>=0.4)return{nick:"You're a JCC regular.",msg:"A respectable showing. Keep coming to the meetings."};
+  if(pct>=0.2)return{nick:"Still finding your Jewish identity.",msg:"You know the holidays, but the history is still coming."};
+  return{nick:"We get it — Yiddish is your first language.",msg:"You may have missed the dates, but you've got the spirit."};
+}
+
+function buildShareText(s){
+  const {nick}=getNickname(s);
+  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts===6?'💜':e.pts===5?'🟣':e.pts===3?'🟡':e.pts===2?'🩷':e.pts===1?'⭐':'⬜').join('');
+  return `250 Years of American Jewish History\n${dots}\nScore: ${s}/${MAX_PTS} — "${nick}"\nPlay at claude.ai`;
+}
+
+function copyShare(){
+  navigator.clipboard.writeText(buildShareText(score)).then(()=>{
+    document.getElementById('copy-confirm').style.display='inline';
+    setTimeout(()=>{const el=document.getElementById('copy-confirm');if(el)el.style.display='none';},2000);
+  });
+}
+
+function buildShareMsg(s){
+  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts===6?'💜':e.pts===5?'🟣':e.pts===3?'🟡':e.pts===2?'🩷':e.pts===1?'⭐':'⬜').join('');
+  return dots+'\nI scored '+s+'/50 on the Forward\'s Timeline Quiz. Can you beat my score?\n'+GAME_URL;
+}
+
+function shareTwitter(s){
+  const text=encodeURIComponent(buildShareMsg(s));
+  window.open('https://twitter.com/intent/tweet?text='+text,'_blank');
+}
+
+function shareBluesky(s){
+  const text=encodeURIComponent(buildShareMsg(s));
+  window.open('https://bsky.app/intent/compose?text='+text,'_blank');
+}
+
+function shareFacebook(){
+  const url=encodeURIComponent(GAME_URL);
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+url,'_blank');
+}
+
+function showEnd(maxPts){
+  maxPts=maxPts||MAX_PTS;
+  document.getElementById('event-area').style.display='none';
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('fact-box').style.display='none';
+  const {nick,msg}=getNickname(score,maxPts);
+  const finalScore=score;
+
+  const ec=document.createElement('div');
+  ec.id='end-card';
+
+  const lbl=document.createElement('div');
+  lbl.style.cssText='font-size:13px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;';
+  lbl.textContent='Your score';
+  ec.appendChild(lbl);
+
+  const sc=document.createElement('div');
+  sc.className='end-score';
+  sc.innerHTML=finalScore+'<span class="end-max"> / '+maxPts+'</span>';
+  ec.appendChild(sc);
+
+  const nn=document.createElement('div');
+  nn.className='end-nick';
+  nn.textContent=nick;
+  ec.appendChild(nn);
+
+  const mg=document.createElement('div');
+  mg.className='end-msg';
+  mg.textContent=msg;
+  ec.appendChild(mg);
+
+  const shareTitle=document.createElement('div');
+  shareTitle.style.cssText='font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;text-align:center;';
+  shareTitle.textContent='Share your score';
+  ec.appendChild(shareTitle);
+
+  const btnRow=document.createElement('div');
+  btnRow.style.cssText='display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;';
+
+  function makeShareBtn(label,svgHtml,clickFn){
+    const b=document.createElement('button');
+    b.style.cssText='display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:"Source Sans 3",sans-serif;';
+    b.innerHTML=svgHtml+label;
+    b.addEventListener('click',clickFn);
+    b.addEventListener('mouseover',()=>b.style.background='#f3f0ea');
+    b.addEventListener('mouseout',()=>b.style.background='');
+    return b;
+  }
+
+  const twitterSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>';
+  const bskySvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#0085ff"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.3-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>';
+  const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
+
+  btnRow.appendChild(makeShareBtn('X / Twitter',twitterSvg,()=>shareTwitter(finalScore)));
+  btnRow.appendChild(makeShareBtn('Bluesky',bskySvg,()=>shareBluesky(finalScore)));
+  btnRow.appendChild(makeShareBtn('Facebook',fbSvg,()=>shareFacebook()));
+  ec.appendChild(btnRow);
+
+  if(!isBonusRound){
+    const more=document.createElement('button');
+    more.className='main-btn';
+    more.style.marginBottom='0.75rem';
+    more.textContent='Keep Playing';
+    more.addEventListener('click',startBonusRound);
+    ec.appendChild(more);
+  }
+
+  const playAgain=document.createElement('button');
+  playAgain.className='main-btn';
+  playAgain.textContent='Play again';
+  playAgain.addEventListener('click',restart);
+  ec.appendChild(playAgain);
+
+  const area=document.getElementById('btn-area');
+  area.innerHTML='';
+  area.appendChild(ec);
+  // Move end card to appear above the chronology log
+  const logSection=document.getElementById('log-section');
+  logSection.parentNode.insertBefore(ec,logSection);
+}
+
+function startBonusRound(){
+  isBonusRound=true;
+  bonusMaxPts=MAX_PTS+MAX_PTS; // 50 + 50 = 100 total
+  const existingEndCard=document.getElementById('end-card');
+  if(existingEndCard)existingEndCard.remove();
+  const bonusEvents=selectBonusEvents();
+  if(bonusEvents.length===0){
+    alert("You've played all the events! Starting a fresh game.");
+    restart();
+    return;
+  }
+  gameEvents=bonusEvents;
+  roundIdx=0;
+  answered=false;
+  document.getElementById('event-area').style.display='';
+  document.getElementById('feedback').style.display='';
+  document.getElementById('feedback').innerHTML='';
+  document.getElementById('fact-box').style.display='none';
+  document.getElementById('current-card').classList.remove('answered');
+  document.getElementById('current-card').innerHTML=gameEvents[0].html;
+  document.getElementById('round-badge').textContent='Bonus 1 / '+bonusEvents.length;
+  document.getElementById('score-badge').textContent='Score: '+score;
+  hideConfirmBar();
+  hideIndicator();
+  cardSelected=false;
+  card.classList.remove('card-selected');
+}
+
+function restart(){
+  const existingEndCard=document.getElementById('end-card');
+  if(existingEndCard)existingEndCard.remove();
+  score=0;
+  isBonusRound=false;roundIdx=0;answered=false;logEntries=[];isPracticePhase=false;
+  gameEvents=selectEvents();
+  document.getElementById('score-badge').textContent='Score: 0';
+  document.getElementById('round-badge').textContent='1 / '+NUM_ROUNDS;
+  document.getElementById('event-area').style.display='';
+  document.getElementById('feedback').style.display='';
+  document.getElementById('feedback').innerHTML='';
+  document.getElementById('fact-box').style.display='none';
+  document.getElementById('pins-layer').innerHTML='';
+  document.getElementById('history-log').innerHTML='';
+  document.getElementById('log-section').style.display='none';
+  document.getElementById('btn-area').innerHTML='';
+  document.getElementById('practice-modal-overlay').style.display='none';
+  document.getElementById('practice-banner').style.display='none';
+  document.querySelector('.game-title-full').style.display='block';
+  document.getElementById('year-1897-marker').style.display='none';
+  document.getElementById('section-label').style.visibility='visible';
+  document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
+  document.getElementById('next-btn').textContent='Next event';
+  document.getElementById('next-btn').classList.remove('btn-primary');
+  document.getElementById('current-card').classList.remove('answered');
+  document.getElementById('current-card').innerHTML=gameEvents[0].html;
+}
+
+function launchFirework(){
+  const canvas=document.getElementById('firework-canvas');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  // Find the year label inside the active pin wrapper
+  let cx,cy;
+  if(activePinWrapper){
+    const labels=activePinWrapper.querySelectorAll('div');
+    let labelEl=null;
+    labels.forEach(el=>{if(el.textContent&&el.style.borderRadius==='10px')labelEl=el;});
+    if(labelEl){
+      const r=labelEl.getBoundingClientRect();
+      cx=r.left+r.width/2; cy=r.top+r.height/2;
+    }
+  }
+  if(!cx){
+    const track=document.getElementById('timeline-track');
+    const r=track.getBoundingClientRect();
+    cx=r.left+r.width/2; cy=r.top+r.height/2;
+  }
+  const colors=['#534AB7','#1D9E75','#F5C842','#c41230','#fff','#7F77DD'];
+  const particles=[];
+  for(let i=0;i<28;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=1+Math.random()*2.2;
+    particles.push({
+      x:cx,y:cy,
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed,
+      r:2+Math.random()*2,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      alpha:1,life:1
+    });
+  }
+  let frame=0;
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      p.vy+=0.08;
+      p.vx*=0.97; p.life-=0.032;
+      p.alpha=Math.max(0,p.life);
+      ctx.globalAlpha=p.alpha;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=p.color;
+      ctx.fill();
+    });
+    ctx.globalAlpha=1;
+    frame++;
+    if(frame<90)requestAnimationFrame(animate);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  animate();
+}
+
+const card=document.getElementById('current-card');
+const ghost=document.getElementById('ghost');
+const track=document.getElementById('timeline-track');
+const indicator=document.getElementById('drag-indicator');
+const tooltip=document.getElementById('year-tooltip');
+const confirmBar=document.getElementById('confirm-bar');
+
+const isMobile=()=>window.matchMedia('(pointer:coarse)').matches;
+let pendingYear=null;
+let cardSelected=false;
+
+function updateIndicator(cx){
+  const rect=track.getBoundingClientRect();
+  const p=Math.max(0,Math.min(1,(cx-rect.left)/rect.width));
+  indicator.style.display='block';
+  indicator.style.left=(p*100)+'%';
+  tooltip.textContent=pctToYr(p);
+}
+function hideIndicator(){indicator.style.display='none';}
+function isOverTrack(cx,cy){const r=track.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top-40&&cy<=r.bottom+40;}
+function getYear(cx){const r=track.getBoundingClientRect();return pctToYr(Math.max(0,Math.min(1,(cx-r.left)/r.width)));}
+
+function showConfirmBar(year){
+  pendingYear=year;
+  confirmBar.textContent='Place it here → '+year;
+  confirmBar.style.display='block';
+}
+function hideConfirmBar(){
+  confirmBar.style.display='none';
+  pendingYear=null;
+}
+
+function confirmPlacement(){
+  if(pendingYear===null||answered)return;
+  const yearToSubmit=pendingYear;
+  hideConfirmBar();
+  hideIndicator();
+  cardSelected=false;
+  card.classList.remove('card-selected');
+  if(isPracticePhase)handlePracticeGuess(yearToSubmit);
+  else handleGuess(yearToSubmit);
+  // On mobile, scroll event card to top of screen
+  if(isMobile()){
+    setTimeout(()=>{
+      const cardEl=document.getElementById('current-card');
+      if(cardEl){
+        cardEl.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    },100);
+  }
+}
+
+// ── DESKTOP: pointer drag ────────────────────────────────────────────────────
+card.addEventListener('pointerdown',e=>{
+  if(answered||isMobile())return;
+  e.preventDefault();
+  dragging=true;
+  card.setPointerCapture(e.pointerId);
+  card.style.cursor='grabbing';
+  ghost.innerHTML=card.innerHTML;
+  ghost.style.width=card.offsetWidth+'px';
+  ghost.style.left=(e.clientX-card.offsetWidth/2)+'px';
+  ghost.style.top=(e.clientY-28)+'px';
+  ghost.style.display='block';
+});
+card.addEventListener('pointermove',e=>{
+  if(!dragging||isMobile())return;
+  ghost.style.left=(e.clientX-card.offsetWidth/2)+'px';
+  ghost.style.top=(e.clientY-28)+'px';
+  isOverTrack(e.clientX,e.clientY)?updateIndicator(e.clientX):hideIndicator();
+});
+card.addEventListener('pointerup',e=>{
+  if(!dragging||isMobile())return;
+  dragging=false;card.style.cursor='grab';
+  ghost.style.display='none';hideIndicator();
+  if(!isOverTrack(e.clientX,e.clientY)||answered)return;
+  const y=getYear(e.clientX);
+  if(isPracticePhase)handlePracticeGuess(y);
+  else handleGuess(y);
+});
+card.addEventListener('pointercancel',()=>{
+  if(isMobile())return;
+  dragging=false;ghost.style.display='none';hideIndicator();card.style.cursor='grab';
+});
+
+// ── MOBILE: simple two-tap model (works on iOS Safari) ───────────────────────
+// Step 1: tap the card — it highlights and instructions change
+// Step 2: tap anywhere on the timeline — indicator appears and confirm button shows
+// Step 3: tap "Place it here" button to submit
+
+function mobileSelectCard(){
+  if(answered)return;
+  cardSelected=true;
+  card.classList.add('card-selected');
+  document.getElementById('section-label').textContent='Now tap the timeline where you want to place it:';
+}
+
+function mobileDeselectCard(){
+  cardSelected=false;
+  card.classList.remove('card-selected');
+  hideIndicator();
+  hideConfirmBar();
+  const lbl=document.getElementById('section-label');
+  if(lbl)lbl.textContent=isPracticePhase?'Move this card to 1897 on the timeline:':'When did this happen? Tap the card, then tap the timeline:';
+}
+
+card.addEventListener('touchend',e=>{
+  if(!isMobile()||answered)return;
+  e.preventDefault();
+  if(cardSelected){
+    mobileDeselectCard();
+  } else {
+    mobileSelectCard();
+  }
+},{passive:false});
+
+track.addEventListener('touchstart',e=>{
+  if(!isMobile()||!cardSelected||answered)return;
+  e.preventDefault();
+  const cx=e.touches[0].clientX;
+  updateIndicator(cx);
+  showConfirmBar(getYear(cx));
+},{passive:false});
+
+track.addEventListener('touchmove',e=>{
+  if(!isMobile()||!cardSelected||answered)return;
+  e.preventDefault();
+  const cx=e.touches[0].clientX;
+  updateIndicator(cx);
+  showConfirmBar(getYear(cx));
+},{passive:false});
+
+track.addEventListener('touchend',e=>{
+  if(!isMobile()||!cardSelected||answered)return;
+  e.preventDefault();
+  const cx=e.changedTouches[0].clientX;
+  updateIndicator(cx);
+  showConfirmBar(getYear(cx));
+},{passive:false});
+
+</script>
