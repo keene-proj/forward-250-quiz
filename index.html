@@ -918,7 +918,7 @@ const indicator=document.getElementById('drag-indicator');
 const tooltip=document.getElementById('year-tooltip');
 const confirmBar=document.getElementById('confirm-bar');
 
-const isMobile=()=>window.matchMedia('(pointer:coarse)').matches;
+const isMobile=()=>window.matchMedia('(pointer:coarse)').matches&&window.innerWidth<=768;
 let pendingYear=null;
 let cardSelected=false;
 
