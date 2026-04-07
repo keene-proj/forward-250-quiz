@@ -51,7 +51,7 @@
   .event-card.answered:hover{box-shadow:0 1px 4px rgba(0,0,0,.06);border-color:var(--border2);}
   #feedback{min-height:36px;font-size:16px;color:var(--text2);margin:1rem 0;text-align:center;line-height:1.5;}
   .pts-badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border-radius:20px;margin-right:6px;font-family:'Source Sans 3',sans-serif;}
-  .pts-6{background:#26215C;color:#fff;}
+  .pts-6{background:#166534;color:#fff;}
   .pts-5{background:#EEEDFE;color:#3C3489;}
   .pts-4{background:#E1F5EE;color:#085041;}
   .pts-3{background:#FAEEDA;color:#633806;}
@@ -62,10 +62,10 @@
   #fact-image{display:none;width:100%;max-height:180px;object-fit:cover;}
   #fact-body{padding:1.5rem 1.75rem 1.25rem;}
   .fact-label{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
-  #fact-footer{display:flex;justify-content:center;margin-top:1rem;}
+  #next-btn-wrap{display:none;justify-content:center;margin-top:1rem;}
   #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s;}
   #next-btn:hover{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);}
-  #next-btn.btn-primary{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;display:block;margin:1rem auto 0;}
+  #next-btn.btn-primary{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;}
   #next-btn.btn-primary:hover{background:#3a30a0;border:none;color:#fff;}
   #timeline-section{margin-top:1rem;margin-bottom:.5rem;padding:0 1rem;}
   .tl-label-row{position:relative;height:22px;margin-bottom:8px;}
@@ -154,7 +154,7 @@
   </div>
 
   <div id="event-area">
-    <div class="section-label" id="section-label">Tap the card to select it, then tap 1897 on the timeline:</div>
+    <div class="section-label" id="section-label">Drag the card to 1897 on the timeline:</div>
     <div class="event-card" id="current-card"><em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.</div>
   </div>
 
@@ -170,7 +170,7 @@
       <div id="pins-layer"></div>
       <div id="tooltip-popup"></div>
     </div>
-    <div class="scoring-hint"><span style="color:#26215C;font-weight:600;">Exact = 6 pts</span> &nbsp;·&nbsp; <span style="color:#534AB7;font-weight:600;">Within 5 years = 5 pts</span> &nbsp;·&nbsp; <span style="color:#BA7517;font-weight:600;">Within 10 years = 3 pts</span> &nbsp;·&nbsp; <span style="color:#D4537E;font-weight:600;">Within 25 years = 2 pts</span> &nbsp;·&nbsp; <span style="color:#ca8a04;font-weight:600;">Within 50 years = 1 pt</span></div>
+    <div class="scoring-hint"><span style="color:#166534;font-weight:600;">Exact = 6 pts</span> &nbsp;·&nbsp; <span style="color:#534AB7;font-weight:600;">Within 5 years = 5 pts</span> &nbsp;·&nbsp; <span style="color:#BA7517;font-weight:600;">Within 10 years = 3 pts</span> &nbsp;·&nbsp; <span style="color:#D4537E;font-weight:600;">Within 25 years = 2 pts</span> &nbsp;·&nbsp; <span style="color:#ca8a04;font-weight:600;">Within 50 years = 1 pt</span></div>
   </div>
 
   <div id="feedback"></div>
@@ -180,10 +180,11 @@
     <div id="fact-body">
       <div class="fact-label">Did you know?</div>
       <div id="fact-text"></div>
-      <div id="fact-footer">
-        <button id="next-btn" onclick="advanceRound()">Next event</button>
-      </div>
     </div>
+  </div>
+
+  <div id="next-btn-wrap" style="display:none;">
+    <button id="next-btn" onclick="advanceRound()">Next event</button>
   </div>
 
   <div id="log-section">
@@ -226,7 +227,7 @@ const ALL_EVENTS=[
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
    fact:"Founded as a reaction to what traditional Jews saw as Reform Judaism’s abandonment of Jewish law, JTS became the intellectual home of Conservative Judaism under Solomon Schechter from 1902, and remains one of the world’s leading centers of Jewish scholarship today."},
   {html:"<em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.",tip:"The Forward founded",year:1897,isPractice:true,isForward:true,
-   fact:"Then called <em>Der Forverts</em>, it quickly became one of the most widely read foreign-language newspapers in America, and today reaches millions of unique readers each month."},
+   fact:"Then called <em>Der Forverts</em>, the print daily quickly became one of the most widely read foreign-language newspapers in America. The Forward publishes online today in both Yiddish and English, reaching millions of unique readers per month."},
   {html:"Emma Lazarus’s sonnet <em>The New Colossus</em> is engraved on the base of the Statue of Liberty.",tip:"“The New Colossus” engraved on Statue of Liberty",year:1903,
    fact:"Lazarus wrote <em>The New Colossus</em> in 1883, but died 16 years before its famous lines — among them “Give me your tired, your poor, your huddled masses” — were added to the pedestal."},
   {html:"The Triangle Shirtwaist Factory fire kills 146 workers — mostly young Jewish and Italian immigrant women — in a locked building in Lower Manhattan.",tip:"Triangle Shirtwaist Factory fire",year:1911,
@@ -255,7 +256,7 @@ const ALL_EVENTS=[
    fact:"Schwerner, Goodman and James Chaney traveled to Mississippi to register Black voters. Their deaths galvanized the nation and built support for the passage of the Civil Rights Act."},
   {html:"Sandy Koufax sits out Game 1 of the World Series in observance of Yom Kippur.",tip:"Koufax sits out Yom Kippur World Series game",year:1965,
    fact:"Koufax’s stand-in, Don Drysdale, had a bad outing that day. But the Jewish southpaw came back to pitch Games 5 and 7 for the Dodgers, winning both on complete-game shutouts and taking home the series’ Most Valuable Player award."},
-  {html:"12-year-old New Yorker Judith Kaplan celebrates the first bat mitzvah in the United States.",tip:"First bat mitzvah in the United States",year:1922,
+  {html:"12-year-old New Yorker Judith Kaplan celebrates her bat mitzvah, the first such ceremony in the United States.",tip:"First bat mitzvah in the United States",year:1922,
    fact:"Kaplan’s father, Rabbi Mordecai Kaplan, went on to found Reconstructionist Judaism, a religious movement at the forefront of gender inclusion. Judith Kaplan read from a Torah book, rather than a Torah scroll, at her bat mitzvah."},
   {html:"Rabbi Sally J. Priesand becomes the first woman in North America to be ordained as a rabbi.",tip:"First female rabbi ordained in North America",year:1972,
    fact:"The first woman ordained a rabbi anywhere was Regina Jonas, who was murdered at Auschwitz. Priesand’s ordination by Hebrew Union College, a Reform seminary, opened the door for countless women to follow."},
@@ -373,6 +374,7 @@ let usedEventSet=new Set(),isBonusRound=false,bonusMaxPts=60;
 function startGame(){
   document.getElementById('splash').style.display='none';
   document.getElementById('game').style.display='block';
+  document.getElementById('section-label').textContent=isMobile()?'Tap the card to select it, then tap 1897 on the timeline:':'Drag the card to 1897 on the timeline:';
   buildTicks();
   gameEvents=selectEvents();
   document.getElementById('current-card').innerHTML='<em>The Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.';
@@ -396,7 +398,7 @@ function yrPct(y){return Math.max(0,Math.min(1,(y-MIN_Y)/RANGE));}
 function pctToYr(p){return Math.round(MIN_Y+Math.max(0,Math.min(1,p))*RANGE);}
 function calcPts(g,a){const d=Math.abs(g-a);return d===0?6:d<=5?5:d<=10?3:d<=25?2:d<=50?1:0;}
 function ptClass(p){return['pts-0','pts-1','pts-2','pts-3','pts-5','pts-5','pts-6'][p]||'pts-0';}
-function pinColor(p){return p===6?'#26215C':p===5?'#534AB7':p===3?'#BA7517':p===2?'#D4537E':p===1?'#F5C842':'#888780';}
+function pinColor(p){return p===6?'#166534':p===5?'#534AB7':p===3?'#BA7517':p===2?'#D4537E':p===1?'#F5C842':'#888780';}
 
 function buildTicks(){
   const el=document.getElementById('decade-ticks');
@@ -571,6 +573,8 @@ function showFact(evt,isForward){
   else{img.style.display='none';}
   document.getElementById('fact-text').innerHTML=evt.fact;
   document.getElementById('fact-box').style.display='block';
+  document.getElementById('next-btn-wrap').style.display='flex';
+  document.getElementById('next-btn-wrap').style.justifyContent='center';
 }
 
 function rebuildLog(){
@@ -603,8 +607,8 @@ function handlePracticeGuess(guessY){
   const d=Math.abs(guessY-1897);
   const close=d<=15;
   document.getElementById('feedback').innerHTML=close
-    ?`<span style="color:var(--green);font-weight:600;">Well done!</span> You placed it ${d===0?'exactly on':'about '+d+' year'+(d===1?'':'s')+' from'} 1897. Now the real quiz begins!`
-    :`<span style="color:var(--amber);font-weight:600;">Almost!</span> You placed it at ${guessY} — the Forward was founded in 1897. Let's try the real quiz now!`;
+    ?`<span style="color:var(--green);font-weight:600;">Well done!</span> You placed it ${d===0?'exactly on':'about '+d+' year'+(d===1?'':'s')+' from'} 1897.`
+    :`<span style="color:var(--amber);font-weight:600;">Almost!</span> You placed it at ${guessY} — the Forward was founded in 1897.`;
   const practicePts=calcPts(guessY,1897);
   activePinWrapper=placeForwardPin(1897,guessY,practicePts);
   if(practicePts===6)launchFirework();
@@ -636,6 +640,7 @@ function handleGuess(guessY){
 
 function advanceRound(){
   document.getElementById('fact-box').style.display='none';
+  document.getElementById('next-btn-wrap').style.display='none';
   document.getElementById('feedback').innerHTML='';
   document.getElementById('current-card').classList.remove('answered');
   answered=false;
@@ -715,6 +720,7 @@ function showEnd(maxPts){
   document.getElementById('event-area').style.display='none';
   document.getElementById('feedback').style.display='none';
   document.getElementById('fact-box').style.display='none';
+  document.getElementById('next-btn-wrap').style.display='none';
   const {nick,msg}=getNickname(score,maxPts);
   const finalScore=score;
 
@@ -831,6 +837,7 @@ function restart(){
   document.getElementById('feedback').style.display='';
   document.getElementById('feedback').innerHTML='';
   document.getElementById('fact-box').style.display='none';
+  document.getElementById('next-btn-wrap').style.display='none';
   document.getElementById('pins-layer').innerHTML='';
   document.getElementById('history-log').innerHTML='';
   document.getElementById('log-section').style.display='none';
