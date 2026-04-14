@@ -635,8 +635,10 @@ function handleGuess(guessY){
   score+=pts;
   document.getElementById('score-badge').textContent='Score: '+score;
   const d=Math.abs(guessY-evt.year);
-  const msgs=['Off by '+d+' years.','Getting warmer — off by '+d+' years.','Close — off by '+d+' years.','Nice — within '+d+' years.','Great — within '+d+' years.','',''];
-  const exactMsg=d===0?'You got it!':d===1?'Off by a year!':d===2?'Nice \u2014 two years off.':msgs[pts];
+  const pick=arr=>arr[Math.floor(Math.random()*arr.length)];
+  const phrases3to5=['So close \u2014 just '+d+' years off.','Nearly! Off by '+d+' years.','Very close \u2014 '+d+' years off.','Sharp \u2014 only '+d+' years off.'];
+  const phrases6to10=['Nice \u2014 within '+d+' years.','Good \u2014 off by just '+d+' years.','Sharp \u2014 '+d+' years off.'];
+  const exactMsg=d===0?'You got it!':d===1?'Off by a year!':d===2?'Nice \u2014 two years off.':d>20?'Off by '+d+' years.':d<=5?pick(phrases3to5):d<=10?pick(phrases6to10):'Not bad \u2014 off by '+d+' years.';
   document.getElementById('feedback').innerHTML=`<span class="pts-badge ${ptClass(pts)}">${pts>0?'+'+pts+' pts':'0 pts'}</span>${exactMsg} <span style="color:var(--text2);">Your guess: <strong>${guessY}</strong> &nbsp;·&nbsp; Actual: <strong>${evt.year}</strong></span>`;
   activePinWrapper=placePin(evt.year,pts,evt.tip,false,guessY);
   if(pts===6)launchFirework();
@@ -755,6 +757,23 @@ function showEnd(maxPts){
   mg.textContent=msg;
   ec.appendChild(mg);
 
+  const scoreChart=document.createElement('div');
+  scoreChart.style.cssText='display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:1.5rem;';
+  const chartItems=[
+    {cls:'pts-6',label:'Exact = 6 pts'},
+    {cls:'pts-5',label:'±5 years = 5 pts'},
+    {cls:'pts-3',label:'±10 years = 3 pts'},
+    {cls:'pts-2',label:'±25 years = 2 pts'},
+    {cls:'pts-1',label:'±50 years = 1 pt'},
+  ];
+  chartItems.forEach(({cls,label})=>{
+    const pill=document.createElement('span');
+    pill.className='pts-badge '+cls;
+    pill.textContent=label;
+    scoreChart.appendChild(pill);
+  });
+  ec.appendChild(scoreChart);
+
   const shareTitle=document.createElement('div');
   shareTitle.style.cssText='font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;text-align:center;';
   shareTitle.textContent='Share your score';
@@ -769,7 +788,7 @@ function showEnd(maxPts){
     b.innerHTML=svgHtml+label;
     b.addEventListener('click',clickFn);
     b.addEventListener('mouseover',()=>b.style.background='#f3f0ea');
-    b.addEventListener('mouseout',()=>b.style.background='');
+    b.addEventListener('mouseout',()=>b.style.background='var(--surface)');
     return b;
   }
 
@@ -782,20 +801,24 @@ function showEnd(maxPts){
   btnRow.appendChild(makeShareBtn('Facebook',fbSvg,()=>shareFacebook()));
   ec.appendChild(btnRow);
 
+  const actionRow=document.createElement('div');
+  actionRow.style.cssText='display:flex;justify-content:center;gap:12px;flex-wrap:wrap;';
+
   if(!isBonusRound){
     const more=document.createElement('button');
     more.className='main-btn';
-    more.style.marginBottom='0.75rem';
     more.textContent='Keep Playing';
     more.addEventListener('click',startBonusRound);
-    ec.appendChild(more);
+    actionRow.appendChild(more);
   }
 
   const playAgain=document.createElement('button');
   playAgain.className='main-btn';
-  playAgain.textContent='Play again';
+  playAgain.textContent='Play Again';
   playAgain.addEventListener('click',restart);
-  ec.appendChild(playAgain);
+  actionRow.appendChild(playAgain);
+
+  ec.appendChild(actionRow);
 
   const area=document.getElementById('btn-area');
   area.innerHTML='';
