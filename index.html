@@ -129,6 +129,10 @@
   .practice-animate{animation:practiceSlideUp 0.4s ease both;}
   #practice-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
   #practice-modal{background:var(--surface);border-radius:var(--radius-lg,14px);padding:2rem 1.75rem;max-width:400px;width:100%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);}
+  @keyframes overlayFadeIn{from{opacity:0;}to{opacity:1;}}
+  @keyframes modalSlideUp{from{opacity:0;transform:translateY(24px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+  #practice-modal-overlay.animating{animation:overlayFadeIn 0.25s ease both;}
+  #practice-modal-overlay.animating #practice-modal{animation:modalSlideUp 0.3s cubic-bezier(0.34,1.2,0.64,1) both;}
   #practice-modal h2{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
   #practice-modal p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:1.5rem;}  #ready-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:28px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .15s,transform .1s;}
   #ready-btn:hover{background:#3a30a0;transform:translateY(-1px);}
@@ -453,12 +457,20 @@ function startGame(){
   document.getElementById('current-card').innerHTML='The <em>Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.';
   // Show modal over the game screen, not the splash
   setTimeout(function(){
-    document.getElementById('practice-modal-overlay').style.display='flex';
+    const ov=document.getElementById('practice-modal-overlay');
+    ov.style.display='flex';
+    ov.classList.remove('animating');
+    void ov.offsetWidth;
+    ov.classList.add('animating');
   },50);
 }
 
 function showHelpModal(){
-  document.getElementById('practice-modal-overlay').style.display='flex';
+  const ov=document.getElementById('practice-modal-overlay');
+  ov.style.display='flex';
+  ov.classList.remove('animating');
+  void ov.offsetWidth;
+  ov.classList.add('animating');
 }
 
 function dismissPracticeModal(){
