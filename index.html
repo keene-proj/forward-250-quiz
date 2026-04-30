@@ -40,6 +40,8 @@
   #confirm-bar:hover{background:#3a30a0;}
   .card-selected{border-color:var(--accent-mid)!important;box-shadow:0 0 0 2px var(--accent-mid)!important;}
   .game-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;gap:8px;}
+  #help-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border2);background:var(--surface);color:var(--text2);font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;font-family:'Source Sans 3',sans-serif;flex-shrink:0;}
+  #help-btn:hover{background:var(--accent-light);color:var(--accent);border-color:var(--accent-mid);}
   .game-title-sm{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--text);text-align:center;flex:1;line-height:1.3;}
   .game-title-full{font-family:'Playfair Display',serif;font-size:clamp(14px,2vw,20px);font-weight:600;color:var(--text);text-align:center;line-height:1.3;flex:1;}
   .badge{font-size:14px;font-weight:600;padding:6px 14px;border-radius:20px;background:var(--surface2);color:var(--text2);border:.5px solid var(--border);font-family:'Source Sans 3',sans-serif;white-space:nowrap;}
@@ -150,7 +152,10 @@
   <div class="game-header">
     <span class="badge" id="score-badge">Score: 0</span>
     <div class="game-title-full" id="game-title-full">The Forward's American Jewish Timeline Game</div>
-    <span class="badge" id="round-badge">Practice</span>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span class="badge" id="round-badge">Practice</span>
+      <button id="help-btn" onclick="showHelpModal()" title="How to play">?</button>
+    </div>
   </div>
 
   <div id="practice-banner">
@@ -450,6 +455,10 @@ function startGame(){
   setTimeout(function(){
     document.getElementById('practice-modal-overlay').style.display='flex';
   },50);
+}
+
+function showHelpModal(){
+  document.getElementById('practice-modal-overlay').style.display='flex';
 }
 
 function dismissPracticeModal(){
