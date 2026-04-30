@@ -44,6 +44,8 @@
   .game-title-full{font-family:'Playfair Display',serif;font-size:clamp(14px,2vw,20px);font-weight:600;color:var(--text);text-align:center;line-height:1.3;flex:1;}
   .badge{font-size:14px;font-weight:600;padding:6px 14px;border-radius:20px;background:var(--surface2);color:var(--text2);border:.5px solid var(--border);font-family:'Source Sans 3',sans-serif;white-space:nowrap;}
   .section-label{font-size:13px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+  .section-label.practice-glow{color:var(--accent);text-shadow:0 0 8px rgba(127,119,221,0.5);animation:labelGlow 2s ease-in-out infinite;}
+  @keyframes labelGlow{0%,100%{text-shadow:0 0 6px rgba(127,119,221,0.4);}50%{text-shadow:0 0 16px rgba(127,119,221,0.75);}}
   #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1rem;}
   .event-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:1.75rem 2.5rem;user-select:none;-webkit-user-select:none;touch-action:none;font-size:20px;color:var(--text);line-height:1.2;cursor:grab;font-family:'Playfair Display',Georgia,serif;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .15s,border-color .15s;display:inline-block;max-width:620px;text-align:center;}
   .event-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);border-color:var(--accent-mid);}
@@ -156,7 +158,7 @@
   </div>
 
   <div id="event-area">
-    <div class="section-label" id="section-label">Drag the card to 1897 on the timeline:</div>
+    <div class="section-label practice-glow" id="section-label">Drag the card to 1897 on the timeline:</div>
     <div class="event-card" id="current-card">The <em>Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.</div>
   </div>
 
@@ -729,6 +731,7 @@ function advanceRound(){
     isPracticePhase=false;
     document.getElementById('practice-banner').style.display='none';
     document.getElementById('year-1897-marker').style.display='none';
+    document.getElementById('section-label').classList.remove('practice-glow');
     document.getElementById('section-label').style.visibility='visible';
   document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
     document.getElementById('next-btn').textContent='Next event';
