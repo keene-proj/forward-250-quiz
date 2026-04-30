@@ -62,6 +62,7 @@
   #fact-image{display:none;width:100%;max-height:180px;object-fit:cover;}
   #fact-body{padding:1.5rem 1.75rem 1.25rem;}
   .fact-label{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+  #event-stats-bar{padding:.6rem 1.75rem;border-top:1px solid var(--border);background:var(--surface2);font-size:13px;color:var(--text2);line-height:1.5;}
   #next-btn-wrap{display:none;justify-content:center;margin-top:1rem;}
   #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s;}
   #next-btn:hover{background:#3a30a0;}
@@ -182,6 +183,7 @@
       <div class="fact-label">Did you know?</div>
       <div id="fact-text"></div>
     </div>
+    <div id="event-stats-bar" style="display:none;"></div>
   </div>
 
   <div id="next-btn-wrap" style="display:none;">
@@ -210,6 +212,11 @@
 <script>
 const MIN_Y=1776,MAX_Y=2026,RANGE=MAX_Y-MIN_Y,NUM_ROUNDS=10,MAX_PTS=50;
 const GAME_URL='https://claude.ai/public/artifacts/f11a2e12-0a3e-4465-bf78-c4df878bfdbb';
+
+// Supabase config — fill in after creating your project at supabase.com
+const SUPABASE_URL='https://phcbubrphewqwcwnibkb.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_6OnZQEW1PWXoh8eKHpCmgg_eb0vnp2o';
+const STATS_ENABLED=SUPABASE_URL!=='YOUR_SUPABASE_URL';
 const FORWARD_SVG=`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100"><rect width="100" height="100" rx="6" fill="#c41230"/><text x="50" y="76" font-family="Georgia,serif" font-size="82" font-weight="700" text-anchor="middle" fill="#ffffff">F</text></svg>`;
 
 const ALL_EVENTS=[
@@ -304,6 +311,59 @@ const ALL_EVENTS=[
 const FORWARD_EVENT=ALL_EVENTS.find(e=>e.isForward);
 
 const WASHINGTON_EVENT=ALL_EVENTS.find(e=>e.year===1790);
+
+async function fetchEventStats(year){
+  if(!STATS_ENABLED)return null;
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/event_stats?event_year=eq.${year}`,
+      {headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
+    const d=await r.json();return d[0]||null;
+  }catch(e){return null;}
+}
+
+async function recordEventGuess(year,offset,within5){
+  if(!STATS_ENABLED)return;
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/rpc/record_event_guess`,{
+      method:'POST',
+      headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json'},
+      body:JSON.stringify({p_year:year,p_offset:offset,p_within_5:within5})});
+  }catch(e){}
+}
+
+async function recordGameScore(s,maxPts){
+  if(!STATS_ENABLED)return;
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/game_scores`,{
+      method:'POST',
+      headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},
+      body:JSON.stringify({score:s,max_score:maxPts})});
+  }catch(e){}
+}
+
+async function fetchPercentile(s,maxPts){
+  if(!STATS_ENABLED)return null;
+  try{
+    const hdrs={apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,Prefer:'count=exact','Range-Unit':'items',Range:'0-0'};
+    const [tRes,lRes]=await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/game_scores?max_score=eq.${maxPts}&select=id`,{headers:hdrs}),
+      fetch(`${SUPABASE_URL}/rest/v1/game_scores?max_score=eq.${maxPts}&score=lte.${s}&select=id`,{headers:hdrs})
+    ]);
+    const parseCount=r=>parseInt(r.headers.get('Content-Range')?.split('/')[1]||'0');
+    const total=parseCount(tRes),lower=parseCount(lRes);
+    return total>=10?Math.round((lower/total)*100):null;
+  }catch(e){return null;}
+}
+
+function showEventStats(stats){
+  const bar=document.getElementById('event-stats-bar');
+  if(!stats||stats.total_plays<5){bar.style.display='none';return;}
+  const avg=Math.round(stats.total_offset/stats.total_plays);
+  const pct=Math.round((stats.within_5_count/stats.total_plays)*100);
+  const n=stats.total_plays.toLocaleString();
+  bar.innerHTML=`<span style="font-weight:600;color:var(--text);">How others did:</span> avg off by ${avg} year${avg===1?'':'s'} &nbsp;·&nbsp; ${pct}% got within 5 years <span style="color:var(--text3);">(${n} plays)</span>`;
+  bar.style.display='block';
+}
 
 function selectEvents(){
   const pool=ALL_EVENTS.filter(e=>!e.isForward&&e!==WASHINGTON_EVENT);
@@ -646,10 +706,15 @@ function handleGuess(guessY){
   showFact(evt,false);
   logEntries.push({year:evt.year,text:evt.tip,guess:guessY,pts});
   rebuildLog();
+  // Fetch community stats first (before recording), then record this play
+  const _year=evt.year,_off=d,_w5=d<=5;
+  fetchEventStats(_year).then(showEventStats);
+  recordEventGuess(_year,_off,_w5);
   roundIdx++;
 }
 
 function advanceRound(){
+  document.getElementById('event-stats-bar').style.display='none';
   document.getElementById('fact-box').style.display='none';
   document.getElementById('next-btn-wrap').style.display='none';
   document.getElementById('feedback').innerHTML='';
@@ -757,6 +822,13 @@ function showEnd(maxPts){
   mg.className='end-msg';
   mg.textContent=msg;
   ec.appendChild(mg);
+
+  const pctDiv=document.createElement('div');
+  pctDiv.style.cssText='font-size:14px;color:var(--text2);text-align:center;margin-top:.5rem;margin-bottom:1rem;min-height:1.4em;';
+  ec.appendChild(pctDiv);
+  recordGameScore(finalScore,maxPts).then(()=>fetchPercentile(finalScore,maxPts).then(pct=>{
+    if(pct!==null)pctDiv.textContent=`You scored better than ${pct}% of players`;
+  }));
 
   const scoreChart=document.createElement('div');
   scoreChart.style.cssText='display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:1.5rem;';
