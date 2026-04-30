@@ -341,17 +341,14 @@ async function recordGameScore(s,maxPts){
   }catch(e){}
 }
 
-async function fetchPercentile(s,maxPts){
+async function fetchAvgScore(maxPts){
   if(!STATS_ENABLED)return null;
   try{
-    const hdrs={apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,Prefer:'count=exact','Range-Unit':'items',Range:'0-0'};
-    const [tRes,lRes]=await Promise.all([
-      fetch(`${SUPABASE_URL}/rest/v1/game_scores?max_score=eq.${maxPts}&select=id`,{headers:hdrs}),
-      fetch(`${SUPABASE_URL}/rest/v1/game_scores?max_score=eq.${maxPts}&score=lte.${s}&select=id`,{headers:hdrs})
-    ]);
-    const parseCount=r=>parseInt(r.headers.get('Content-Range')?.split('/')[1]||'0');
-    const total=parseCount(tRes),lower=parseCount(lRes);
-    return total>=10?Math.round((lower/total)*100):null;
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/game_scores?max_score=eq.${maxPts}&select=score`,
+      {headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
+    const data=await r.json();
+    if(!Array.isArray(data)||data.length<100)return null;
+    return Math.round(data.reduce((s,r)=>s+r.score,0)/data.length);
   }catch(e){return null;}
 }
 
@@ -826,8 +823,8 @@ function showEnd(maxPts){
   const pctDiv=document.createElement('div');
   pctDiv.style.cssText='font-size:14px;color:var(--text2);text-align:center;margin-top:.5rem;margin-bottom:1rem;min-height:1.4em;';
   ec.appendChild(pctDiv);
-  recordGameScore(finalScore,maxPts).then(()=>fetchPercentile(finalScore,maxPts).then(pct=>{
-    if(pct!==null)pctDiv.textContent=`You scored better than ${pct}% of players`;
+  recordGameScore(finalScore,maxPts).then(()=>fetchAvgScore(maxPts).then(avg=>{
+    if(avg!==null)pctDiv.textContent=`Average score among all players: ${avg} / ${maxPts}`;
   }));
 
   const scoreChart=document.createElement('div');
