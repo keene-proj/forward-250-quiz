@@ -499,8 +499,8 @@ function buildTicks(){
   }
   const labelRow=document.getElementById('tl-label-row');
   labelRow.innerHTML='';
-  const isMobileView=window.innerWidth<=480;
-  const labelYears=isMobileView?[1776,1850,1900,1950,2000,2026]:[1776,1800,1850,1900,1950,2000,2026];
+  const isMobileView=isMobile();
+  const labelYears=isMobileView?[1776,1850,1950,2026]:[1776,1800,1850,1900,1950,2000,2026];
   labelYears.forEach((y,i)=>{
     const span=document.createElement('span');
     span.textContent=y;
