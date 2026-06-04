@@ -1529,7 +1529,7 @@ card.addEventListener('touchcancel',()=>{
 });
 
 track.addEventListener('touchstart',e=>{
-  if(!isMobile()||!cardSelected||answered)return;
+  if(!isMobile()||(!cardSelected&&!pendingYear)||answered)return;
   e.preventDefault();
   const cx=e.touches[0].clientX;
   updateIndicator(cx);
@@ -1537,7 +1537,7 @@ track.addEventListener('touchstart',e=>{
 },{passive:false});
 
 track.addEventListener('touchmove',e=>{
-  if(!isMobile()||!cardSelected||answered)return;
+  if(!isMobile()||(!cardSelected&&!pendingYear)||answered)return;
   e.preventDefault();
   const cx=e.touches[0].clientX;
   updateIndicator(cx);
@@ -1545,7 +1545,7 @@ track.addEventListener('touchmove',e=>{
 },{passive:false});
 
 track.addEventListener('touchend',e=>{
-  if(!isMobile()||!cardSelected||answered)return;
+  if(!isMobile()||(!cardSelected&&!pendingYear)||answered)return;
   e.preventDefault();
   const cx=e.changedTouches[0].clientX;
   updateIndicator(cx);
