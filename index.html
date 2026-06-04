@@ -104,6 +104,10 @@
     .tl-label-row{height:16px;}
     .event-card{line-height:1.2;margin:0 0.75rem;}
   }
+  @media(max-width:600px){
+    #middle-block{height:auto;min-height:68px;}
+    #fact-box{max-width:92%!important;flex-wrap:nowrap;}
+  }
   #timeline-track{position:relative;height:48px;margin-top:-16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface2);overflow:visible;box-shadow:inset 0 1px 3px rgba(0,0,0,.05);touch-action:none;}
   #drag-indicator{position:absolute;top:0;bottom:0;width:2px;background:var(--accent-mid);pointer-events:none;display:none;border-radius:2px;z-index:5;}
   #drag-indicator.draggable{pointer-events:auto;cursor:ew-resize;}
@@ -840,6 +844,7 @@ function showFact(evt,isForward){
   const box=document.getElementById('fact-box');
   document.getElementById('fact-text').innerHTML=evt.fact||'';
   buildScoreCard();
+  box.style.maxWidth=evt.year===1790?'calc(35% + 10px)':'';
   box.style.display='flex';
   document.getElementById('next-btn-wrap').style.display='flex';
   document.getElementById('next-btn-wrap').style.justifyContent='center';
@@ -877,7 +882,7 @@ function handlePracticeGuess(guessY){
   document.getElementById('confirm-bar-wrap').style.display='none';
   document.getElementById('current-card').classList.add('answered');
   document.getElementById('section-label').style.visibility='hidden';
-  document.getElementById('answer-info').innerHTML=`Correct year: <strong style="color:var(--text);">1897</strong> &nbsp;·&nbsp; Your guess: <strong style="color:var(--text);">${guessY}</strong>`;
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong style="color:var(--text);">1897</strong><br>Your guess: <strong style="color:var(--text);">${guessY}</strong>`:`Correct year: <strong style="color:var(--text);">1897</strong> &nbsp;·&nbsp; Your guess: <strong style="color:var(--text);">${guessY}</strong>`;
   collapsePracticeIntro();
   // Hide the full 1897 marker immediately when card is dropped
   document.getElementById('year-1897-marker').style.display='none';
@@ -914,7 +919,7 @@ function handleGuess(guessY){
   document.getElementById('current-card').classList.add('answered');
   const evt=gameEvents[roundIdx];
   document.getElementById('section-label').style.visibility='hidden';
-  document.getElementById('answer-info').innerHTML=`Correct year: <strong style="color:var(--text);">${evt.year}</strong> &nbsp;·&nbsp; Your guess: <strong style="color:var(--text);">${guessY}</strong>`;
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong style="color:var(--text);">${evt.year}</strong><br>Your guess: <strong style="color:var(--text);">${guessY}</strong>`:`Correct year: <strong style="color:var(--text);">${evt.year}</strong> &nbsp;·&nbsp; Your guess: <strong style="color:var(--text);">${guessY}</strong>`;
   const pts=calcPts(guessY,evt.year);
   score+=pts;
   document.getElementById('score-badge').textContent='Score: '+score;
@@ -1305,6 +1310,7 @@ const confirmBar=document.getElementById('confirm-bar');
 const isMobile=()=>window.matchMedia('(hover:none)').matches&&window.innerWidth<=768;
 let pendingYear=null;
 let cardSelected=false;
+let touchDragging=false,touchDragStartX=0,touchDragStartY=0;
 
 function updateIndicator(cx){
   const rect=track.getBoundingClientRect();
@@ -1424,10 +1430,9 @@ indicator.addEventListener('pointerup',e=>{
   document.getElementById('confirm-year').textContent=y;
 });
 
-// ── MOBILE: simple two-tap model (works on iOS Safari) ───────────────────────
-// Step 1: tap the card — it highlights and instructions change
-// Step 2: tap anywhere on the timeline — indicator appears and confirm button shows
-// Step 3: tap "Place it here" button to submit
+// ── MOBILE: tap-or-drag model ────────────────────────────────────────────────
+// Tap: tap card to select → tap timeline to place
+// Drag: drag card directly onto timeline
 
 function hideDragHint(){
   const h=document.getElementById('drag-hint');
@@ -1465,15 +1470,63 @@ function mobileDeselectCard(){
   if(lbl)lbl.textContent=isPracticePhase?'Tap the card to select it, then tap the timeline:':'When did this happen? Tap the card, then tap the timeline:';
 }
 
+card.addEventListener('touchstart',e=>{
+  if(!isMobile()||answered)return;
+  touchDragging=false;
+  touchDragStartX=e.touches[0].clientX;
+  touchDragStartY=e.touches[0].clientY;
+},{passive:true});
+
+card.addEventListener('touchmove',e=>{
+  if(!isMobile()||answered)return;
+  const t=e.touches[0];
+  if(!touchDragging){
+    if(Math.hypot(t.clientX-touchDragStartX,t.clientY-touchDragStartY)<8)return;
+    touchDragging=true;
+    const thumb=card.querySelector('.card-thumb');
+    if(thumb){
+      ghost.classList.add('image-ghost');
+      ghost.innerHTML=`<img src="${thumb.src}" alt="">`;
+      ghost.style.width='';
+      document.body.classList.add('image-dragging');
+    } else {
+      ghost.classList.remove('image-ghost');
+      ghost.innerHTML=card.innerHTML;
+      ghost.style.width=card.offsetWidth+'px';
+      document.body.classList.remove('image-dragging');
+    }
+    ghost.style.display='block';
+  }
+  e.preventDefault();
+  ghost.style.left=t.clientX+'px';
+  ghost.style.top=t.clientY+'px';
+  isOverTrack(t.clientX,t.clientY)?updateIndicator(t.clientX):hideIndicator();
+},{passive:false});
+
 card.addEventListener('touchend',e=>{
   if(!isMobile()||answered)return;
   e.preventDefault();
-  if(cardSelected){
-    mobileDeselectCard();
-  } else {
-    mobileSelectCard();
+  if(touchDragging){
+    touchDragging=false;
+    ghost.style.display='none';ghost.classList.remove('image-ghost');document.body.classList.remove('image-dragging');
+    const t=e.changedTouches[0];
+    if(isOverTrack(t.clientX,t.clientY)){
+      updateIndicator(t.clientX);
+      showConfirmBar(getYear(t.clientX));
+    } else {
+      hideIndicator();
+    }
+    return;
   }
+  cardSelected?mobileDeselectCard():mobileSelectCard();
 },{passive:false});
+
+card.addEventListener('touchcancel',()=>{
+  if(!isMobile())return;
+  touchDragging=false;
+  ghost.style.display='none';ghost.classList.remove('image-ghost');document.body.classList.remove('image-dragging');
+  hideIndicator();
+});
 
 track.addEventListener('touchstart',e=>{
   if(!isMobile()||!cardSelected||answered)return;
