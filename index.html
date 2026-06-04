@@ -72,18 +72,19 @@
   .feedback-sub strong{color:var(--text2);}
   .pts-badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border-radius:20px;margin-right:6px;font-family:'Source Sans 3',sans-serif;}
   .pts-6{background:#166534;color:#fff;}
+  .pts-bonus{background:#22863a;color:#fff;border:1.5px solid #b8960c;}
   .pts-5{background:#22863a;color:#fff;}
   .pts-3{background:#ca8a04;color:#fff;}
   .pts-1{background:#be185d;color:#fff;}
   .pts-0{background:var(--surface2);color:var(--text3);}
   .pts-pending{background:var(--surface2);color:var(--text3);}
-  #fact-box{display:none;background:var(--surface);border-left:4px solid var(--accent-mid);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13px;color:var(--text);line-height:1.4;margin-bottom:.5rem;margin-top:21px;margin-left:auto;margin-right:auto;border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border);overflow:hidden;max-width:35%;display:none;flex-direction:row;flex-wrap:wrap;}
+  #fact-box{display:none;background:var(--surface);border-left:4px solid var(--accent-mid);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13px;color:var(--text);line-height:1.4;margin-bottom:.5rem;margin-top:21px;margin-left:auto;margin-right:auto;border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border);overflow:hidden;max-width:calc(35% + 8px);display:none;flex-direction:row;flex-wrap:wrap;}
   #fact-body{padding:.5rem .75rem .4rem;flex:1;}
   .fact-label{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
   #score-card{width:64px;min-width:64px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;padding:8px 6px;background:var(--surface2);border-left:.5px solid var(--border);box-sizing:border-box;}
   .sc-row{height:10px;border-radius:3px;background:var(--border2);flex-shrink:0;}
-  #score-card-total{text-align:center;font-size:11px;font-weight:700;color:var(--text2);padding-top:4px;line-height:1.2;}
-  #score-card-total span{display:block;font-size:9px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
+  #score-card-total{text-align:center;font-size:22px;font-weight:700;color:var(--accent);line-height:1.1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  #score-card-total span{display:block;font-size:8px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
   @keyframes scRowGlow{0%,100%{opacity:1;}50%{opacity:.45;}}
   .sc-placeholder{font-size:8px;color:var(--accent);text-align:center;line-height:1.4;padding:4px 2px;flex:1;display:flex;align-items:center;justify-content:center;}
   #event-stats-bar{width:100%;}
@@ -128,6 +129,7 @@
   .log-year{font-weight:600;color:var(--text2);min-width:40px;font-size:13px;}
   .log-text{flex:1;color:var(--text);}
   .log-off{white-space:nowrap;font-size:12px;color:var(--text3);margin-left:4px;}
+  .log-avg-off{font-size:11px;color:var(--text3);opacity:.75;}
   #btn-area{text-align:center;margin-top:1.25rem;}
   .main-btn{font-size:14px;font-weight:600;padding:9px 22px;border-radius:24px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s,border-color .12s;}
   .main-btn:hover{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);}
@@ -229,7 +231,7 @@
       <div id="pins-layer"></div>
       <div id="tooltip-popup"></div>
     </div>
-    <div class="scoring-hint"><span style="color:#166534;font-weight:600;">Exact = 6 pts</span> &nbsp;·&nbsp; <span style="color:#22863a;font-weight:600;">Within 5 years = 5 pts</span> &nbsp;·&nbsp; <span style="color:#ca8a04;font-weight:600;">Within 10 years = 3 pts</span> &nbsp;·&nbsp; <span style="color:#be185d;font-weight:600;">Within 25 years = 1 pt</span> &nbsp;·&nbsp; <span style="color:var(--text3);font-weight:600;">Beyond 25 years = 0 pts</span></div>
+    <div class="scoring-hint"><span style="color:#22863a;font-weight:600;">Within 5 years = 5 pts</span> &nbsp;·&nbsp; <span style="color:#ca8a04;font-weight:600;">Within 10 years = 3 pts</span> &nbsp;·&nbsp; <span style="color:#be185d;font-weight:600;">Within 25 years = 1 pt</span> &nbsp;·&nbsp; <span style="color:#166534;font-weight:600;">Perfect = +3 bonus</span></div>
   </div>
 
   <div id="confirm-bar-wrap"><button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button></div>
@@ -257,17 +259,17 @@
 <!-- PRACTICE MODAL -->
 <div id="practice-modal-overlay" style="display:none;">
   <div id="practice-modal">
-    <h2>Let's practice first.</h2>
+    <h2 id="practice-modal-title">Let's practice first.</h2>
     <p>① Read the event card.<br>② Drag the event card to place it on the timeline.<br>③ Drag the slider to fine-tune your guess, then&nbsp;confirm&nbsp;below.</p>
-    <p style="margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em> was founded in <strong>1897</strong>.<br>Drag the card there to get started.</p>
-    <button id="ready-btn" onclick="dismissPracticeModal()">Got it — let me try</button>
+    <p id="practice-modal-1897" style="margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em> was founded in <strong>1897</strong>.<br>Drag the card there to get started.</p>
+    <button id="ready-btn" onclick="dismissPracticeModal()">Got it &mdash; let me try</button>
   </div>
 </div>
 <canvas id="firework-canvas"></canvas>
 <div id="ghost"></div>
 
 <script>
-const MIN_Y=1776,MAX_Y=2026,RANGE=MAX_Y-MIN_Y,NUM_ROUNDS=10,MAX_PTS=50;
+const MIN_Y=1776,MAX_Y=2026,RANGE=MAX_Y-MIN_Y,NUM_ROUNDS=10,MAX_PTS=80;
 const GAME_URL='https://claude.ai/public/artifacts/f11a2e12-0a3e-4465-bf78-c4df878bfdbb';
 
 // Supabase config — fill in after creating your project at supabase.com
@@ -295,7 +297,7 @@ const ALL_EVENTS=[
    fact:"<em>When Harry Met Sally</em>’s most famous scene — &ldquo;I’ll have what she’s having&rdquo; — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase &ldquo;Send a salami to your boy in the Army&rdquo; during World War II."},
   {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa Banquet.&rdquo;",tip:"The Trefa Banquet",year:1883,
    image:"https://forward.com/wp-content/uploads/2026/06/highland-house1.webp",
-   fact:"Meant to celebrate American Reform Judaism’s coming of age, the non-kosher menu outraged traditionalists who saw it as proof that Reform had abandoned Jewish law entirely. The scandal accelerated the founding of the Jewish Theological Seminary three years later and crystallized the Conservative movement as a distinct denomination."},
+   fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but traditionalists saw it as proof Reform had abandoned Jewish law entirely. The scandal accelerated the founding of the Jewish Theological Seminary."},
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-134641408-scaled.jpg",
    credit:"MCNY/Gottscho-Schleisner/Getty Images",thumbPosition:"60% center",
@@ -417,7 +419,7 @@ const ALL_EVENTS=[
   {html:"Ruth Bader Ginsburg is confirmed as the first Jewish woman, and only the second woman ever, appointed to the Supreme Court.",tip:"Ginsburg confirmed to Supreme Court",year:1993,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-91237693-scaled.jpg",
    credit:"Mark Wilson/Getty Images",
-   fact:"Ginsburg grew up in a working-class Jewish family in Brooklyn, and her Jewish identity was central to her sense of justice — she often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (&ldquo;justice, justice, shall you pursue&rdquo;) as her guiding principle."},
+   fact:"Ginsburg, who grew up in a working-class Jewish family in Brooklyn, often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (&ldquo;justice, justice, shall you pursue&rdquo;) as her guiding principle."},
   {html:"The Oslo Accords are signed, producing a historic handshake between Yasser Arafat and Yitzhak Rabin on the White House lawn.",tip:"Oslo Accords signed",year:1993,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-463575454_17.jpg",
    credit:"J. David Ake/AFP via Getty Images",
@@ -491,15 +493,37 @@ async function recordGameScore(s,maxPts){
   }catch(e){}
 }
 
-async function fetchAvgScore(maxPts){
+async function fetchScoreStats(userScore,maxPts){
   if(!STATS_ENABLED)return null;
   try{
     const r=await fetch(`${SUPABASE_URL}/rest/v1/game_scores?max_score=eq.${maxPts}&select=score`,
       {headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
     const data=await r.json();
-    if(!Array.isArray(data)||data.length<100)return null;
-    return Math.round(data.reduce((s,r)=>s+r.score,0)/data.length);
+    if(!Array.isArray(data)||data.length<10)return null;
+    const scores=data.map(r=>r.score);
+    const avg=Math.round(scores.reduce((s,v)=>s+v,0)/scores.length);
+    const betterThan=Math.round(scores.filter(s=>s<userScore).length/scores.length*100);
+    return{avg,betterThan};
   }catch(e){return null;}
+}
+
+async function updateLogAvgStats(){
+  if(!STATS_ENABLED)return;
+  const years=[...new Set(logEntries.map(e=>e.year))];
+  if(!years.length)return;
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/event_stats?event_year=in.(${years.join(',')})`,
+      {headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
+    const data=await r.json();
+    if(!Array.isArray(data))return;
+    data.forEach(stat=>{
+      if(!stat||stat.total_plays<5)return;
+      const avg=Math.round(stat.total_offset/stat.total_plays);
+      document.querySelectorAll(`.log-avg-off[data-year="${stat.event_year}"]`).forEach(el=>{
+        el.textContent=` · avg: ${avg}y off`;
+      });
+    });
+  }catch(e){}
 }
 
 function showEventStats(stats){
@@ -595,6 +619,9 @@ function startGame(){
 }
 
 function showHelpModal(){
+  document.getElementById('practice-modal-title').textContent='How To Play';
+  document.getElementById('practice-modal-1897').style.display='none';
+  document.getElementById('ready-btn').textContent='Got it';
   const ov=document.getElementById('practice-modal-overlay');
   ov.style.display='flex';
   ov.classList.remove('animating');
@@ -603,6 +630,9 @@ function showHelpModal(){
 }
 
 function dismissPracticeModal(){
+  document.getElementById('practice-modal-title').textContent='Let\u2019s practice first.';
+  document.getElementById('practice-modal-1897').style.display='';
+  document.getElementById('ready-btn').textContent='Got it \u2014 let me try';
   document.getElementById('practice-modal-overlay').style.display='none';
   // Show bouncing arrow hint — stays until user starts interacting
   const hint=document.getElementById('drag-hint');
@@ -613,9 +643,9 @@ function dismissPracticeModal(){
 
 function yrPct(y){return Math.max(0,Math.min(1,(y-MIN_Y)/RANGE));}
 function pctToYr(p){return Math.round(MIN_Y+Math.max(0,Math.min(1,p))*RANGE);}
-function calcPts(g,a){const d=Math.abs(g-a);return d===0?6:d<=5?5:d<=10?3:d<=25?1:0;}
-function ptClass(p){return p===6?'pts-6':p===5?'pts-5':p===3?'pts-3':p===1?'pts-1':'pts-0';}
-function pinColor(p){return p===6?'#166534':p===5?'#22863a':p===3?'#ca8a04':p===1?'#D4537E':'#888780';}
+function calcPts(g,a){const d=Math.abs(g-a);return d===0?8:d<=5?5:d<=10?3:d<=25?1:0;}
+function ptClass(p){return p>=5?'pts-5':p===3?'pts-3':p===1?'pts-1':'pts-0';}
+function pinColor(p){return p>=8?'#166534':p===5?'#22863a':p===3?'#ca8a04':p===1?'#D4537E':'#888780';}
 
 function buildTicks(){
   const el=document.getElementById('decade-ticks');
@@ -717,7 +747,7 @@ function placePin(year,pts,label,isForward,guessYear){
 
   const dot=document.createElement('div');
   dot.className='pin-dot';
-  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';';
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(pts>=8?'border-color:#b8960c;':'');
   dot.style.transition='none';
 
   // Short connector from bottom of dot downward
@@ -793,7 +823,7 @@ function buildScoreCard(){
     const e=logEntries[i];
     const isPending=e&&i===lastIdx&&!isPracticePhase;
     const color=e&&!isPending?pinColor(e.pts):'var(--border2)';
-    const border=e&&!isPending&&e.pts===6?'border:1.5px solid #b8960c;':'';
+    const border=e&&!isPending&&e.pts>=8?'border:1.5px solid #b8960c;':'';
     const id=isPending?' id="sc-row-pending"':'';
     html+=`<div class="sc-row"${id} style="background:${color};${border}"></div>`;
   }
@@ -827,7 +857,10 @@ function rebuildLog(){
     const imgHtml=evt&&evt.image
       ?`<img class="log-thumb" src="${evt.image}" alt="" style="object-position:${evt.thumbPosition||'center top'}">`
       :`<div class="log-thumb-placeholder"></div>`;
-    row.innerHTML=`${imgHtml}<div class="log-main"><span class="log-year">${e.year}</span><div class="log-text" style="font-size:13px;color:var(--text2);margin-top:2px;">${e.text}</div></div><div class="log-right"><span class="pts-badge ${ptClass(e.pts)}" style="font-size:12px;">${e.pts>0?'+'+e.pts:'0'}pt</span><div class="log-off">${diff>0?diff+'y off':'exact'}</div></div>`;
+    const logBadge=e.pts>=8
+      ?`<span class="pts-badge pts-5" style="font-size:12px;">+5</span><span class="pts-badge pts-bonus" style="font-size:11px;padding:3px 7px;margin-left:2px;">+3</span>`
+      :`<span class="pts-badge ${ptClass(e.pts)}" style="font-size:12px;">${e.pts>0?'+'+e.pts:'0'}pt</span>`;
+    row.innerHTML=`${imgHtml}<div class="log-main"><span class="log-year">${e.year}</span><div class="log-text" style="font-size:13px;color:var(--text2);margin-top:2px;">${e.text}</div></div><div class="log-right">${logBadge}<div class="log-off">${diff>0?diff+'y off':'exact'}<span class="log-avg-off" data-year="${e.year}"></span></div></div>`;
     log.appendChild(row);
   });
   document.getElementById('log-section').style.display='block';
@@ -859,7 +892,7 @@ function handlePracticeGuess(guessY){
   const practicePts=calcPts(guessY,1897);
   practiceAnswerPts=practicePts;
   activePinWrapper=placeForwardPin(1897,guessY,practicePts);
-  if(practicePts===6)launchFirework();
+  if(practicePts>=8)launchFirework();
   showFact(FORWARD_EVENT,true);
   setTimeout(()=>{
     const sc=document.getElementById('score-card');
@@ -867,7 +900,7 @@ function handlePracticeGuess(guessY){
     const row=sc.querySelector('.sc-row');
     if(!row)return;
     row.style.background=pinColor(practicePts);
-    row.style.border=practicePts===6?'1.5px solid #b8960c':'';
+    row.style.border=practicePts>=8?'1.5px solid #b8960c':'';
     row.style.animation='scRowGlow 1.5s ease-in-out infinite';
     setTimeout(()=>{row.style.animation='';},3000);
   },1500);
@@ -890,22 +923,35 @@ function handleGuess(guessY){
   const phrases3to5=['So close \u2014 just '+d+' years off.','Nearly! Off by '+d+' years.','Very close \u2014 '+d+' years off.','Sharp \u2014 only '+d+' years off.'];
   const phrases6to10=['Nice \u2014 within '+d+' years.','Good \u2014 off by just '+d+' years.','Sharp \u2014 '+d+' years off.'];
   const exactMsg=d===0?'You got it!':d===1?'Off by a year!':d===2?'Nice \u2014 two years off.':d>20?'Off by '+d+' years.':d<=5?pick(phrases3to5):d<=10?pick(phrases6to10):'Not bad \u2014 off by '+d+' years.';
-  document.getElementById('feedback').innerHTML=`<div class="feedback-top"><span class="pts-badge pts-pending" id="pts-badge-pending">${pts>0?'+'+pts+' pts':'0 pts'}</span><span class="feedback-msg">${exactMsg}</span></div>`;
+  const badgeHtml=pts>=8
+    ?`<span class="pts-badge pts-pending" id="pts-badge-pending">+5</span><span class="pts-badge pts-pending" id="pts-badge-bonus">+3</span>`
+    :`<span class="pts-badge pts-pending" id="pts-badge-pending">${pts>0?'+'+pts+' pts':'0 pts'}</span>`;
+  document.getElementById('feedback').innerHTML=`<div class="feedback-top">${badgeHtml}<span class="feedback-msg">${exactMsg}</span></div>`;
   hideDragHint();
   document.getElementById('confirm-bar-wrap').style.display='none';
   activePinWrapper=placePin(evt.year,pts,evt.tip,false,guessY);
-  if(pts===6)launchFirework();
+  if(pts>=8)launchFirework();
   logEntries.push({year:evt.year,text:evt.tip,guess:guessY,pts});
   showFact(evt,false);
+  if(roundIdx===gameEvents.length-1){
+    const btn=document.getElementById('next-btn');
+    btn.textContent='See my timeline \u2192';
+    btn.classList.add('btn-primary');
+  }
   setTimeout(()=>{
     const badge=document.getElementById('pts-badge-pending');
-    if(badge){badge.classList.remove('pts-pending');badge.classList.add(ptClass(pts));}
+    if(badge){
+      badge.classList.remove('pts-pending');
+      badge.classList.add(pts>=8?'pts-5':ptClass(pts));
+      if(pts>=8)badge.style.border='1.5px solid #b8960c';
+      if(pts>=8){const bonus=document.getElementById('pts-badge-bonus');if(bonus){bonus.classList.remove('pts-pending');bonus.classList.add('pts-bonus');}}
+    }
   },500);
   setTimeout(()=>{
     const row=document.getElementById('sc-row-pending');
     if(row){
       row.style.background=pinColor(pts);
-      row.style.border=pts===6?'1.5px solid #b8960c':'';
+      row.style.border=pts>=8?'1.5px solid #b8960c':'';
       row.style.animation='scRowGlow 1.5s ease-in-out infinite';
       row.removeAttribute('id');
       setTimeout(()=>{row.style.animation='';},3000);
@@ -968,7 +1014,7 @@ function getNickname(s,maxPts){
   const pct=s/maxPts;
   if(pct>=1)return{nick:"You're literally RBG.",msg:"A perfect score. Ruth Bader Ginsburg would be honored."};
   if(pct>=0.8)return{nick:"Louis Brandeis would be proud.",msg:"You have a formidable command of American Jewish history."};
-  if(pct>=0.6)return{nick:"A real mensch.",msg:"Solid knowledge — you know your history and you show up for it."};
+  if(pct>=0.46)return{nick:"A real mensch.",msg:"Solid knowledge — you know your history and you show up for it."};
   if(pct>=0.4)return{nick:"You're a JCC regular.",msg:"A respectable showing. Keep coming to the meetings."};
   if(pct>=0.2)return{nick:"Still finding your Jewish identity.",msg:"You know the holidays, but the history is still coming."};
   return{nick:"We get it — Yiddish is your first language.",msg:"You may have missed the dates, but you've got the spirit."};
@@ -976,7 +1022,7 @@ function getNickname(s,maxPts){
 
 function buildShareText(s){
   const {nick}=getNickname(s);
-  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts===6?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
+  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
   return `250 Years of American Jewish History\n${dots}\nScore: ${s}/${MAX_PTS} — "${nick}"\nPlay at claude.ai`;
 }
 
@@ -988,8 +1034,8 @@ function copyShare(){
 }
 
 function buildShareMsg(s){
-  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts===6?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
-  return dots+'\nI scored '+s+'/50 on the Forward\'s Timeline Quiz. Can you beat my score?\n'+GAME_URL;
+  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
+  return dots+'\nI scored '+s+'/'+MAX_PTS+' on the Forward\'s Timeline Quiz. Can you beat my score?\n'+GAME_URL;
 }
 
 function shareTwitter(s){
@@ -1007,26 +1053,60 @@ function shareFacebook(){
   window.open('https://www.facebook.com/sharer/sharer.php?u='+url,'_blank');
 }
 
+function restoreGameUI(){
+  document.getElementById('score-badge').style.display='';
+  document.getElementById('help-btn').style.display='';
+  document.querySelector('.game-header > div:last-child').style.display='';
+  const hdr=document.querySelector('.game-header');
+  hdr.style.display='';hdr.style.justifyContent='';
+  document.getElementById('middle-block').style.display='';
+  document.getElementById('timeline-section').style.marginTop='';
+}
+
 function showEnd(maxPts){
   maxPts=maxPts||MAX_PTS;
   document.getElementById('event-area').style.display='none';
   document.getElementById('feedback').style.display='none';
   document.getElementById('fact-body').style.display='none';
   document.getElementById('next-btn-wrap').style.display='none';
+  document.getElementById('middle-block').style.display='none';
+  document.getElementById('answer-info').innerHTML='';
+  document.getElementById('score-badge').style.display='none';
+  document.getElementById('round-badge').style.display='none';
+  document.getElementById('help-btn').style.display='none';
+  document.querySelector('.game-header > div:last-child').style.display='none';
+  const hdr=document.querySelector('.game-header');
+  hdr.style.display='flex';
+  hdr.style.justifyContent='center';
   document.getElementById('timeline-section').style.display='block';
+  document.getElementById('timeline-section').style.marginTop='20px';
   hideIndicator();
   const finalScore=score;
-  const perfectCount=logEntries.filter(e=>e.pts===6).length;
   const {nick,msg}=getNickname(finalScore,maxPts);
 
   const ec=document.createElement('div');
   ec.id='end-card';
 
-  const summary=document.createElement('div');
-  summary.className='end-summary';
-  const perfectPhrase=perfectCount>0?`, with <strong>${perfectCount}</strong> perfect guess${perfectCount===1?'':'es'}`:'';
-  summary.innerHTML=`You scored <strong>${finalScore}</strong> out of <strong>${maxPts}</strong> points${perfectPhrase} on this week\u2019s American Jewish History&nbsp;Quiz.`;
-  ec.appendChild(summary);
+  // Score bars — game order, larger
+  const barsWrap=document.createElement('div');
+  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:0 auto 1.25rem;';
+  logEntries.forEach(e=>{
+    const bar=document.createElement('div');
+    bar.style.cssText=`flex:1;height:28px;border-radius:5px;background:${pinColor(e.pts)};${e.pts>=8?'box-shadow:0 0 0 2px #b8960c;':''}`;
+    barsWrap.appendChild(bar);
+  });
+  for(let i=logEntries.length;i<NUM_ROUNDS;i++){
+    const bar=document.createElement('div');
+    bar.style.cssText='flex:1;height:28px;border-radius:5px;background:var(--border2);';
+    barsWrap.appendChild(bar);
+  }
+  ec.appendChild(barsWrap);
+
+  // Score number
+  const scoreEl=document.createElement('div');
+  scoreEl.style.cssText='margin-bottom:.25rem;';
+  scoreEl.innerHTML=`<div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
+  ec.appendChild(scoreEl);
 
   const nn=document.createElement('div');
   nn.className='end-nick';
@@ -1037,6 +1117,11 @@ function showEnd(maxPts){
   mg.className='end-msg';
   mg.textContent=msg;
   ec.appendChild(mg);
+
+  const statsCompare=document.createElement('div');
+  statsCompare.id='score-compare';
+  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:.35rem 0 .9rem;min-height:1.2em;';
+  ec.appendChild(statsCompare);
 
   const btnRow=document.createElement('div');
   btnRow.style.cssText='display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;';
@@ -1079,6 +1164,12 @@ function showEnd(maxPts){
   ec.appendChild(btnRow);
 
   recordGameScore(finalScore,maxPts);
+  fetchScoreStats(finalScore,maxPts).then(stats=>{
+    if(stats){
+      statsCompare.innerHTML=`You scored better than <strong>${stats.betterThan}%</strong> of players &nbsp;·&nbsp; Average: <strong>${stats.avg}/${maxPts}</strong>`;
+    }
+  });
+  updateLogAvgStats();
 
   const area=document.getElementById('btn-area');
   area.innerHTML='';
@@ -1107,6 +1198,7 @@ function startBonusRound(){
   document.getElementById('fact-box').style.display='none';
   document.getElementById('current-card').classList.remove('answered');
   setCard(gameEvents[0]);
+  restoreGameUI();
   document.getElementById('round-badge').textContent='Bonus 1 / '+bonusEvents.length;
   document.getElementById('score-badge').textContent='Score: '+score;
   hideConfirmBar();
@@ -1121,6 +1213,7 @@ function restart(){
   score=0;
   isBonusRound=false;roundIdx=0;answered=false;logEntries=[];isPracticePhase=false;practiceAnswerPts=null;
   gameEvents=selectEvents();
+  restoreGameUI();
   document.getElementById('score-badge').textContent='Score: 0';
   document.getElementById('round-badge').textContent='1 / '+NUM_ROUNDS;
   document.getElementById('event-area').style.display='';
