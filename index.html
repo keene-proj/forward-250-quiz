@@ -118,8 +118,12 @@
   .scoring-hint{font-size:13px;color:var(--text3);margin-top:10px;text-align:center;letter-spacing:.02em;}
   #log-section{margin-top:1.75rem;display:none;}
   .log-section-title{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;}
-  #history-log{display:flex;flex-direction:column;gap:5px;}
-  .log-row{display:flex;align-items:center;gap:8px;font-size:14px;padding:8px 12px;border-radius:var(--radius-sm);border:.5px solid var(--border);background:var(--surface);}
+  #history-log{display:flex;flex-direction:column;gap:6px;}
+  .log-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius-sm);border:.5px solid var(--border);background:var(--surface);}
+  .log-thumb{width:52px;height:52px;object-fit:cover;border-radius:4px;border:1px solid var(--border2);flex-shrink:0;}
+  .log-thumb-placeholder{width:52px;height:52px;background:var(--surface2);border-radius:4px;flex-shrink:0;}
+  .log-main{flex:1;min-width:0;}
+  .log-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
   .log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
   .log-year{font-weight:600;color:var(--text2);min-width:40px;font-size:13px;}
   .log-text{flex:1;color:var(--text);}
@@ -127,7 +131,9 @@
   #btn-area{text-align:center;margin-top:1.25rem;}
   .main-btn{font-size:14px;font-weight:600;padding:9px 22px;border-radius:24px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s,border-color .12s;}
   .main-btn:hover{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);}
-  #end-card{padding:1.5rem 0;text-align:center;}
+  #end-card{padding:1.5rem 0;text-align:center;margin-top:-25px;}
+  .end-summary{font-family:'Playfair Display',Georgia,serif;font-size:clamp(17px,3vw,22px);color:var(--text);line-height:1.5;margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto;}
+  .end-summary strong{color:var(--accent);}
   .end-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1;}
   .end-max{font-size:18px;color:var(--text3);font-family:'Source Sans 3',sans-serif;}
   .end-nick{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--accent);margin:12px 0 8px;font-style:italic;}
@@ -242,7 +248,7 @@
   </div>
 
   <div id="log-section">
-    <div class="log-section-title">Events so far — chronological order</div>
+    <div class="log-section-title">Your answers — chronological order</div>
     <div id="history-log"></div>
   </div>
 
@@ -429,8 +435,8 @@ const ALL_EVENTS=[
    credit:"Chloe Coleman/The Washington Post via Getty Images",
    fact:"The program, co-founded by philanthropists Charles Bronfman and Michael Steinhardt, has since sent over 800,000 young Diaspora Jews on free 10-day trips to Israel."},
   {html:"Al Gore selects Sen. Joe Lieberman as his running mate, making Lieberman the first Jewish candidate on a major-party presidential ticket.",tip:"Lieberman nominated for Vice President",year:2000,
-   image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1736864-scaled.jpg",
-   credit:"Joebeanie.com Web site/Getty Images",
+   image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1279072809.jpg",
+   credit:"Getty Images/Bob Riha, Jr",
    fact:"Though he did not typically wear a kippah, Lieberman spoke openly and frequently about his Orthodox Jewish practice on the campaign trail."},
   {html:"The Conservative movement’s law committee votes to allow rabbis to officiate same-sex marriages.",tip:"Conservative movement allows same-sex ceremonies",year:2006,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1247555608-scaled.jpg",
@@ -448,6 +454,13 @@ const ALL_EVENTS=[
 const FORWARD_EVENT=ALL_EVENTS.find(e=>e.isForward);
 
 const WASHINGTON_EVENT=ALL_EVENTS.find(e=>e.year===1790);
+
+// Preload all event images as soon as the script runs
+(function preloadImages(){
+  ALL_EVENTS.forEach(e=>{
+    if(e.image){const img=new Image();img.src=e.image;}
+  });
+})();
 
 async function fetchEventStats(year){
   if(!STATS_ENABLED)return null;
@@ -502,16 +515,16 @@ function showEventStats(stats){
 // Quiz Set Week 1 — fixed 10-question set
 // Categories: Israeli politics, religion, 21st century, culture, women, religion, culture, nonprofit, women, food
 const QUIZ_SET_WEEK1_TIPS=[
-  'Camp David Accords signed',
-  "Washington's religious liberty letter",
-  'Lieberman nominated for Vice President',
+  'The Trefa Banquet',
+  'Washington\u2019s religious liberty letter',
+  'Triangle Shirtwaist Factory fire',
   'Fiddler on the Roof opens on Broadway',
   'Ginsburg confirmed to Supreme Court',
   'Schneerson becomes Lubavitcher Rebbe',
   'Seinfeld pilot airs on NBC',
   'First Hillel chapter founded',
   'First female rabbi ordained in North America',
-  'Oreos go kosher'
+  'MS St. Louis turned away'
 ];
 
 function selectEvents(){
@@ -807,11 +820,14 @@ function rebuildLog(){
   const log=document.getElementById('history-log');
   log.innerHTML='';
   sorted.forEach(e=>{
-    const color=pinColor(e.pts);
+    const evt=ALL_EVENTS.find(ev=>ev.tip===e.text);
     const diff=Math.abs(e.guess-e.year);
     const row=document.createElement('div');
     row.className='log-row';
-    row.innerHTML=`<div class="log-dot" style="background:${color};"></div><span class="log-year">${e.year}</span><div class="log-text">${e.text}</div><div class="log-off">${diff>0?'off '+diff+'y':'exact'}</div><span class="pts-badge ${ptClass(e.pts)}" style="margin-left:4px;">${e.pts}pt</span>`;
+    const imgHtml=evt&&evt.image
+      ?`<img class="log-thumb" src="${evt.image}" alt="" style="object-position:${evt.thumbPosition||'center top'}">`
+      :`<div class="log-thumb-placeholder"></div>`;
+    row.innerHTML=`${imgHtml}<div class="log-main"><span class="log-year">${e.year}</span><div class="log-text" style="font-size:13px;color:var(--text2);margin-top:2px;">${e.text}</div></div><div class="log-right"><span class="pts-badge ${ptClass(e.pts)}" style="font-size:12px;">${e.pts>0?'+'+e.pts:'0'}pt</span><div class="log-off">${diff>0?diff+'y off':'exact'}</div></div>`;
     log.appendChild(row);
   });
   document.getElementById('log-section').style.display='block';
@@ -995,23 +1011,22 @@ function showEnd(maxPts){
   maxPts=maxPts||MAX_PTS;
   document.getElementById('event-area').style.display='none';
   document.getElementById('feedback').style.display='none';
-  document.getElementById('fact-box').style.display='none';
+  document.getElementById('fact-body').style.display='none';
   document.getElementById('next-btn-wrap').style.display='none';
-  const {nick,msg}=getNickname(score,maxPts);
+  document.getElementById('timeline-section').style.display='block';
+  hideIndicator();
   const finalScore=score;
+  const perfectCount=logEntries.filter(e=>e.pts===6).length;
+  const {nick,msg}=getNickname(finalScore,maxPts);
 
   const ec=document.createElement('div');
   ec.id='end-card';
 
-  const lbl=document.createElement('div');
-  lbl.style.cssText='font-size:13px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;';
-  lbl.textContent='Your score';
-  ec.appendChild(lbl);
-
-  const sc=document.createElement('div');
-  sc.className='end-score';
-  sc.innerHTML=finalScore+'<span class="end-max"> / '+maxPts+'</span>';
-  ec.appendChild(sc);
+  const summary=document.createElement('div');
+  summary.className='end-summary';
+  const perfectPhrase=perfectCount>0?`, with <strong>${perfectCount}</strong> perfect guess${perfectCount===1?'':'es'}`:'';
+  summary.innerHTML=`You scored <strong>${finalScore}</strong> out of <strong>${maxPts}</strong> points${perfectPhrase} on this week\u2019s American Jewish History&nbsp;Quiz.`;
+  ec.appendChild(summary);
 
   const nn=document.createElement('div');
   nn.className='end-nick';
@@ -1022,35 +1037,6 @@ function showEnd(maxPts){
   mg.className='end-msg';
   mg.textContent=msg;
   ec.appendChild(mg);
-
-  const pctDiv=document.createElement('div');
-  pctDiv.style.cssText='font-size:14px;color:var(--text2);text-align:center;margin-top:.5rem;margin-bottom:1rem;min-height:1.4em;';
-  ec.appendChild(pctDiv);
-  recordGameScore(finalScore,maxPts).then(()=>fetchAvgScore(maxPts).then(avg=>{
-    if(avg!==null)pctDiv.textContent=`Average score among all players: ${avg} / ${maxPts}`;
-  }));
-
-  const scoreChart=document.createElement('div');
-  scoreChart.style.cssText='display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:1.5rem;';
-  const chartItems=[
-    {cls:'pts-6',label:'Exact = 6 pts'},
-    {cls:'pts-5',label:'Within 5 years = 5 pts'},
-    {cls:'pts-3',label:'Within 10 years = 3 pts'},
-    {cls:'pts-1',label:'Within 25 years = 1 pt'},
-    {cls:'pts-0',label:'Beyond 25 years = 0 pts'},
-  ];
-  chartItems.forEach(({cls,label})=>{
-    const pill=document.createElement('span');
-    pill.className='pts-badge '+cls;
-    pill.textContent=label;
-    scoreChart.appendChild(pill);
-  });
-  ec.appendChild(scoreChart);
-
-  const shareTitle=document.createElement('div');
-  shareTitle.style.cssText='font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;text-align:center;';
-  shareTitle.textContent='Share your score';
-  ec.appendChild(shareTitle);
 
   const btnRow=document.createElement('div');
   btnRow.style.cssText='display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;';
@@ -1069,34 +1055,34 @@ function showEnd(maxPts){
   const bskySvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#0085ff"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364.136-.02.275-.039.415-.056-.138.022-.276.04-.415.056-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078a8.741 8.741 0 0 1-.415-.056c.14.017.279.036.415.056 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.204-.659-.3-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"/></svg>';
   const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
 
+  const shareBtn=document.createElement('button');
+  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;cursor:pointer;margin-bottom:1rem;';
+  shareBtn.textContent='Share your score';
+  shareBtn.addEventListener('click',()=>{
+    const text=buildShareMsg(finalScore);
+    if(navigator.share){
+      navigator.share({text}).catch(()=>{});
+    } else {
+      navigator.clipboard.writeText(text).then(()=>{
+        shareBtn.textContent='Copied!';
+        setTimeout(()=>{shareBtn.textContent='Share your score';},2000);
+      });
+    }
+  });
+  shareBtn.addEventListener('mouseover',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='#3a30a0';});
+  shareBtn.addEventListener('mouseout',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='var(--accent)';});
+  ec.appendChild(shareBtn);
+
   btnRow.appendChild(makeShareBtn('X / Twitter',twitterSvg,()=>shareTwitter(finalScore)));
   btnRow.appendChild(makeShareBtn('Bluesky',bskySvg,()=>shareBluesky(finalScore)));
   btnRow.appendChild(makeShareBtn('Facebook',fbSvg,()=>shareFacebook()));
   ec.appendChild(btnRow);
 
-  const actionRow=document.createElement('div');
-  actionRow.style.cssText='display:flex;justify-content:center;gap:12px;flex-wrap:wrap;';
-
-  if(!isBonusRound){
-    const more=document.createElement('button');
-    more.className='main-btn';
-    more.textContent='Keep Playing';
-    more.addEventListener('click',startBonusRound);
-    actionRow.appendChild(more);
-  }
-
-  const playAgain=document.createElement('button');
-  playAgain.className='main-btn';
-  playAgain.textContent='Play Again';
-  playAgain.addEventListener('click',restart);
-  actionRow.appendChild(playAgain);
-
-  ec.appendChild(actionRow);
+  recordGameScore(finalScore,maxPts);
 
   const area=document.getElementById('btn-area');
   area.innerHTML='';
   area.appendChild(ec);
-  // Move end card to appear above the chronology log
   const logSection=document.getElementById('log-section');
   logSection.parentNode.insertBefore(ec,logSection);
 }
