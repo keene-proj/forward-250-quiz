@@ -712,8 +712,10 @@ function placeForwardPin(year,guessYear,pts){
   outer.appendChild(yearLabel);
   layer.appendChild(outer);
 
-  dot.addEventListener('mouseenter',()=>showTip(year,'The Forward founded',3));
-  dot.addEventListener('mouseleave',hideTip);
+  if(!isMobile()){
+    dot.addEventListener('mouseenter',()=>showTip(year,'The Forward founded',3));
+    dot.addEventListener('mouseleave',hideTip);
+  }
 
   requestAnimationFrame(()=>{ yearLabel.style.opacity='1'; fwdConnector.style.opacity='1'; });
   setTimeout(()=>{
@@ -776,8 +778,10 @@ function placePin(year,pts,label,isForward,guessYear){
   wrapper.appendChild(dot);
   layer.appendChild(wrapper);
 
-  dot.addEventListener('mouseenter',()=>showTip(year,label,pts));
-  dot.addEventListener('mouseleave',hideTip);
+  if(!isMobile()){
+    dot.addEventListener('mouseenter',()=>showTip(year,label,pts));
+    dot.addEventListener('mouseleave',hideTip);
+  }
 
   // Reveal label + connector immediately (shows guessed year)
   requestAnimationFrame(()=>{
