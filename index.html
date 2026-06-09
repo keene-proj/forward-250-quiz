@@ -107,15 +107,14 @@
     #game{padding:1.25rem 1rem 3rem;}
     .section-label{font-size:12px;}
     #drag-hint span{white-space:normal;text-align:center;font-size:13px;max-width:260px;}
-    .scoring-hint{font-size:11px;display:flex;flex-wrap:wrap;justify-content:center;gap:2px 6px;}
-    .sh-dot{display:none;}
+    .scoring-hint{display:none!important;}
   }
   @media(max-width:600px){
     #middle-block{height:auto;min-height:68px;}
     #fact-box{max-width:92%!important;flex-wrap:nowrap;}
   }
   @media(hover:none) and (max-width:768px){
-    #year-tooltip{bottom:auto;top:calc(100% + 8px);}
+    #year-tooltip{position:fixed;transform:translateX(-50%);bottom:auto;}
   }
   @media(max-height:500px) and (orientation:landscape) and (max-width:900px){
     #game{padding:0.5rem 1rem 2rem;}
@@ -202,7 +201,7 @@
   #practice-modal p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:1.5rem;}  #ready-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:28px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .15s,transform .1s;}
   #ready-btn:hover{background:#3a30a0;transform:translateY(-1px);}
   #year-adj-wrap{display:none;align-items:center;justify-content:center;gap:16px;margin-top:8px;}
-  .year-adj-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:16px;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;}
+  .year-adj-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:16px;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;touch-action:manipulation;}
   .year-adj-btn:active{background:var(--accent-light);}
 </style>
 </head>
@@ -260,15 +259,15 @@
       <div id="pins-layer"></div>
       <div id="tooltip-popup"></div>
     </div>
-    <div class="scoring-hint"><span style="color:#22863a;font-weight:600;">Within 5 years = 5 pts</span><span class="sh-dot"> · </span><span style="color:#ca8a04;font-weight:600;">Within 10 years = 3 pts</span><span class="sh-dot"> · </span><span style="color:#be185d;font-weight:600;">Within 25 years = 1 pt</span><span class="sh-dot"> · </span><span style="color:#166534;font-weight:600;">Perfect = +3 bonus</span></div>
+    <div class="scoring-hint"><span style="color:#22863a;font-weight:600;">Within 5 years = +5</span><span class="sh-dot"> · </span><span style="color:#ca8a04;font-weight:600;">Within 10 years = +3</span><span class="sh-dot"> · </span><span style="color:#be185d;font-weight:600;">Within 25 years = +1</span><span class="sh-dot"> · </span><span style="color:#22863a;font-weight:600;">Exact year = +3 bonus</span></div>
   </div>
 
   <div id="confirm-bar-wrap">
-    <button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button>
     <div id="year-adj-wrap">
       <button class="year-adj-btn" onclick="adjustYear(-1)">&#8722;1</button>
       <button class="year-adj-btn" onclick="adjustYear(+1)">+1</button>
     </div>
+    <button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button>
   </div>
 
   <div id="fact-box">
@@ -1348,12 +1347,22 @@ let pendingYear=null;
 let cardSelected=false;
 let touchDragging=false,touchDragStartX=0,touchDragStartY=0;
 
-function updateIndicator(cx){
+function updateIndicator(cx,cy){
   const rect=track.getBoundingClientRect();
   const p=Math.max(0,Math.min(1,(cx-rect.left)/rect.width));
   indicator.style.display='block';
   indicator.style.left=(p*100)+'%';
   tooltip.textContent=pctToYr(p);
+  if(isMobile()&&cy!==undefined){
+    const tipX=Math.max(40,Math.min(window.innerWidth-40,cx));
+    tooltip.style.left=tipX+'px';
+    // finger at/below track centre → tooltip above; otherwise below
+    if(cy>=rect.top+rect.height/2){
+      tooltip.style.top=(rect.top-36)+'px';
+    } else {
+      tooltip.style.top=(rect.bottom+8)+'px';
+    }
+  }
 }
 function hideIndicator(){indicator.style.display='none';}
 function isOverTrack(cx,cy){const r=track.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top-40&&cy<=r.bottom+40;}
@@ -1366,7 +1375,10 @@ function showConfirmBar(year){
   confirmBar.style.pointerEvents='auto';
   indicator.classList.add('draggable');
   const hint=document.getElementById('drag-hint');
-  if(hint){hint.classList.remove('arrow');hint.innerHTML='<span>Drag the slider to fine-tune your guess, then&nbsp;confirm&nbsp;below</span><span class="hint-h-arrows">&#8592; &#8594;</span>';hint.classList.add('visible');}
+  if(hint){
+    if(isMobile()){hint.classList.remove('visible');}
+    else{hint.classList.remove('arrow');hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span><span class="hint-h-arrows">&#8592; &#8594;</span>';hint.classList.add('visible');}
+  }
   const adj=document.getElementById('year-adj-wrap');
   if(adj&&isMobile())adj.style.display='flex';
 }
@@ -1549,7 +1561,7 @@ card.addEventListener('touchmove',e=>{
   e.preventDefault();
   ghost.style.left=t.clientX+'px';
   ghost.style.top=t.clientY+'px';
-  isOverTrack(t.clientX,t.clientY)?updateIndicator(t.clientX):hideIndicator();
+  isOverTrack(t.clientX,t.clientY)?updateIndicator(t.clientX,t.clientY):hideIndicator();
 },{passive:false});
 
 card.addEventListener('touchend',e=>{
@@ -1560,7 +1572,7 @@ card.addEventListener('touchend',e=>{
     ghost.style.display='none';ghost.classList.remove('image-ghost');document.body.classList.remove('image-dragging');
     const t=e.changedTouches[0];
     if(isOverTrack(t.clientX,t.clientY)){
-      updateIndicator(t.clientX);
+      updateIndicator(t.clientX,t.clientY);
       showConfirmBar(getYear(t.clientX));
     } else {
       hideIndicator();
@@ -1580,25 +1592,25 @@ card.addEventListener('touchcancel',()=>{
 track.addEventListener('touchstart',e=>{
   if(!isMobile()||(!cardSelected&&!pendingYear)||answered)return;
   e.preventDefault();
-  const cx=e.touches[0].clientX;
-  updateIndicator(cx);
-  showConfirmBar(getYear(cx));
+  const t=e.touches[0];
+  updateIndicator(t.clientX,t.clientY);
+  showConfirmBar(getYear(t.clientX));
 },{passive:false});
 
 track.addEventListener('touchmove',e=>{
   if(!isMobile()||(!cardSelected&&!pendingYear)||answered)return;
   e.preventDefault();
-  const cx=e.touches[0].clientX;
-  updateIndicator(cx);
-  showConfirmBar(getYear(cx));
+  const t=e.touches[0];
+  updateIndicator(t.clientX,t.clientY);
+  showConfirmBar(getYear(t.clientX));
 },{passive:false});
 
 track.addEventListener('touchend',e=>{
   if(!isMobile()||(!cardSelected&&!pendingYear)||answered)return;
   e.preventDefault();
-  const cx=e.changedTouches[0].clientX;
-  updateIndicator(cx);
-  showConfirmBar(getYear(cx));
+  const t=e.changedTouches[0];
+  updateIndicator(t.clientX,t.clientY);
+  showConfirmBar(getYear(t.clientX));
 },{passive:false});
 
 </script>
