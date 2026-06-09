@@ -683,6 +683,7 @@ function showCloudHint(){
   void el.offsetWidth;
   el.style.animation='';
   el.style.display='block';
+  setTimeout(hideCloudHint,6000);
 }
 function hideCloudHint(){
   const el=document.getElementById('cloud-hint');
