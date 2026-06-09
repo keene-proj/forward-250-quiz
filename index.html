@@ -13,7 +13,7 @@
     --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);
     --text:#1a1714;--text2:#5a5550;--text3:#9a9490;
     --accent:#4a3fa0;--accent-light:#eeedfe;--accent-mid:#7F77DD;
-    --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#085041;
+    --green:#34a85a;--green-light:#E1F5EE;--green-dark:#085041;
     --amber:#BA7517;--amber-light:#FAEEDA;--amber-dark:#633806;
     --red:#C0392B;--red-light:#FCEBEB;--red-dark:#791F1F;
     --gray:#888780;--radius:10px;--radius-sm:6px;
@@ -73,8 +73,8 @@
   .feedback-sub strong{color:var(--text2);}
   .pts-badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border-radius:20px;margin-right:6px;font-family:'Source Sans 3',sans-serif;}
   .pts-6{background:#166534;color:#fff;}
-  .pts-bonus{background:#22863a;color:#fff;border:1.5px solid #b8960c;}
-  .pts-5{background:#22863a;color:#fff;}
+  .pts-bonus{background:#34a85a;color:#fff;border:1.5px solid #b8960c;}
+  .pts-5{background:#34a85a;color:#fff;}
   .pts-3{background:#ca8a04;color:#fff;}
   .pts-1{background:#be185d;color:#fff;}
   .pts-0{background:var(--surface2);color:var(--text3);}
@@ -267,7 +267,7 @@
       <div id="pins-layer"></div>
       <div id="tooltip-popup"></div>
     </div>
-    <div class="scoring-hint"><span style="color:#22863a;font-weight:600;">Within 5 years = +5</span><span class="sh-dot"> · </span><span style="color:#ca8a04;font-weight:600;">Within 10 years = +3</span><span class="sh-dot"> · </span><span style="color:#be185d;font-weight:600;">Within 25 years = +1</span><span class="sh-dot"> · </span><span style="color:#22863a;font-weight:600;">Exact year = +3 bonus</span></div>
+    <div class="scoring-hint"><span style="color:#34a85a;font-weight:600;">Within 5 years = +5</span><span class="sh-dot"> · </span><span style="color:#ca8a04;font-weight:600;">Within 10 years = +3</span><span class="sh-dot"> · </span><span style="color:#be185d;font-weight:600;">Within 25 years = +1</span><span class="sh-dot"> · </span><span style="color:#34a85a;font-weight:600;">Exact year = +3 bonus</span></div>
   </div>
 
   <div id="confirm-bar-wrap"><button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button></div>
@@ -334,7 +334,7 @@ const ALL_EVENTS=[
    fact:"<em>When Harry Met Sally</em>’s most famous scene — &ldquo;I’ll have what she’s having&rdquo; — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase &ldquo;Send a salami to your boy in the Army&rdquo; during World War II."},
   {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa Banquet.&rdquo;",tip:"Trefa Banquet",year:1883,
    image:"https://forward.com/wp-content/uploads/2026/06/highland-house1.webp",
-   fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but traditionalists saw it as proof Reform had abandoned Jewish law entirely. The scandal accelerated the founding of the Jewish Theological Seminary."},
+   fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but traditionalists saw it as proof it had abandoned Jewish law entirely. The controversy accelerated the founding of the Jewish Theological Seminary."},
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-134641408-scaled.jpg",
    credit:"MCNY/Gottscho-Schleisner/Getty Images",thumbPosition:"60% center",
@@ -734,7 +734,7 @@ function yrPct(y){return Math.max(0,Math.min(1,(y-MIN_Y)/RANGE));}
 function pctToYr(p){return Math.round(MIN_Y+Math.max(0,Math.min(1,p))*RANGE);}
 function calcPts(g,a){const d=Math.abs(g-a);return d===0?8:d<=5?5:d<=10?3:d<=25?1:0;}
 function ptClass(p){return p>=5?'pts-5':p===3?'pts-3':p===1?'pts-1':'pts-0';}
-function pinColor(p){return p>=8?'#22863a':p===5?'#22863a':p===3?'#ca8a04':p===1?'#D4537E':'#888780';}
+function pinColor(p){return p>=8?'#34a85a':p===5?'#34a85a':p===3?'#ca8a04':p===1?'#D4537E':'#888780';}
 // Slightly lighter green for exact, used on year labels and "Your guess" text
 function labelColor(p){return p>=8?'#34a85a':pinColor(p);}
 
@@ -774,7 +774,8 @@ function placeForwardPin(year,guessYear,pts){
 
   const dot=document.createElement('div');
   dot.className='pin-dot';
-  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';border-color:#fff;';
+  const fwdPts=pts!=null?pts:calcPts(guessYear,year);
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(fwdPts>=8?'border-color:#b8960c;':'border-color:#fff;');
   dot.style.transition='none';
 
   // Short connector from bottom of dot downward
