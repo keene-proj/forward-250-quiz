@@ -851,14 +851,20 @@ function placePin(year,pts,label,isForward,guessYear){
   return wrapper;
 }
 
+function splitTipLabel(label){
+  const words=label.split(' ');
+  if(words.length<=3)return label;
+  const mid=Math.ceil(words.length/2);
+  return words.slice(0,mid).join(' ')+'<br>'+words.slice(mid).join(' ');
+}
 function showTip(year,label,pts){
   const popup=document.getElementById('tooltip-popup');
   const track=document.getElementById('timeline-track');
-  popup.innerHTML=`<span style="font-weight:600;color:${pinColor(pts)};">${year}</span><br>${label}`;
+  popup.innerHTML=`<span style="font-weight:600;color:${pinColor(pts)};">${year}</span><br>${splitTipLabel(label)}`;
   popup.style.display='block';
   const x=yrPct(year)*track.offsetWidth;
   popup.style.left=Math.min(Math.max(x-80,4),track.offsetWidth-170)+'px';
-  popup.style.top='-76px';
+  popup.style.top='-88px';
 }
 function hideTip(){document.getElementById('tooltip-popup').style.display='none';}
 
