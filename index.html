@@ -205,7 +205,7 @@
   .year-adj-btn:active{background:var(--accent-light);}
   @keyframes slideOffLeft{from{transform:translateX(0);opacity:1;}to{transform:translateX(-110vw);opacity:0;}}
   @keyframes cloudPop{from{opacity:0;transform:translate(-50%,-50%) scale(0.9);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
-  #cloud-hint{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:0.9rem 1.4rem;font-size:15px;color:var(--text);line-height:1.55;text-align:center;box-shadow:0 6px 28px rgba(0,0,0,0.11),0 1px 4px rgba(0,0,0,0.07);border:1px solid rgba(210,206,248,0.7);max-width:300px;z-index:45;pointer-events:none;animation:cloudPop 0.3s cubic-bezier(0.34,1.2,0.64,1) both;}
+  #cloud-hint{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:0.9rem 1.4rem;font-size:15px;color:var(--text);line-height:1.55;text-align:center;box-shadow:0 6px 28px rgba(0,0,0,0.11),0 1px 4px rgba(0,0,0,0.07);border:1px solid rgba(210,206,248,0.7);max-width:300px;z-index:110;pointer-events:none;animation:cloudPop 0.3s cubic-bezier(0.34,1.2,0.64,1) both;}
 </style>
 </head>
 <body>
@@ -661,7 +661,7 @@ function setPracticeInstructions(){
   const mobile=isMobile();
   document.getElementById('practice-modal-instructions').innerHTML=
     '① Read the event card.<br>'
-    +(mobile?'② Drag the card to the timeline, or tap to select it then tap the timeline to place it.<br>':'② Drag the event card to the timeline.<br>')
+    +(mobile?'② Drag the picture card to the timeline, or tap to select it then tap the timeline to place it.<br>':'② Drag the picture card to the timeline.<br>')
     +'③ Fine-tune with the slider, then confirm below.';
 }
 
@@ -690,7 +690,7 @@ function showCloudHint(){
 function fadeCloudHint(fast){
   const el=document.getElementById('cloud-hint');
   if(!el||el.style.display==='none')return;
-  const ms=fast?180:600;
+  const ms=fast?180:1000;
   el.style.transition=`opacity ${ms}ms`;
   el.style.opacity='0';
   setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},ms);
@@ -710,7 +710,7 @@ function dismissPracticeModal(){
   ov.classList.remove('animating');
 
   if(isPracticePhase){
-    // Slide modal off to the left, fade overlay, then show cloud hint
+    showCloudHint(); // appear immediately as modal slides away
     ov.style.transition='background 0.35s';
     ov.style.background='rgba(0,0,0,0)';
     modal.style.transition='transform 0.4s cubic-bezier(0.4,0,1,1),opacity 0.3s';
@@ -720,7 +720,6 @@ function dismissPracticeModal(){
       ov.style.display='none';
       ov.style.transition='';ov.style.background='';
       modal.style.transition='';modal.style.transform='';modal.style.opacity='';
-      showCloudHint();
       const hint=document.getElementById('drag-hint');
       hint.classList.remove('visible');
       void hint.offsetWidth;
@@ -978,7 +977,7 @@ function handlePracticeGuess(guessY){
   document.getElementById('current-card').classList.add('answered');
   document.getElementById('section-label').style.visibility='hidden';
   const _pc=pinColor(calcPts(guessY,1897));
-  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>1897</strong><br>Your guess: <strong style="color:${_pc};">${guessY}</strong>`:`Correct year: <strong>1897</strong> &nbsp;·&nbsp; Your guess: <strong style="color:${_pc};">${guessY}</strong>`;
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>1897</strong><br><span style="color:${_pc};">Your guess: <strong>${guessY}</strong></span>`:`Correct year: <strong>1897</strong> &nbsp;·&nbsp; <span style="color:${_pc};">Your guess: <strong>${guessY}</strong></span>`;
   collapsePracticeIntro();
   // Hide the full 1897 marker immediately when card is dropped
   document.getElementById('year-1897-marker').style.display='none';
@@ -1017,7 +1016,7 @@ function handleGuess(guessY){
   document.getElementById('section-label').style.visibility='hidden';
   const pts=calcPts(guessY,evt.year);
   const _gc=pinColor(pts);
-  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>${evt.year}</strong><br>Your guess: <strong style="color:${_gc};">${guessY}</strong>`:`Correct year: <strong>${evt.year}</strong> &nbsp;·&nbsp; Your guess: <strong style="color:${_gc};">${guessY}</strong>`;
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>${evt.year}</strong><br><span style="color:${_gc};">Your guess: <strong>${guessY}</strong></span>`:`Correct year: <strong>${evt.year}</strong> &nbsp;·&nbsp; <span style="color:${_gc};">Your guess: <strong>${guessY}</strong></span>`;
   score+=pts;
   document.getElementById('score-badge').textContent='Score: '+score;
   const d=Math.abs(guessY-evt.year);
