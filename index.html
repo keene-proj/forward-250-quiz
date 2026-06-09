@@ -54,7 +54,7 @@
   .section-label{font-size:15px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;text-align:center;}
   .section-label.practice-glow{color:var(--accent);}
   #middle-block{height:68px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:14px;width:100%;padding-top:14px;position:relative;}
-  #answer-info{font-size:17px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;text-align:center;}
+  #answer-info{font-size:17px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;text-align:center;}
   @keyframes labelGlow{0%,100%{text-shadow:0 0 6px rgba(127,119,221,0.4);}50%{text-shadow:0 0 16px rgba(127,119,221,0.75);}}
   #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:0;}
   .event-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:1.75rem 2.5rem;user-select:none;-webkit-user-select:none;touch-action:none;font-size:20px;color:var(--text);line-height:1.2;cursor:grab;font-family:'Playfair Display',Georgia,serif;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .15s,border-color .15s;display:inline-block;max-width:620px;text-align:center;}
@@ -687,12 +687,13 @@ function showCloudHint(){
   el.style.display='block';
   setTimeout(fadeCloudHint,4000);
 }
-function fadeCloudHint(){
+function fadeCloudHint(fast){
   const el=document.getElementById('cloud-hint');
   if(!el||el.style.display==='none')return;
-  el.style.transition='opacity 0.6s';
+  const ms=fast?180:600;
+  el.style.transition=`opacity ${ms}ms`;
   el.style.opacity='0';
-  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},600);
+  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},ms);
 }
 function hideCloudHint(){
   const el=document.getElementById('cloud-hint');
@@ -976,7 +977,7 @@ function handlePracticeGuess(guessY){
   document.getElementById('confirm-bar-wrap').style.display='none';
   document.getElementById('current-card').classList.add('answered');
   document.getElementById('section-label').style.visibility='hidden';
-  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong style="color:var(--text);">1897</strong><br>Your guess: <strong style="color:var(--text);">${guessY}</strong>`:`Correct year: <strong style="color:var(--text);">1897</strong> &nbsp;·&nbsp; Your guess: <strong style="color:var(--text);">${guessY}</strong>`;
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>1897</strong><br>Your guess: <strong>${guessY}</strong>`:`Correct year: <strong>1897</strong> &nbsp;·&nbsp; Your guess: <strong>${guessY}</strong>`;
   collapsePracticeIntro();
   // Hide the full 1897 marker immediately when card is dropped
   document.getElementById('year-1897-marker').style.display='none';
@@ -1013,7 +1014,7 @@ function handleGuess(guessY){
   document.getElementById('current-card').classList.add('answered');
   const evt=gameEvents[roundIdx];
   document.getElementById('section-label').style.visibility='hidden';
-  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong style="color:var(--text);">${evt.year}</strong><br>Your guess: <strong style="color:var(--text);">${guessY}</strong>`:`Correct year: <strong style="color:var(--text);">${evt.year}</strong> &nbsp;·&nbsp; Your guess: <strong style="color:var(--text);">${guessY}</strong>`;
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>${evt.year}</strong><br>Your guess: <strong>${guessY}</strong>`:`Correct year: <strong>${evt.year}</strong> &nbsp;·&nbsp; Your guess: <strong>${guessY}</strong>`;
   const pts=calcPts(guessY,evt.year);
   score+=pts;
   document.getElementById('score-badge').textContent='Score: '+score;
@@ -1104,6 +1105,8 @@ function advanceRound(){
   if(roundIdx>=gameEvents.length){showEnd(isBonusRound?bonusMaxPts:MAX_PTS);return;}
   document.getElementById('section-label').style.visibility='';
   document.getElementById('answer-info').innerHTML='';
+  const adjWrap=document.getElementById('year-adj-wrap');
+  if(adjWrap){adjWrap.style.display='flex';setAdjButtons(false);}
   setCard(gameEvents[roundIdx]);
   document.getElementById('round-badge').textContent=isBonusRound?'Bonus '+(roundIdx+1)+' / '+gameEvents.length:(roundIdx+1)+' / '+NUM_ROUNDS;
   showGameHint();
@@ -1472,6 +1475,8 @@ function confirmPlacement(){
   hideCloudHint();
   const yearToSubmit=pendingYear;
   hideConfirmBar();
+  const adj=document.getElementById('year-adj-wrap');
+  if(adj)adj.style.display='none';
   hideIndicator();
   cardSelected=false;
   card.classList.remove('card-selected');
@@ -1601,7 +1606,7 @@ function mobileDeselectCard(){
 
 card.addEventListener('mousemove',e=>{
   const ch=document.getElementById('cloud-hint');
-  if(ch&&ch.style.display!=='none'){const cr=ch.getBoundingClientRect();if(e.clientY>cr.top)fadeCloudHint();}
+  if(ch&&ch.style.display!=='none'){const cr=ch.getBoundingClientRect();if(e.clientY>cr.top)fadeCloudHint(true);}
 });
 card.addEventListener('touchstart',e=>{
   if(!isMobile()||answered)return;
@@ -1636,7 +1641,7 @@ card.addEventListener('touchmove',e=>{
   ghost.style.top=t.clientY+'px';
   // Fade cloud hint when card is dragged past it
   const ch=document.getElementById('cloud-hint');
-  if(ch&&ch.style.display!=='none'){const cr=ch.getBoundingClientRect();if(t.clientY>cr.top)fadeCloudHint();}
+  if(ch&&ch.style.display!=='none'){const cr=ch.getBoundingClientRect();if(t.clientY>cr.top)fadeCloudHint(true);}
   isOverTrack(t.clientX,t.clientY)?updateIndicator(t.clientX,t.clientY):hideIndicator();
 },{passive:false});
 
