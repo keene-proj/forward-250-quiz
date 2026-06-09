@@ -332,7 +332,7 @@ const ALL_EVENTS=[
   {html:"Katz’s Delicatessen opens on the Lower East Side of Manhattan.",tip:"Katz’s Delicatessen opens",year:1888,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-2.12.03-PM-scaled.jpg",
    fact:"<em>When Harry Met Sally</em>’s most famous scene — &ldquo;I’ll have what she’s having&rdquo; — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase &ldquo;Send a salami to your boy in the Army&rdquo; during World War II."},
-  {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa Banquet.&rdquo;",tip:"The Trefa Banquet",year:1883,
+  {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa Banquet.&rdquo;",tip:"Trefa Banquet",year:1883,
    image:"https://forward.com/wp-content/uploads/2026/06/highland-house1.webp",
    fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but traditionalists saw it as proof Reform had abandoned Jewish law entirely. The scandal accelerated the founding of the Jewish Theological Seminary."},
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
@@ -576,7 +576,7 @@ function showEventStats(stats){
 // Quiz Set Week 1 — fixed 10-question set
 // Categories: Israeli politics, religion, 21st century, culture, women, religion, culture, nonprofit, women, food
 const QUIZ_SET_WEEK1_TIPS=[
-  'The Trefa Banquet',
+  'Trefa Banquet',
   'Washington\u2019s religious liberty letter',
   'Triangle Shirtwaist Factory fire',
   'Fiddler on the Roof opens on Broadway',
@@ -734,7 +734,9 @@ function yrPct(y){return Math.max(0,Math.min(1,(y-MIN_Y)/RANGE));}
 function pctToYr(p){return Math.round(MIN_Y+Math.max(0,Math.min(1,p))*RANGE);}
 function calcPts(g,a){const d=Math.abs(g-a);return d===0?8:d<=5?5:d<=10?3:d<=25?1:0;}
 function ptClass(p){return p>=5?'pts-5':p===3?'pts-3':p===1?'pts-1':'pts-0';}
-function pinColor(p){return p>=8?'#166534':p===5?'#22863a':p===3?'#ca8a04':p===1?'#D4537E':'#888780';}
+function pinColor(p){return p>=8?'#22863a':p===5?'#22863a':p===3?'#ca8a04':p===1?'#D4537E':'#888780';}
+// Slightly lighter green for exact, used on year labels and "Your guess" text
+function labelColor(p){return p>=8?'#34a85a':pinColor(p);}
 
 function buildTicks(){
   const el=document.getElementById('decade-ticks');
@@ -785,10 +787,11 @@ function placeForwardPin(year,guessYear,pts){
   // Year label below the track — starts at guessYear, counts to correct year
   const yearLabel=document.createElement('div');
   yearLabel.textContent=guessYear!=null?guessYear:year;
-  const fwdLabelTextColor=color==='#F5C842'?'#1a1714':'#fff';
+  const fwdLabelBg=labelColor(pts!=null?pts:calcPts(guessYear,year));
+  const fwdLabelTextColor=fwdLabelBg==='#F5C842'?'#1a1714':'#fff';
   yearLabel.style.cssText='position:absolute;left:0;transform:translateX(-50%);'
     +'top:calc(50% + 26px);'
-    +'background:'+color+';color:'+fwdLabelTextColor+';font-size:14px;font-weight:700;padding:4px 10px;'
+    +'background:'+fwdLabelBg+';color:'+fwdLabelTextColor+';font-size:14px;font-weight:700;padding:4px 10px;'
     +'border-radius:12px;white-space:nowrap;pointer-events:none;'
     +'opacity:0;transition:opacity 0.3s;';
 
@@ -851,10 +854,11 @@ function placePin(year,pts,label,isForward,guessYear){
   // Year label below the dot — starts at guessYear, updates to correct year as it slides
   const yearLabel=document.createElement('div');
   yearLabel.textContent=guessYear!=null?guessYear:year;
-  const labelTextColor=color==='#F5C842'?'#1a1714':'#fff';
+  const lblBg=labelColor(pts);
+  const labelTextColor=lblBg==='#F5C842'?'#1a1714':'#fff';
   yearLabel.style.cssText='position:absolute;left:0;transform:translateX(-50%);'
     +'top:calc(50% + 26px);'
-    +'background:'+color+';color:'+labelTextColor+';font-size:14px;font-weight:700;padding:4px 10px;'
+    +'background:'+lblBg+';color:'+labelTextColor+';font-size:14px;font-weight:700;padding:4px 10px;'
     +'border-radius:12px;white-space:nowrap;pointer-events:none;'
     +'opacity:0;transition:opacity 0.3s;';
 
@@ -929,7 +933,7 @@ function buildScoreCard(){
     html+='<div class="sc-placeholder">Your score accrues here</div>';
   } else {
     const total=logEntries.reduce((s,e)=>s+e.pts,0);
-    html+=`<div id="score-card-total">${total}<span>total pts</span></div>`;
+    html+=`<div id="score-card-total">${total}<span>points</span></div>`;
   }
   sc.innerHTML=html;
 }
@@ -976,7 +980,7 @@ function handlePracticeGuess(guessY){
   document.getElementById('confirm-bar-wrap').style.display='none';
   document.getElementById('current-card').classList.add('answered');
   document.getElementById('section-label').style.visibility='hidden';
-  const _pc=pinColor(calcPts(guessY,1897));
+  const _pc=labelColor(calcPts(guessY,1897));
   document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>1897</strong><br><span style="color:${_pc};">Your guess: <strong>${guessY}</strong></span>`:`Correct year: <strong>1897</strong> &nbsp;·&nbsp; <span style="color:${_pc};">Your guess: <strong>${guessY}</strong></span>`;
   collapsePracticeIntro();
   // Hide the full 1897 marker immediately when card is dropped
@@ -1015,7 +1019,7 @@ function handleGuess(guessY){
   const evt=gameEvents[roundIdx];
   document.getElementById('section-label').style.visibility='hidden';
   const pts=calcPts(guessY,evt.year);
-  const _gc=pinColor(pts);
+  const _gc=labelColor(pts);
   document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>${evt.year}</strong><br><span style="color:${_gc};">Your guess: <strong>${guessY}</strong></span>`:`Correct year: <strong>${evt.year}</strong> &nbsp;·&nbsp; <span style="color:${_gc};">Your guess: <strong>${guessY}</strong></span>`;
   score+=pts;
   document.getElementById('score-badge').textContent='Score: '+score;
@@ -1093,6 +1097,7 @@ function advanceRound(){
     document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
     if(isMobile())document.querySelector('.scoring-hint').style.display='';
     document.getElementById('answer-info').innerHTML='';
+    const _aw=document.getElementById('year-adj-wrap');if(_aw){_aw.style.display='flex';setAdjButtons(false);}
     document.getElementById('next-btn').textContent='Next event';
     document.getElementById('next-btn').classList.remove('btn-primary');
     setCard(gameEvents[0]);
