@@ -107,7 +107,6 @@
     #game{padding:1.25rem 1rem 3rem;}
     .section-label{font-size:12px;}
     #drag-hint span{white-space:normal;text-align:center;font-size:13px;max-width:260px;}
-    .scoring-hint{display:none!important;}
   }
   @media(max-width:600px){
     #middle-block{height:auto;min-height:68px;}
@@ -200,8 +199,8 @@
   #practice-modal h2{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
   #practice-modal p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:1.5rem;}  #ready-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:28px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .15s,transform .1s;}
   #ready-btn:hover{background:#3a30a0;transform:translateY(-1px);}
-  #year-adj-wrap{display:none;align-items:center;justify-content:center;gap:16px;margin-top:8px;}
-  .year-adj-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:16px;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;touch-action:manipulation;}
+  #year-adj-wrap{display:none;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;}
+  .year-adj-btn{height:36px;padding:0 16px;border-radius:20px;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:15px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;touch-action:manipulation;white-space:nowrap;}
   .year-adj-btn:active{background:var(--accent-light);}
 </style>
 </head>
@@ -247,6 +246,11 @@
     <div id="feedback"></div>
   </div>
 
+  <div id="year-adj-wrap" style="display:none;">
+    <button class="year-adj-btn" onclick="adjustYear(-1)">&#8722;1 year</button>
+    <button class="year-adj-btn" onclick="adjustYear(+1)">+1 year</button>
+  </div>
+
   <div id="timeline-section">
     <div class="tl-label-row" id="tl-label-row"></div>
     <div id="timeline-track">
@@ -262,13 +266,7 @@
     <div class="scoring-hint"><span style="color:#22863a;font-weight:600;">Within 5 years = +5</span><span class="sh-dot"> · </span><span style="color:#ca8a04;font-weight:600;">Within 10 years = +3</span><span class="sh-dot"> · </span><span style="color:#be185d;font-weight:600;">Within 25 years = +1</span><span class="sh-dot"> · </span><span style="color:#22863a;font-weight:600;">Exact year = +3 bonus</span></div>
   </div>
 
-  <div id="confirm-bar-wrap">
-    <div id="year-adj-wrap">
-      <button class="year-adj-btn" onclick="adjustYear(-1)">&#8722;1</button>
-      <button class="year-adj-btn" onclick="adjustYear(+1)">+1</button>
-    </div>
-    <button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button>
-  </div>
+  <div id="confirm-bar-wrap"><button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button></div>
 
   <div id="fact-box">
     <div id="fact-body">
@@ -638,6 +636,7 @@ function startGame(){
   document.getElementById('splash').style.display='none';
   document.getElementById('game').style.display='block';
   document.getElementById('score-badge').textContent='Practice';
+  if(isMobile())document.querySelector('.scoring-hint').style.display='none';
   if(isMobile()){const lbl=document.getElementById('section-label');lbl.innerHTML='Tap the card to select it, then tap the timeline<br><span style="font-size:12px;letter-spacing:.02em;">or drag and drop to place</span>';}else{document.getElementById('section-label').textContent='Drag the event card to place it on the timeline:';}
   buildTicks();
   gameEvents=selectEvents();
@@ -1030,6 +1029,7 @@ function advanceRound(){
     document.getElementById('section-label').classList.remove('practice-glow');
     document.getElementById('section-label').style.visibility='';
     document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
+    if(isMobile())document.querySelector('.scoring-hint').style.display='';
     document.getElementById('answer-info').innerHTML='';
     document.getElementById('next-btn').textContent='Next event';
     document.getElementById('next-btn').classList.remove('btn-primary');
@@ -1266,6 +1266,7 @@ function restart(){
   document.getElementById('log-section').style.display='none';
   document.getElementById('btn-area').innerHTML='';
   document.getElementById('practice-modal-overlay').style.display='none';
+  document.querySelector('.scoring-hint').style.display='';
   document.getElementById('practice-banner').style.display='none';
   document.querySelector('.game-title-full').style.display='';
   document.getElementById('year-1897-marker').style.display='none';
@@ -1375,10 +1376,7 @@ function showConfirmBar(year){
   confirmBar.style.pointerEvents='auto';
   indicator.classList.add('draggable');
   const hint=document.getElementById('drag-hint');
-  if(hint){
-    if(isMobile()){hint.classList.remove('visible');}
-    else{hint.classList.remove('arrow');hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span><span class="hint-h-arrows">&#8592; &#8594;</span>';hint.classList.add('visible');}
-  }
+  if(hint){hint.classList.remove('arrow');hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span><span class="hint-h-arrows">&#8592; &#8594;</span>';hint.classList.add('visible');}
   const adj=document.getElementById('year-adj-wrap');
   if(adj&&isMobile())adj.style.display='flex';
 }
