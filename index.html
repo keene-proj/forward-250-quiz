@@ -199,7 +199,8 @@
   #practice-modal h2{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
   #practice-modal p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:1.5rem;}  #ready-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:28px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .15s,transform .1s;}
   #ready-btn:hover{background:#3a30a0;transform:translateY(-1px);}
-  #year-adj-wrap{display:none;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;}
+  #year-adj-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;}
+  .year-adj-btn:disabled{opacity:0.35;cursor:default;}
   .year-adj-btn{height:36px;padding:0 16px;border-radius:20px;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:15px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;touch-action:manipulation;white-space:nowrap;}
   .year-adj-btn:active{background:var(--accent-light);}
   @keyframes slideOffLeft{from{transform:translateX(0);opacity:1;}to{transform:translateX(-110vw);opacity:0;}}
@@ -249,9 +250,9 @@
     <div id="feedback"></div>
   </div>
 
-  <div id="year-adj-wrap" style="display:none;">
-    <button class="year-adj-btn" onclick="adjustYear(-1)">&#8722;1 year</button>
-    <button class="year-adj-btn" onclick="adjustYear(+1)">+1 year</button>
+  <div id="year-adj-wrap">
+    <button class="year-adj-btn" id="year-adj-minus" onclick="adjustYear(-1)" disabled>&#8722;1 year</button>
+    <button class="year-adj-btn" id="year-adj-plus" onclick="adjustYear(+1)" disabled>+1 year</button>
   </div>
 
   <div id="timeline-section">
@@ -679,15 +680,23 @@ function showHelpModal(){
 function showCloudHint(){
   const el=document.getElementById('cloud-hint');
   if(!el)return;
+  el.style.transition='';el.style.opacity='';
   el.style.animation='none';
   void el.offsetWidth;
   el.style.animation='';
   el.style.display='block';
-  setTimeout(hideCloudHint,6000);
+  setTimeout(fadeCloudHint,4000);
+}
+function fadeCloudHint(){
+  const el=document.getElementById('cloud-hint');
+  if(!el||el.style.display==='none')return;
+  el.style.transition='opacity 0.6s';
+  el.style.opacity='0';
+  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},600);
 }
 function hideCloudHint(){
   const el=document.getElementById('cloud-hint');
-  if(el)el.style.display='none';
+  if(el){el.style.transition='';el.style.display='none';}
 }
 
 function dismissPracticeModal(){
@@ -1420,33 +1429,33 @@ function hideIndicator(){indicator.style.display='none';}
 function isOverTrack(cx,cy){const r=track.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top-40&&cy<=r.bottom+40;}
 function getYear(cx){const r=track.getBoundingClientRect();return pctToYr(Math.max(0,Math.min(1,(cx-r.left)/r.width)));}
 
+function setAdjButtons(enabled){
+  const m=document.getElementById('year-adj-minus');
+  const p=document.getElementById('year-adj-plus');
+  if(m)m.disabled=!enabled;
+  if(p)p.disabled=!enabled;
+}
 function showConfirmBar(year){
   pendingYear=year;
   document.getElementById('confirm-year').textContent=year;
   confirmBar.style.opacity='1';
   confirmBar.style.pointerEvents='auto';
   indicator.classList.add('draggable');
+  setAdjButtons(true);
   const hint=document.getElementById('drag-hint');
   if(hint){
     hint.classList.remove('arrow');
     hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span>'
-      +'<div style="display:flex;align-items:center;justify-content:center;gap:10px;">'
-      +'<button class="year-adj-btn" onclick="adjustYear(-1)" style="pointer-events:auto;font-size:13px;height:30px;padding:0 12px;">&#8722;1 year</button>'
-      +'<span class="hint-h-arrows">&#8592; &#8594;</span>'
-      +'<button class="year-adj-btn" onclick="adjustYear(+1)" style="pointer-events:auto;font-size:13px;height:30px;padding:0 12px;">+1 year</button>'
-      +'</div>';
+      +'<span class="hint-h-arrows">&#8592; &#8594;</span>';
     hint.classList.add('visible');
   }
-  const adj=document.getElementById('year-adj-wrap');
-  if(adj&&isMobile())adj.style.display='flex';
 }
 function hideConfirmBar(){
   confirmBar.style.opacity='0';
   confirmBar.style.pointerEvents='none';
   pendingYear=null;
   indicator.classList.remove('draggable');
-  const adj=document.getElementById('year-adj-wrap');
-  if(adj)adj.style.display='none';
+  setAdjButtons(false);
 }
 
 function adjustYear(delta){
@@ -1590,7 +1599,10 @@ function mobileDeselectCard(){
   if(lbl){if(isPracticePhase){lbl.innerHTML='Tap the card to select it, then tap the timeline<br><span style="font-size:12px;letter-spacing:.02em;">or drag and drop to place</span>';}else{lbl.textContent='When did this happen? Tap the card, then tap the timeline:';}}
 }
 
-card.addEventListener('mousedown',()=>hideCloudHint());
+card.addEventListener('mousemove',e=>{
+  const ch=document.getElementById('cloud-hint');
+  if(ch&&ch.style.display!=='none'){const cr=ch.getBoundingClientRect();if(e.clientY>cr.top)fadeCloudHint();}
+});
 card.addEventListener('touchstart',e=>{
   if(!isMobile()||answered)return;
   hideCloudHint();
@@ -1622,6 +1634,9 @@ card.addEventListener('touchmove',e=>{
   e.preventDefault();
   ghost.style.left=t.clientX+'px';
   ghost.style.top=t.clientY+'px';
+  // Fade cloud hint when card is dragged past it
+  const ch=document.getElementById('cloud-hint');
+  if(ch&&ch.style.display!=='none'){const cr=ch.getBoundingClientRect();if(t.clientY>cr.top)fadeCloudHint();}
   isOverTrack(t.clientX,t.clientY)?updateIndicator(t.clientX,t.clientY):hideIndicator();
 },{passive:false});
 
