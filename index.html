@@ -1392,7 +1392,16 @@ function showConfirmBar(year){
   confirmBar.style.pointerEvents='auto';
   indicator.classList.add('draggable');
   const hint=document.getElementById('drag-hint');
-  if(hint){hint.classList.remove('arrow');hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span><span class="hint-h-arrows">&#8592; &#8594;</span>';hint.classList.add('visible');}
+  if(hint){
+    hint.classList.remove('arrow');
+    hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span>'
+      +'<div style="display:flex;align-items:center;justify-content:center;gap:10px;">'
+      +'<button class="year-adj-btn" onclick="adjustYear(-1)" style="pointer-events:auto;font-size:13px;height:30px;padding:0 12px;">&#8722;1 year</button>'
+      +'<span class="hint-h-arrows">&#8592; &#8594;</span>'
+      +'<button class="year-adj-btn" onclick="adjustYear(+1)" style="pointer-events:auto;font-size:13px;height:30px;padding:0 12px;">+1 year</button>'
+      +'</div>';
+    hint.classList.add('visible');
+  }
   const adj=document.getElementById('year-adj-wrap');
   if(adj&&isMobile())adj.style.display='flex';
 }
