@@ -292,7 +292,7 @@
 <div id="practice-modal-overlay" style="display:none;">
   <div id="practice-modal">
     <h2 id="practice-modal-title">Let's practice first.</h2>
-    <p>① Read the event card.<br>② Drag the event card to the timeline, or tap the card to select it, then tap the timeline to place it.<br>③ Fine-tune with the slider, then confirm below.</p>
+    <p id="practice-modal-instructions">① Read the event card.<br>② Drag the event card to the timeline.<br>③ Fine-tune with the slider, then confirm below.</p>
     <p id="practice-modal-1897" style="margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em> was founded in <strong>1897</strong>.<br>Drag the card there to get started.</p>
     <button id="ready-btn" onclick="dismissPracticeModal()">Got it &mdash; let me try</button>
   </div>
@@ -644,6 +644,7 @@ function startGame(){
   // Show modal over the game screen, not the splash
   setTimeout(function(){
     const ov=document.getElementById('practice-modal-overlay');
+    setPracticeInstructions();
     ov.style.display='flex';
     ov.classList.remove('animating');
     void ov.offsetWidth;
@@ -651,10 +652,19 @@ function startGame(){
   },50);
 }
 
+function setPracticeInstructions(){
+  const mobile=isMobile();
+  document.getElementById('practice-modal-instructions').innerHTML=
+    '① Read the event card.<br>'
+    +(mobile?'② Drag the card to the timeline, or tap to select it then tap the timeline to place it.<br>':'② Drag the event card to the timeline.<br>')
+    +'③ Fine-tune with the slider, then confirm below.';
+}
+
 function showHelpModal(){
   document.getElementById('practice-modal-title').textContent='How To Play';
   document.getElementById('practice-modal-1897').style.display='none';
   document.getElementById('ready-btn').textContent='Got it';
+  setPracticeInstructions();
   const ov=document.getElementById('practice-modal-overlay');
   ov.style.display='flex';
   ov.classList.remove('animating');
