@@ -20,6 +20,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{overflow-y:scroll;}
+  *{-webkit-tap-highlight-color:transparent;}
   body{background:var(--bg);font-family:'Source Sans 3',Georgia,sans-serif;color:var(--text);min-height:100vh;scrollbar-gutter:stable;}
 
   /* SPLASH */
@@ -103,10 +104,31 @@
     .tl-label-row span{font-size:9px;color:var(--text2);}
     .tl-label-row{height:16px;}
     .event-card{line-height:1.2;margin:0 0.75rem;}
+    #game{padding:1.25rem 1rem 3rem;}
+    .section-label{font-size:12px;}
+    #drag-hint span{white-space:normal;text-align:center;font-size:13px;max-width:260px;}
+    .scoring-hint{font-size:11px;display:flex;flex-wrap:wrap;justify-content:center;gap:2px 6px;}
+    .sh-dot{display:none;}
   }
   @media(max-width:600px){
     #middle-block{height:auto;min-height:68px;}
     #fact-box{max-width:92%!important;flex-wrap:nowrap;}
+  }
+  @media(hover:none) and (max-width:768px){
+    #year-tooltip{bottom:auto;top:calc(100% + 8px);}
+  }
+  @media(max-height:500px) and (orientation:landscape) and (max-width:900px){
+    #game{padding:0.5rem 1rem 2rem;}
+    .game-header{margin-bottom:0.2rem;}
+    #event-area{margin-bottom:0;}
+    .event-card{padding:0.6rem 1.25rem;font-size:15px;line-height:1.2;}
+    .event-card.has-image{padding:0.4rem 0.75rem;}
+    .card-thumb{width:60px;height:60px;}
+    #middle-block{min-height:36px;padding-top:4px;gap:8px;}
+    #timeline-section{margin-top:0.4rem;margin-bottom:0.25rem;}
+    .scoring-hint{display:none;}
+    .tl-label-row{margin-bottom:8px;}
+    #practice-intro{padding:0.5rem 1rem;}
   }
   #timeline-track{position:relative;height:48px;margin-top:-16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface2);overflow:visible;box-shadow:inset 0 1px 3px rgba(0,0,0,.05);touch-action:none;}
   #drag-indicator{position:absolute;top:0;bottom:0;width:2px;background:var(--accent-mid);pointer-events:none;display:none;border-radius:2px;z-index:5;}
@@ -179,6 +201,9 @@
   #practice-modal h2{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
   #practice-modal p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:1.5rem;}  #ready-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:28px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .15s,transform .1s;}
   #ready-btn:hover{background:#3a30a0;transform:translateY(-1px);}
+  #year-adj-wrap{display:none;align-items:center;justify-content:center;gap:16px;margin-top:8px;}
+  .year-adj-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:16px;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;}
+  .year-adj-btn:active{background:var(--accent-light);}
 </style>
 </head>
 <body>
@@ -235,10 +260,16 @@
       <div id="pins-layer"></div>
       <div id="tooltip-popup"></div>
     </div>
-    <div class="scoring-hint"><span style="color:#22863a;font-weight:600;">Within 5 years = 5 pts</span> &nbsp;·&nbsp; <span style="color:#ca8a04;font-weight:600;">Within 10 years = 3 pts</span> &nbsp;·&nbsp; <span style="color:#be185d;font-weight:600;">Within 25 years = 1 pt</span> &nbsp;·&nbsp; <span style="color:#166534;font-weight:600;">Perfect = +3 bonus</span></div>
+    <div class="scoring-hint"><span style="color:#22863a;font-weight:600;">Within 5 years = 5 pts</span><span class="sh-dot"> · </span><span style="color:#ca8a04;font-weight:600;">Within 10 years = 3 pts</span><span class="sh-dot"> · </span><span style="color:#be185d;font-weight:600;">Within 25 years = 1 pt</span><span class="sh-dot"> · </span><span style="color:#166534;font-weight:600;">Perfect = +3 bonus</span></div>
   </div>
 
-  <div id="confirm-bar-wrap"><button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button></div>
+  <div id="confirm-bar-wrap">
+    <button id="confirm-bar" onclick="confirmPlacement()">Place it here &rarr; <span id="confirm-year" style="display:inline-block;min-width:2.8em;text-align:left;"></span></button>
+    <div id="year-adj-wrap">
+      <button class="year-adj-btn" onclick="adjustYear(-1)">&#8722;1</button>
+      <button class="year-adj-btn" onclick="adjustYear(+1)">+1</button>
+    </div>
+  </div>
 
   <div id="fact-box">
     <div id="fact-body">
@@ -637,7 +668,9 @@ function dismissPracticeModal(){
   document.getElementById('practice-modal-title').textContent='Let\u2019s practice first.';
   document.getElementById('practice-modal-1897').style.display='';
   document.getElementById('ready-btn').textContent='Got it \u2014 let me try';
-  document.getElementById('practice-modal-overlay').style.display='none';
+  const ov=document.getElementById('practice-modal-overlay');
+  ov.classList.remove('animating');
+  ov.style.display='none';
   // Show bouncing arrow hint — stays until user starts interacting
   const hint=document.getElementById('drag-hint');
   hint.classList.remove('visible');
@@ -1334,12 +1367,25 @@ function showConfirmBar(year){
   indicator.classList.add('draggable');
   const hint=document.getElementById('drag-hint');
   if(hint){hint.classList.remove('arrow');hint.innerHTML='<span>Drag the slider to fine-tune your guess, then&nbsp;confirm&nbsp;below</span><span class="hint-h-arrows">&#8592; &#8594;</span>';hint.classList.add('visible');}
+  const adj=document.getElementById('year-adj-wrap');
+  if(adj&&isMobile())adj.style.display='flex';
 }
 function hideConfirmBar(){
   confirmBar.style.opacity='0';
   confirmBar.style.pointerEvents='none';
   pendingYear=null;
   indicator.classList.remove('draggable');
+  const adj=document.getElementById('year-adj-wrap');
+  if(adj)adj.style.display='none';
+}
+
+function adjustYear(delta){
+  if(pendingYear===null)return;
+  const newYear=Math.max(MIN_Y,Math.min(MAX_Y,pendingYear+delta));
+  const p=yrPct(newYear);
+  indicator.style.left=(p*100)+'%';
+  tooltip.textContent=newYear;
+  showConfirmBar(newYear);
 }
 
 function confirmPlacement(){
