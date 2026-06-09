@@ -977,7 +977,8 @@ function handlePracticeGuess(guessY){
   document.getElementById('confirm-bar-wrap').style.display='none';
   document.getElementById('current-card').classList.add('answered');
   document.getElementById('section-label').style.visibility='hidden';
-  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>1897</strong><br>Your guess: <strong>${guessY}</strong>`:`Correct year: <strong>1897</strong> &nbsp;·&nbsp; Your guess: <strong>${guessY}</strong>`;
+  const _pc=pinColor(calcPts(guessY,1897));
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>1897</strong><br>Your guess: <strong style="color:${_pc};">${guessY}</strong>`:`Correct year: <strong>1897</strong> &nbsp;·&nbsp; Your guess: <strong style="color:${_pc};">${guessY}</strong>`;
   collapsePracticeIntro();
   // Hide the full 1897 marker immediately when card is dropped
   document.getElementById('year-1897-marker').style.display='none';
@@ -1014,8 +1015,9 @@ function handleGuess(guessY){
   document.getElementById('current-card').classList.add('answered');
   const evt=gameEvents[roundIdx];
   document.getElementById('section-label').style.visibility='hidden';
-  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>${evt.year}</strong><br>Your guess: <strong>${guessY}</strong>`:`Correct year: <strong>${evt.year}</strong> &nbsp;·&nbsp; Your guess: <strong>${guessY}</strong>`;
   const pts=calcPts(guessY,evt.year);
+  const _gc=pinColor(pts);
+  document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>${evt.year}</strong><br>Your guess: <strong style="color:${_gc};">${guessY}</strong>`:`Correct year: <strong>${evt.year}</strong> &nbsp;·&nbsp; Your guess: <strong style="color:${_gc};">${guessY}</strong>`;
   score+=pts;
   document.getElementById('score-badge').textContent='Score: '+score;
   const d=Math.abs(guessY-evt.year);
