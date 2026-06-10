@@ -546,23 +546,23 @@ async function recordEventGuess(year,offset,within5){
   }catch(e){}
 }
 
-async function recordGameScore(s,maxPts){
+async function recordGameScore(s){
   if(!STATS_ENABLED)return;
   try{
-    await fetch(`${SUPABASE_URL}/rest/v1/game_scores`,{
+    await fetch(`${SUPABASE_URL}/rest/v1/Scores`,{
       method:'POST',
       headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},
-      body:JSON.stringify({score:s,max_score:maxPts})});
+      body:JSON.stringify({score:s})});
   }catch(e){}
 }
 
-async function fetchScoreStats(userScore,maxPts){
+async function fetchScoreStats(userScore){
   if(!STATS_ENABLED)return null;
   try{
-    const r=await fetch(`${SUPABASE_URL}/rest/v1/game_scores?max_score=eq.${maxPts}&select=score`,
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/Scores?select=score`,
       {headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`}});
     const data=await r.json();
-    if(!Array.isArray(data)||data.length<10)return null;
+    if(!Array.isArray(data)||data.length<5)return null;
     const scores=data.map(r=>r.score);
     const avg=Math.round(scores.reduce((s,v)=>s+v,0)/scores.length);
     const betterThan=Math.round(scores.filter(s=>s<userScore).length/scores.length*100);
