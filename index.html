@@ -1343,6 +1343,11 @@ function showEnd(maxPts){
   btnRow.appendChild(makeShareBtn('X / Twitter',twitterSvg,()=>shareTwitter(finalScore)));
   btnRow.appendChild(makeShareBtn('Bluesky',bskySvg,()=>shareBluesky(finalScore)));
   btnRow.appendChild(makeShareBtn('Facebook',fbSvg,()=>shareFacebook()));
+  const emailSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
+  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
+  const emailSubject=encodeURIComponent('I scored '+finalScore+' pts on the Jewish 250 Quiz');
+  const emailBody=encodeURIComponent('Jewish 250 Quiz\n'+dots+'\n'+finalScore+' points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/');
+  btnRow.appendChild(makeShareBtn('Email',emailSvg,()=>window.open('mailto:?subject='+emailSubject+'&body='+emailBody,'_blank')));
   ec.appendChild(btnRow);
 
   recordGameScore(finalScore);
