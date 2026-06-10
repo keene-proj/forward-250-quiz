@@ -93,7 +93,7 @@
   .pts-0{background:var(--surface2);color:var(--text3);}
   .pts-pending{background:var(--surface2);color:var(--text3);}
   #fact-box{display:none;background:var(--surface);border-left:4px solid var(--accent-mid);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13px;color:var(--text);line-height:1.4;margin-bottom:.5rem;margin-top:21px;margin-left:auto;margin-right:auto;border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border);overflow:hidden;max-width:calc(35% + 8px);display:none;flex-direction:row;flex-wrap:wrap;}
-  #fact-body{padding:.5rem .75rem .4rem;flex:1;}
+  #fact-body{padding:.5rem .75rem .4rem;flex:1;display:flex;flex-direction:column;justify-content:center;}
   #fact-text{text-wrap:pretty;}
   .fact-label{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
   #score-card{width:64px;min-width:64px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;padding:8px 6px;background:var(--surface2);border-left:.5px solid var(--border);box-sizing:border-box;}
@@ -342,7 +342,7 @@ const ALL_EVENTS=[
   {html:"The Virginia Statute for Religious Freedom is signed into law, becoming the first legal guarantee of religious liberty in the Americas.",tip:"Virginia Statute for Religious Freedom",year:1786,
    image:"https://forward.com/wp-content/uploads/2026/06/Thomas_Jeffersons_Grave_Site_46.jpg",
    fact:"The Virginia Statute for Religious Freedom is one of only three accomplishments Thomas Jefferson instructed be put in his epitaph."},
-  {html:"George Washington writes a letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington’s religious liberty letter",year:1790,url:"https://forward.com/news/156067/forward-campaign-led-to-letters-release/",
+  {html:"George Washington writes his &ldquo;To Bigotry No Sanction&rdquo; letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington’s letter to Touro Synagogue",year:1790,url:"https://forward.com/news/156067/forward-campaign-led-to-letters-release/",
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-1.56.25-PM.jpg",
    fact:"The letter had been lost in storage for nearly a decade until a 2012 <em>Forward</em> investigation revealed its whereabouts and helped restore it to public view. \"To bigotry no sanction\" were words borrowed from the letter written to Washington by Touro's leader, Moses Seixas."},
   {html:"Rebecca Gratz founds the first American Jewish Sunday school.",tip:"First American Jewish Sunday school",year:1838,
@@ -355,7 +355,7 @@ const ALL_EVENTS=[
   {html:"Katz’s Delicatessen opens on the Lower East Side of Manhattan.",tip:"Katz’s Delicatessen opens",year:1888,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-2.12.03-PM-scaled.jpg",
    fact:"<em>When Harry Met Sally</em>’s most famous scene — &ldquo;I’ll have what she’s having&rdquo; — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase &ldquo;Send a salami to your boy in the Army&rdquo; during World War II."},
-  {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa Banquet.&rdquo;",tip:"Trefa Banquet",year:1883,url:"https://forward.com/culture/801135/a-kosher-oyster-trefa-banquet-jewish-food-history/",
+  {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa Banquet.&rdquo;",tip:"HUC's Trefa Banquet",year:1883,url:"https://forward.com/culture/801135/a-kosher-oyster-trefa-banquet-jewish-food-history/",
    image:"https://forward.com/wp-content/uploads/2026/06/highland-house1.webp",
    fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but traditionalists saw it as proof it had abandoned Jewish law entirely. The controversy accelerated the founding of the Jewish Theological Seminary."},
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
@@ -387,18 +387,18 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-96795389-scaled.jpg",
    credit:"Fotosearch/Getty Images",
    fact:"His nomination by President Woodrow Wilson triggered a four-month Senate confirmation fight that was inflamed by antisemitism. Brandeis went on to become one of the Court’s great champions of free speech and privacy rights."},
-  {html:"The first Hillel chapter is founded at the University of&nbsp;Illinois.",tip:"First Hillel chapter founded",year:1923,url:"https://forward.com/tag/hillel",
+  {html:"The first Hillel chapter is founded at the University of&nbsp;Illinois.",tip:"First Hillel chapter",year:1923,url:"https://forward.com/tag/hillel",
    image:"https://forward.com/wp-content/uploads/2026/06/UIUC_Hillel_Front_50.jpg",
-   credit:"ארז נמרוד כהן via Wikimedia Commons",
+   credit:"ארז נמרוד כהן via Wikimedia Commons",thumbPosition:"0% 50%",
    fact:"Rabbi Benjamin Frankel founded B’nai B’rith Hillel at the University of Illinois to provide Jewish students with community, identity, and support on campus. Today, there are more than 500 Hillel chapters worldwide."},
   {html:"The New York Times dispatches Joseph Levy to Jerusalem as the newspaper's first Palestine correspondent.",tip:"NYT's first Palestine correspondent",year:1928,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-514897080-scaled.jpg",
    credit:"Bettmann/Getty Images",
    fact:"After he retired from the Times, Levy worked privately to help the Jews living in Arab countries outside of Palestine."},
-  {html:"The <em>MS St. Louis</em>, carrying 937 Jewish refugees of Nazi Germany, is turned away by Cuba and the United States and forced to return to Europe.",tip:"MS St. Louis turned away",year:1939,url:"https://forward.com/culture/355597/for-these-doomed-passengers-there-was-no-refuge-in-cuba/",
+  {html:"The <em>MS St. Louis</em>, carrying 937 Jewish refugees of Nazi Germany, is turned away by Cuba and the United States and forced to return to Europe.",tip:"M.S. St. Louis",year:1939,url:"https://forward.com/culture/355597/for-these-doomed-passengers-there-was-no-refuge-in-cuba/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-103866610-scaled.jpg",
    credit:"Keystone/Hulton Archive/Getty Images",
-   fact:"Despite holding valid Cuban visas, the passengers were refused entry. Historians estimate that approximately 254 of the 937 people originally on board eventually died in the Holocaust."},
+   fact:"Despite holding valid Cuban visas, the passengers were refused entry. Historians estimate that approximately 254 of the 937 people originally on board eventually died in the&nbsp;Holocaust."},
   {html:"Stan Lee publishes his first work in <em>Captain America Comics</em>.",tip:"Stan Lee’s first comic published",year:1941,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-803020714-scaled.jpg",
    credit:"Alberto E. Rodriguez/Getty Images",
@@ -435,7 +435,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/judith-kaplan.jpg",
    credit:"The Ira and Judith Kaplan Eisenstein Reconstructionist Archives, Reconstructionist Rabbinical College",
    fact:"Kaplan’s father, Rabbi Mordecai Kaplan, went on to found Reconstructionist Judaism, a religious movement at the forefront of gender inclusion. Judith Kaplan read from a Torah book, rather than a Torah scroll, at her bat mitzvah."},
-  {html:"Rabbi Sally J. Priesand becomes the first woman in North America to be ordained as a rabbi.",tip:"First female rabbi ordained in North America",year:1972,url:"https://forward.com/life/341622/reform-women-rabbis-celebrate-getting-exact-same-title-as-men-after-44-year/",
+  {html:"Rabbi Sally J. Priesand becomes the first woman in North America to be ordained as a rabbi.",tip:"First female rabbi",year:1972,url:"https://forward.com/life/341622/reform-women-rabbis-celebrate-getting-exact-same-title-as-men-after-44-year/",
    image:"https://forward.com/wp-content/uploads/2026/06/priesand.webp",
    credit:"The Jacob Rader Marcus Center of the American Jewish Archives",
    fact:"The first woman ordained a rabbi anywhere was Regina Jonas, who was murdered at Auschwitz. Priesand’s ordination by Hebrew Union College, a Reform seminary, opened the door for countless women to follow."},
@@ -468,7 +468,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-119106895-scaled.jpg",
    credit:"Silver Screen Collection/Getty Images",
    fact:"Receiving a Lifetime Achievement Tony Award completed Barb’s achievement in just a six-year span."},
-  {html:"The <em>Seinfeld</em> pilot airs on NBC, launching one of the most influential sitcoms in television history.",tip:"Seinfeld pilot airs on NBC",year:1989,url:"https://forward.com/culture/201221/seinfeld-revolutionized-pop-culture-25-years-ago/",
+  {html:"The <em>Seinfeld</em> pilot airs on NBC, launching one of the most influential sitcoms in television history.",tip:"Seinfeld pilot",year:1989,url:"https://forward.com/culture/201221/seinfeld-revolutionized-pop-culture-25-years-ago/",
    image:"https://forward.com/wp-content/uploads/2026/06/seinfeldcast.0.1498614946.webp",
    credit:"",
    fact:"NBC executives nearly cancelled <em>Seinfeld</em> after the pilot aired to modest ratings. But the &ldquo;show about nothing&rdquo; wound up lasting nine seasons, giving us Soup Nazis, close talkers, Festivus and &ldquo;yada yada yada.&rdquo;"},
@@ -476,7 +476,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-542342402_21.jpg",
    credit:"Jean-Louis Atlan/Sygma via Getty Images",
    fact:"Kahane, a New York native who in the US founded the Jewish Defense League, was convicted of multiple acts of terrorism in the United States and in Israel before his assassination by El-Sayyid Nosair, an Egyptian national."},
-  {html:"Ruth Bader Ginsburg is confirmed as the first Jewish woman, and only the second woman ever, appointed to the Supreme Court.",tip:"Ginsburg confirmed to Supreme Court",year:1993,url:"https://forward.com/fast-forward/454762/ruth-bader-ginsburg-dead-87-pancreatic-cancer-supreme-court-justice/",
+  {html:"Ruth Bader Ginsburg is confirmed as the first Jewish woman, and only the second woman ever, appointed to the Supreme Court.",tip:"RBG confirmed to SCOTUS",year:1993,url:"https://forward.com/fast-forward/454762/ruth-bader-ginsburg-dead-87-pancreatic-cancer-supreme-court-justice/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-91237693-scaled.jpg",
    credit:"Mark Wilson/Getty Images",
    fact:"The liberal justice, who grew up in a working-class Jewish family in Brooklyn, often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (&ldquo;justice, justice, shall you pursue&rdquo;) as her guiding principle."},
@@ -504,7 +504,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1247555608-scaled.jpg",
    credit:"Valerie Macon/AFP via Getty Images",
    fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
-  {html:"HAIM release the Grammy-nominated <em>Women in Music Pt. III</em>.",tip:"HAIM release Women in Music Pt. III",year:2020,url:"https://forward.com/culture/film-tv/774409/one-battle-after-another-paul-thomas-anderson-alana-haim-jewish-star/",
+  {html:"HAIM release the Grammy-nominated <em>Women in Music Pt. III</em>.",tip:"HAIM breakout",year:2020,url:"https://forward.com/culture/film-tv/774409/one-battle-after-another-paul-thomas-anderson-alana-haim-jewish-star/",
    image:"https://forward.com/wp-content/uploads/2026/06/Haim_-_Women_in_Music_Pt._III.png",
    fact:"The Haim sisters — Danielle, Este and Alana — began playing instruments from an early age in the cover band Rockinhaim, fronted by their parents, Moti and Donna. The family group played their first concert in 2000 in Los Angeles — at Canter's Deli."},
   {html:"Rabbi Charlie Cytron-Walker escapes a hostage situation at Congregation Beth Israel in Colleyville, Texas.",tip:"Colleyville synagogue hostage situation",year:2022,
@@ -608,16 +608,16 @@ function showEventStats(stats,year){
 // Quiz Set Week 1 — fixed 10-question set
 // Categories: Israeli politics, religion, 21st century, culture, women, religion, culture, nonprofit, women, food
 const QUIZ_SET_WEEK1_TIPS=[
-  'Seinfeld pilot airs on NBC',
-  'Washington\u2019s religious liberty letter',
-  'HAIM release Women in Music Pt. III',
+  'Seinfeld pilot',
+  'Washington\'s letter to Touro Synagogue',
+  'HAIM breakout',
   'Fiddler on the Roof opens on Broadway',
-  'Trefa Banquet',
+  'HUC\'s Trefa Banquet',
   'Schneerson becomes Lubavitcher Rebbe',
-  'Ginsburg confirmed to Supreme Court',
-  'First Hillel chapter founded',
-  'First female rabbi ordained in North America',
-  'MS St. Louis turned away'
+  'RBG confirmed to SCOTUS',
+  'First Hillel chapter',
+  'First female rabbi',
+  'M.S. St. Louis'
 ];
 
 function selectEvents(){
@@ -972,7 +972,7 @@ function showTip(year,label,pts){
   popup.style.display='block';
   const x=yrPct(year)*track.offsetWidth;
   popup.style.left=Math.min(Math.max(x-80,4),track.offsetWidth-170)+'px';
-  popup.style.top='-88px';
+  popup.style.top='-68px';
 }
 function hideTip(){document.getElementById('tooltip-popup').style.display='none';}
 
@@ -1270,7 +1270,7 @@ function showEnd(maxPts){
 
   // Score bars — game order, larger
   const barsWrap=document.createElement('div');
-  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:0 auto 1.25rem;';
+  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:0 auto 1rem;';
   logEntries.forEach(e=>{
     const bar=document.createElement('div');
     bar.style.cssText=`flex:1;height:28px;border-radius:5px;background:${pinColor(e.pts)};${e.pts>=8?'box-shadow:0 0 0 2px #b8960c;':''}`;
@@ -1285,12 +1285,13 @@ function showEnd(maxPts){
 
   // Score number
   const scoreEl=document.createElement('div');
-  scoreEl.style.cssText='margin-bottom:.25rem;';
-  scoreEl.innerHTML=`<div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
+  scoreEl.style.cssText='margin:0 0 1rem;';
+  scoreEl.innerHTML=`<div style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">Your Score</div><div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
   ec.appendChild(scoreEl);
 
   const nn=document.createElement('div');
   nn.className='end-nick';
+  nn.style.marginTop='0';
   nn.textContent=nick;
   ec.appendChild(nn);
 
@@ -1322,11 +1323,11 @@ function showEnd(maxPts){
   const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
 
   const shareBtn=document.createElement('button');
-  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:1rem;margin-top:-8px;';
+  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:1rem;margin-top:-20px;';
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
     const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
-    const text=`American Jewish Quiz 250 | ${dots} | ${finalScore} pts`;
+    const text=`Jewish 250 Quiz\n${dots}\n${finalScore} points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/`;
     navigator.clipboard.writeText(text).then(()=>{
       shareBtn.textContent='Copied to clipboard!';
       setTimeout(()=>{shareBtn.textContent='Share your score';},2000);
