@@ -155,7 +155,7 @@
   .pin-forward:hover{transform:translate(-50%,-50%) scale(1.3);}
   #tooltip-popup{position:absolute;pointer-events:none;display:none;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 9px;font-size:11px;color:var(--text);line-height:1.45;max-width:165px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.1);}
   .scoring-hint{font-size:13px;color:var(--text3);margin-top:10px;text-align:center;letter-spacing:.02em;}
-  #log-section{margin-top:1.75rem;display:none;}
+  #log-section{margin-top:calc(1.75rem - 8px);display:none;}
   .log-section-title{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;text-align:center;}
   #history-log{display:flex;flex-direction:column;gap:6px;}
   .log-row{display:flex;align-items:stretch;border-radius:var(--radius-sm);border:.5px solid var(--border);background:var(--surface);overflow:hidden;}
@@ -387,7 +387,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-96795389-scaled.jpg",
    credit:"Fotosearch/Getty Images",
    fact:"His nomination by President Woodrow Wilson triggered a four-month Senate confirmation fight that was inflamed by antisemitism. Brandeis went on to become one of the Court’s great champions of free speech and privacy rights."},
-  {html:"The first Hillel chapter is founded at the University of Illinois.",tip:"First Hillel chapter founded",year:1923,url:"https://forward.com/tag/hillel",
+  {html:"The first Hillel chapter is founded at the University of&nbsp;Illinois.",tip:"First Hillel chapter founded",year:1923,url:"https://forward.com/tag/hillel",
    image:"https://forward.com/wp-content/uploads/2026/06/UIUC_Hillel_Front_50.jpg",
    credit:"ארז נמרוד כהן via Wikimedia Commons",
    fact:"Rabbi Benjamin Frankel founded B’nai B’rith Hillel at the University of Illinois to provide Jewish students with community, identity, and support on campus. Today, there are more than 500 Hillel chapters worldwide."},
@@ -398,7 +398,7 @@ const ALL_EVENTS=[
   {html:"The <em>MS St. Louis</em>, carrying 937 Jewish refugees of Nazi Germany, is turned away by Cuba and the United States and forced to return to Europe.",tip:"MS St. Louis turned away",year:1939,url:"https://forward.com/culture/355597/for-these-doomed-passengers-there-was-no-refuge-in-cuba/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-103866610-scaled.jpg",
    credit:"Keystone/Hulton Archive/Getty Images",
-   fact:"Despite holding valid Cuban visas, the passengers were refused entry by Cuba and then the United States. Historians estimate that approximately 254 of the passengers eventually died in the Holocaust."},
+   fact:"Despite holding valid Cuban visas, the passengers were refused entry. Historians estimate that approximately 254 of the 937 people originally on board eventually died in the Holocaust."},
   {html:"Stan Lee publishes his first work in <em>Captain America Comics</em>.",tip:"Stan Lee’s first comic published",year:1941,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-803020714-scaled.jpg",
    credit:"Alberto E. Rodriguez/Getty Images",
@@ -418,11 +418,11 @@ const ALL_EVENTS=[
   {html:"Rabbi Menachem Mendel Schneerson becomes the seventh Lubavitcher Rebbe, making him the leader of the Chabad movement.",tip:"Schneerson becomes Lubavitcher Rebbe",year:1951,url:"https://forward.com/culture/474642/how-770-eastern-parkway-chabad-lubavitch-rebbe-schneerson-history-jewish/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-72624304.jpg",
    credit:"Tim Boxer/Getty Images",
-   fact:"Under Schneerson’s 44-year leadership, Chabad-Lubavitch transformed from a small Hasidic sect into a global outreach movement with emissaries in over 100 countries."},
+   fact:"Under Schneerson’s 44-year leadership, Chabad-Lubavitch transformed from a small Hasidic sect in Crown Heights into a global outreach movement with emissaries in over 100 countries and 300 college campuses."},
   {html:"<em>Fiddler on the Roof</em> opens on Broadway.",tip:"Fiddler on the Roof opens on Broadway",year:1964,url:"https://forward.com/culture/1710/how-e2-80-98fiddler-e2-80-99-became-folklore/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1262759420.jpg",
    credit:"FilmPublicityArchive/United Archives via Getty Images",
-   fact:"Based on Sholem Aleichem’s beloved Tevye stories, <em>Fiddler</em> captured the anxiety of Jewish assimilation, tradition, and displacement — and became the first musical to surpass 3,000 performances."},
+   fact:"Based on Sholem Aleichem’s beloved Tevye stories, <em>Fiddler</em> captured the anxiety of Jewish assimilation — and became the first musical to surpass 3,000 performances. The movie adaptation starred Chaim Topol, who’d played Tevye on the Israeli stage."},
   {html:"Jewish civil rights organizers Michael Schwerner and Andrew Goodman are lynched by the Klan in Mississippi.",tip:"Schwerner and Goodman murdered in Mississippi",year:1964,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-8.27.25-PM-1.jpg",
    credit:"Bettmann/Getty Images",
@@ -479,7 +479,7 @@ const ALL_EVENTS=[
   {html:"Ruth Bader Ginsburg is confirmed as the first Jewish woman, and only the second woman ever, appointed to the Supreme Court.",tip:"Ginsburg confirmed to Supreme Court",year:1993,url:"https://forward.com/fast-forward/454762/ruth-bader-ginsburg-dead-87-pancreatic-cancer-supreme-court-justice/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-91237693-scaled.jpg",
    credit:"Mark Wilson/Getty Images",
-   fact:"Ginsburg, who grew up in a working-class Jewish family in Brooklyn, often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (&ldquo;justice, justice, shall you pursue&rdquo;) as her guiding principle."},
+   fact:"The liberal justice, who grew up in a working-class Jewish family in Brooklyn, often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (&ldquo;justice, justice, shall you pursue&rdquo;) as her guiding principle."},
   {html:"The Oslo Accords are signed, producing a historic handshake between Yasser Arafat and Yitzhak Rabin on the White House lawn.",tip:"Oslo Accords signed",year:1993,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-463575454_17.jpg",
    credit:"J. David Ake/AFP via Getty Images",
@@ -506,7 +506,7 @@ const ALL_EVENTS=[
    fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
   {html:"HAIM release the Grammy-nominated <em>Women in Music Pt. III</em>.",tip:"HAIM release Women in Music Pt. III",year:2020,url:"https://forward.com/culture/film-tv/774409/one-battle-after-another-paul-thomas-anderson-alana-haim-jewish-star/",
    image:"https://forward.com/wp-content/uploads/2026/06/Haim_-_Women_in_Music_Pt._III.png",
-   fact:"The Haim sisters — Danielle, Este and Alana — began playing instruments from an early age in the cover band Rockinhaim, fronted by their parents, Moti and Donna."},
+   fact:"The Haim sisters — Danielle, Este and Alana — began playing instruments from an early age in the cover band Rockinhaim, fronted by their parents, Moti and Donna. The family group played their first concert in 2000 in Los Angeles — at Canter's Deli."},
   {html:"Rabbi Charlie Cytron-Walker escapes a hostage situation at Congregation Beth Israel in Colleyville, Texas.",tip:"Colleyville synagogue hostage situation",year:2022,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1237799972-scaled.jpg",
    credit:"Emil Lippe/Getty Images",
@@ -1322,7 +1322,7 @@ function showEnd(maxPts){
   const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
 
   const shareBtn=document.createElement('button');
-  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:1rem;';
+  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:1rem;margin-top:-8px;';
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
     const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
