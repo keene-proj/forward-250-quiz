@@ -342,7 +342,7 @@ const ALL_EVENTS=[
   {html:"The Virginia Statute for Religious Freedom is signed into law, becoming the first legal guarantee of religious liberty in the Americas.",tip:"Virginia Statute for Religious Freedom",year:1786,
    image:"https://forward.com/wp-content/uploads/2026/06/Thomas_Jeffersons_Grave_Site_46.jpg",
    fact:"The Virginia Statute for Religious Freedom is one of only three accomplishments Thomas Jefferson instructed be put in his epitaph."},
-  {html:"George Washington writes his &ldquo;To Bigotry No Sanction&rdquo; letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington’s letter to Touro Synagogue",year:1790,url:"https://forward.com/news/156067/forward-campaign-led-to-letters-release/",
+  {html:"George Washington writes his &ldquo;To Bigotry No Sanction&rdquo; letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington's letter to Touro Synagogue",year:1790,url:"https://forward.com/news/156067/forward-campaign-led-to-letters-release/",
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-1.56.25-PM.jpg",
    fact:"The letter had been lost in storage for nearly a decade until a 2012 <em>Forward</em> investigation revealed its whereabouts and helped restore it to public view. \"To bigotry no sanction\" were words borrowed from the letter written to Washington by Touro's leader, Moses Seixas."},
   {html:"Rebecca Gratz founds the first American Jewish Sunday school.",tip:"First American Jewish Sunday school",year:1838,
@@ -1818,31 +1818,6 @@ track.addEventListener('touchend',e=>{
   updateIndicator(t.clientX,t.clientY);
   showConfirmBar(getYear(t.clientX));
 },{passive:false});
-
-// Supabase score tracking
-const SB_URL='https://phcbubrphewqwcwnibkb.supabase.co';
-const SB_KEY='sb_publishable_6OnZQEW1PWXoh8eKHpCmgg_eb0vnp2o';
-const SB_HEADERS={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
-
-function recordGameScore(score){
-  fetch(SB_URL+'/rest/v1/scores',{method:'POST',headers:SB_HEADERS,body:JSON.stringify({score})})
-    .catch(()=>{});
-}
-
-async function fetchScoreStats(userScore){
-  try{
-    const res=await fetch(SB_URL+'/rest/v1/scores?select=score',{headers:SB_HEADERS});
-    if(!res.ok)return null;
-    const rows=await res.json();
-    if(rows.length<5)return null;
-    const scores=rows.map(r=>r.score);
-    const avg=Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
-    const betterThan=Math.round(scores.filter(s=>s<userScore).length/scores.length*100);
-    return{avg,betterThan};
-  }catch{return null;}
-}
-
-function updateLogAvgStats(){}
 
 // Auto-resize: notify parent iframe of height changes
 (function(){
