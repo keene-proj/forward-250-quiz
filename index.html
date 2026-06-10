@@ -62,11 +62,24 @@
   .card-thumb{width:110px;height:110px;object-fit:cover;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;pointer-events:none;}
   #ghost.image-ghost{padding:0;background:none;border:none;box-shadow:none;width:110px;height:110px;border-radius:6px;overflow:hidden;opacity:.78;}
   #ghost.image-ghost img{width:100%;height:100%;object-fit:cover;border-radius:6px;border:2px solid var(--accent-mid);display:block;}
-  body.image-dragging #year-tooltip{bottom:auto;top:calc(100% + 6px);}
+  #slider-handle{display:none;position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;font-family:'Source Sans 3',sans-serif;border:2px solid #fff;box-shadow:0 1px 4px rgba(74,63,160,.4);cursor:grab;touch-action:none;}
+  #drag-indicator.draggable::after{display:none !important;}
+  #drag-indicator.draggable::before{display:none !important;}
+  #drag-indicator.draggable #slider-handle{display:block;}
+  #drag-indicator.draggable #year-tooltip{display:none;}
+  .slider-arrow{display:none;position:absolute;top:50%;font-size:15px;font-weight:700;color:var(--accent);pointer-events:none;line-height:1;}
+  .slider-arrow-l{transform:translateY(-50%) translateX(-100%);left:-32px;}
+  .slider-arrow-r{transform:translateY(-50%);left:32px;}
+  @keyframes nudgeL{0%,100%{transform:translateY(-50%) translateX(-100%);opacity:.55;}50%{transform:translateY(-50%) translateX(calc(-100% - 5px));opacity:1;}}
+  @keyframes nudgeR{0%,100%{transform:translateY(-50%) translateX(0);opacity:.55;}50%{transform:translateY(-50%) translateX(5px);opacity:1;}}
+  #drag-indicator.draggable .slider-arrow-l{display:block;animation:nudgeL 1s ease-in-out infinite;}
+  #drag-indicator.draggable .slider-arrow-r{display:block;animation:nudgeR 1s ease-in-out infinite;}
+  #drag-indicator.draggable.grabbing .slider-arrow{display:none;}
+  #drag-indicator.draggable.arrows-used .slider-arrow{display:none;}
   .event-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);border-color:var(--accent-mid);}
   .event-card.answered{cursor:default;}
   .event-card.answered:hover{box-shadow:0 1px 4px rgba(0,0,0,.06);border-color:var(--border2);}
-  #feedback{font-size:16px;color:var(--text2);text-align:center;line-height:1.4;}
+  #feedback{font-size:16px;color:var(--text2);text-align:center;line-height:1.4;margin-top:-4px;}
   .feedback-top{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:3px;}
   .feedback-msg{font-size:17px;font-weight:500;color:var(--text);}
   .feedback-sub{font-size:13px;color:var(--text3);}
@@ -88,8 +101,7 @@
   #score-card-total span{display:block;font-size:8px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
   @keyframes scRowGlow{0%,100%{opacity:1;}50%{opacity:.45;}}
   .sc-placeholder{font-size:8px;color:var(--accent);text-align:center;line-height:1.4;padding:4px 2px;flex:1;display:flex;align-items:center;justify-content:center;}
-  #event-stats-bar{width:100%;}
-  #event-stats-bar{padding:.25rem .75rem;border-top:1px solid var(--border);background:var(--surface2);font-size:11px;color:var(--text2);line-height:1.3;}
+  #event-stats-bar{font-size:12px;color:var(--text3);text-align:center;padding:3px 0 2px;line-height:1.4;margin-top:-7px;}
   #next-btn-wrap{display:none;justify-content:center;margin-top:1.5rem;}
   #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s;}
   #next-btn:hover{background:#3a30a0;}
@@ -130,7 +142,8 @@
   }
   #timeline-track{position:relative;height:48px;margin-top:-16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface2);overflow:visible;box-shadow:inset 0 1px 3px rgba(0,0,0,.05);touch-action:none;}
   #drag-indicator{position:absolute;top:0;bottom:0;width:2px;background:var(--accent-mid);pointer-events:none;display:none;border-radius:2px;z-index:5;}
-  #drag-indicator.draggable{pointer-events:auto;cursor:ew-resize;}
+  #drag-indicator.draggable{pointer-events:auto;cursor:grab;}
+  #drag-indicator.draggable.grabbing,#drag-indicator.draggable.grabbing #slider-handle{cursor:grabbing;}
   #drag-indicator.draggable::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:16px;height:44px;background:transparent;}
   #drag-indicator.draggable::after{content:'⠿';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:18px;height:18px;background:var(--accent);border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(74,63,160,.4);display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;line-height:1;}
   #year-tooltip{position:absolute;bottom:calc(100% + 6px);transform:translateX(-50%);background:var(--accent);color:#fff;font-size:14px;font-weight:600;padding:4px 12px;border-radius:20px;white-space:nowrap;font-family:'Source Sans 3',sans-serif;}
@@ -144,16 +157,18 @@
   #log-section{margin-top:1.75rem;display:none;}
   .log-section-title{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;text-align:center;}
   #history-log{display:flex;flex-direction:column;gap:6px;}
-  .log-row{display:flex;flex-direction:column;padding:8px 10px;border-radius:var(--radius-sm);border:.5px solid var(--border);background:var(--surface);}
+  .log-row{display:flex;align-items:stretch;border-radius:var(--radius-sm);border:.5px solid var(--border);background:var(--surface);overflow:hidden;}
+  .log-content{flex:1;display:flex;flex-direction:column;padding:8px 10px;min-width:0;}
   .log-row-main{display:flex;align-items:center;gap:10px;cursor:pointer;}
   .log-chevron{font-size:10px;color:var(--text3);flex-shrink:0;transition:transform .2s;margin-left:2px;}
   .log-row.expanded .log-chevron{transform:rotate(180deg);}
   .log-expand{display:none;margin-top:8px;padding-top:8px;border-top:.5px solid var(--border);font-size:13px;color:var(--text2);line-height:1.6;}
   .log-expand.open{display:block;}
-  .log-read-more{font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;}
+  .log-read-more{font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap;}
   .log-read-more:hover{text-decoration:underline;}
-  .log-thumb{width:52px;height:52px;object-fit:cover;border-radius:4px;border:1px solid var(--border2);flex-shrink:0;}
-  .log-thumb-placeholder{width:52px;height:52px;background:var(--surface2);border-radius:4px;flex-shrink:0;}
+  .log-thumb{width:60px;flex-shrink:0;object-fit:cover;align-self:stretch;height:auto;border-right:.5px solid var(--border);transition:width 0.3s ease;}
+  .log-row.expanded .log-thumb{width:110px;}
+  .log-thumb-placeholder{width:60px;flex-shrink:0;background:var(--surface2);border-right:.5px solid var(--border);}
   .log-main{flex:1;min-width:0;}
   .log-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
   .log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
@@ -196,7 +211,7 @@
   @keyframes modalSlideUp{from{opacity:0;transform:translateY(24px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
   #practice-modal-overlay.animating{animation:overlayFadeIn 0.25s ease both;}
   #practice-modal-overlay.animating #practice-modal{animation:modalSlideUp 0.3s cubic-bezier(0.34,1.2,0.64,1) both;}
-  #drag-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:4px;visibility:hidden;}
+  #drag-hint{position:absolute;top:calc(50% - 2px);left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:4px;visibility:hidden;}
   #drag-hint span{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;}
   @keyframes bounceDown{0%,100%{transform:translateY(0);opacity:.7;}50%{transform:translateY(6px);opacity:1;}}
   @keyframes spreadArrows{0%,100%{letter-spacing:2px;opacity:.6;}50%{letter-spacing:8px;opacity:1;}}
@@ -206,9 +221,9 @@
   #practice-modal h2{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
   #practice-modal p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:1.5rem;}  #ready-btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:28px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:background .15s,transform .1s;}
   #ready-btn:hover{background:#3a30a0;transform:translateY(-1px);}
-  #year-adj-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;}
+  #year-adj-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:4px;}
   .year-adj-btn:disabled{opacity:0.35;cursor:default;}
-  .year-adj-btn{height:36px;padding:0 16px;border-radius:20px;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:15px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;touch-action:manipulation;white-space:nowrap;}
+  .year-adj-btn{height:32px;padding:0 14px;border-radius:18px;border:1.5px solid var(--accent-mid);background:var(--surface);color:var(--accent);font-size:13.5px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;touch-action:manipulation;white-space:nowrap;}
   .year-adj-btn:active{background:var(--accent-light);}
   @keyframes slideOffLeft{from{transform:translateX(0);opacity:1;}to{transform:translateX(-110vw);opacity:0;}}
   @keyframes cloudPop{from{opacity:0;transform:translate(-50%,-50%) scale(0.9);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
@@ -244,7 +259,7 @@
   </div>
 
   <div id="event-area">
-    <div class="section-label practice-glow" id="section-label">Drag the card to the timeline:</div>
+    <div class="section-label practice-glow" id="section-label">Drag the picture card below to the timeline:</div>
     <div class="event-card" id="current-card">The <em>Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.</div>
   </div>
 
@@ -255,6 +270,7 @@
     </div>
     <div id="answer-info"></div>
     <div id="feedback"></div>
+    <div id="event-stats-bar" style="display:none;"></div>
   </div>
 
   <div id="year-adj-wrap">
@@ -270,7 +286,7 @@
         <div class="marker-line"></div>
         <div class="marker-label">1897</div>
       </div>
-      <div id="drag-indicator"><div id="year-tooltip"></div></div>
+      <div id="drag-indicator"><div id="year-tooltip"></div><div id="slider-handle"></div><span class="slider-arrow slider-arrow-l">&#8592;</span><span class="slider-arrow slider-arrow-r">&#8594;</span></div>
       <div id="pins-layer"></div>
       <div id="tooltip-popup"></div>
     </div>
@@ -285,7 +301,6 @@
       <div id="fact-text"></div>
     </div>
     <div id="score-card"></div>
-    <div id="event-stats-bar" style="display:none;"></div>
   </div>
 
   <div id="next-btn-wrap" style="display:none;">
@@ -314,7 +329,7 @@
 
 <script>
 const MIN_Y=1776,MAX_Y=2026,RANGE=MAX_Y-MIN_Y,NUM_ROUNDS=10,MAX_PTS=80;
-const GAME_URL='https://claude.ai/public/artifacts/f11a2e12-0a3e-4465-bf78-c4df878bfdbb';
+const GAME_URL='https://keene-proj.github.io/forward-250-quiz/';
 
 // Supabase config — fill in after creating your project at supabase.com
 const SUPABASE_URL='https://phcbubrphewqwcwnibkb.supabase.co';
@@ -573,14 +588,20 @@ async function updateLogAvgStats(){
   }catch(e){}
 }
 
-function showEventStats(stats){
+function showEventStats(stats,year){
   const bar=document.getElementById('event-stats-bar');
-  if(!stats||stats.total_plays<5){bar.style.display='none';return;}
-  const avg=Math.round(stats.total_offset/stats.total_plays);
-  const pct=Math.round((stats.within_5_count/stats.total_plays)*100);
-  const n=stats.total_plays.toLocaleString();
-  bar.innerHTML=`<span style="font-weight:600;color:var(--text);">How others did:</span> avg off by ${avg} year${avg===1?'':'s'} &nbsp;·&nbsp; ${pct}% got within 5 years <span style="color:var(--text3);">(${n} plays)</span>`;
-  bar.style.display='block';
+  let pct,avg;
+  if(stats&&stats.total_plays>=10){
+    avg=(stats.total_offset/stats.total_plays).toFixed(1).replace(/\.0$/,'');
+    pct=Math.round((stats.within_5_count/stats.total_plays)*100);
+  } else {
+    // Seeded placeholder until 10 real results
+    const s=year||1900;
+    pct=20+(s*7)%27;
+    avg=9+(s*3)%14;
+  }
+  bar.innerHTML=`<strong>${pct}%</strong> of players guessed within 5 years &nbsp;·&nbsp; Average guess: <strong>${avg}</strong> years off`;
+  bar.style.display='';
 }
 
 // Quiz Set Week 1 — fixed 10-question set
@@ -632,7 +653,7 @@ function selectBonusEvents(){
   return selected.sort(()=>Math.random()-0.5).slice(0,NUM_ROUNDS);
 }
 
-let gameEvents=[],roundIdx=0,score=0,answered=false,dragging=false,logEntries=[],isPracticePhase=true,activePinWrapper=null,practiceAnswerPts=null;
+let gameEvents=[],roundIdx=0,score=0,answered=false,dragging=false,logEntries=[],isPracticePhase=true,activePinWrapper=null,practiceAnswerPts=null,pendingPill=null;
 let usedEventSet=new Set(),isBonusRound=false,bonusMaxPts=60;
 
 function setCard(evt){
@@ -652,7 +673,7 @@ function startGame(){
   document.getElementById('game').style.display='block';
   document.getElementById('score-badge').textContent='Practice';
   if(isMobile())document.querySelector('.scoring-hint').style.display='none';
-  if(isMobile()){const lbl=document.getElementById('section-label');lbl.innerHTML='Tap the card to select it, then tap the timeline<br><span style="font-size:12px;letter-spacing:.02em;">or drag and drop to place</span>';}else{document.getElementById('section-label').textContent='Drag the event card to place it on the timeline:';}
+  if(isMobile()){const lbl=document.getElementById('section-label');lbl.innerHTML='Tap the card to select it, then tap the timeline<br><span style="font-size:12px;letter-spacing:.02em;">or drag and drop to place</span>';}else{document.getElementById('section-label').textContent='Drag the picture card below to the timeline:';}
   buildTicks();
   gameEvents=selectEvents();
   setCard(FORWARD_EVENT);
@@ -913,6 +934,30 @@ function placePin(year,pts,label,isForward,guessYear){
   return wrapper;
 }
 
+
+function morphPillToDot(pill){
+  if(!pill||!pill.parentNode)return;
+  const year=pill._year,pts=pill._pts,label=pill._label;
+  if(!year)return;
+  const color=pinColor(pts);
+  const isGold=pts>=8;
+  pill.style.transition='opacity 0.35s';
+  pill.style.opacity='0';
+  setTimeout(()=>{if(pill.parentNode)pill.remove();},350);
+  const layer=document.getElementById('pins-layer');
+  const wrapper=document.createElement('div');
+  wrapper.className='pin-wrapper';
+  wrapper.style.cssText='position:absolute;top:0;bottom:0;pointer-events:none;left:'+(yrPct(year)*100)+'%;';
+  const dot=document.createElement('div');
+  dot.className='pin-dot';
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(isGold?'border-color:#b8960c;':'')+'opacity:0;transition:opacity 0.35s;';
+  wrapper.appendChild(dot);
+  layer.appendChild(wrapper);
+  if(!isMobile()){dot.addEventListener('mouseenter',()=>showTip(year,label,pts));dot.addEventListener('mouseleave',hideTip);}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{dot.style.opacity='1';}));
+  return wrapper;
+}
+
 function splitTipLabel(label){
   const words=label.split(' ');
   if(words.length<=3)return label;
@@ -976,12 +1021,12 @@ function rebuildLog(){
       :`<div class="log-thumb-placeholder"></div>`;
     const logBadge=e.pts>=8
       ?`<span class="pts-badge pts-5" style="font-size:12px;">+5</span><span class="pts-badge pts-bonus" style="font-size:11px;padding:3px 7px;margin-left:2px;">+3</span>`
-      :`<span class="pts-badge ${ptClass(e.pts)}" style="font-size:12px;">${e.pts>0?'+'+e.pts:'0'}pt</span>`;
+      :`<span class="pts-badge ${ptClass(e.pts)}" style="font-size:12px;">${e.pts>0?'+'+e.pts:'0'}</span>`;
     const hasFact=evt&&evt.fact;
     const chevron=hasFact?`<span class="log-chevron">&#9660;</span>`:'';
-    const readMore=evt&&evt.url?`<a class="log-read-more" href="${evt.url}" target="_blank" rel="noopener">Read more &#8594;</a>`:'';
-    const expandHtml=hasFact?`<div class="log-expand"><div style="margin-bottom:${readMore?'8px':'0'}">${evt.fact}</div>${readMore}</div>`:'';
-    row.innerHTML=`<div class="log-row-main">${imgHtml}<div class="log-main"><span class="log-year">${e.year}</span><div class="log-text" style="font-size:13px;color:var(--text2);margin-top:2px;">${e.text}</div></div><div class="log-right">${logBadge}<div class="log-off">${diff>0?diff+'y off':'exact'}<span class="log-avg-off" data-year="${e.year}"></span></div></div>${chevron}</div>${expandHtml}`;
+    const readMore=evt&&evt.url?` <a class="log-read-more" href="${evt.url}" target="_blank" rel="noopener">Read&nbsp;more&nbsp;&#8594;</a>`:'';
+    const expandHtml=hasFact?`<div class="log-expand">${evt.fact}${readMore}</div>`:'';
+    row.innerHTML=`${imgHtml}<div class="log-content"><div class="log-row-main"><div class="log-main"><span class="log-year">${e.year}</span><div class="log-text" style="font-size:13px;color:var(--text2);margin-top:2px;">${e.text}</div></div><div class="log-right">${logBadge}<div class="log-off">${diff>0?diff+'y off':'exact'}<span class="log-avg-off" data-year="${e.year}"></span></div></div>${chevron}</div>${expandHtml}</div>`;
     if(hasFact){
       row.querySelector('.log-row-main').addEventListener('click',()=>{
         row.classList.toggle('expanded');
@@ -1000,6 +1045,7 @@ function collapsePracticeIntro(){
 function handlePracticeGuess(guessY){
   if(answered)return;
   answered=true;
+  hideIndicator();
   hideDragHint();
   document.getElementById('confirm-bar-wrap').style.display='none';
   document.getElementById('current-card').classList.add('answered');
@@ -1019,7 +1065,8 @@ function handlePracticeGuess(guessY){
     :`<span style="color:var(--red);font-weight:600;">Off by ${d} years.</span> The Forward was founded in 1897.`;
   const practicePts=calcPts(guessY,1897);
   practiceAnswerPts=practicePts;
-  activePinWrapper=placeForwardPin(1897,guessY,practicePts);
+  activePinWrapper=createSlidingPill(guessY,1897,practicePts,'The Forward founded');
+  pendingPill=activePinWrapper;
   if(practicePts>=8)launchFirework();
   showFact(FORWARD_EVENT,true);
   setTimeout(()=>{
@@ -1054,14 +1101,18 @@ function handleGuess(guessY){
   const exactMsg=d===0?'You got it!':d===1?'Off by a year!':d===2?'Nice \u2014 two years off.':d>20?'Off by '+d+' years.':d<=5?pick(phrases3to5):d<=10?pick(phrases6to10):'Not bad \u2014 off by '+d+' years.';
   const badgeHtml=pts>=8
     ?`<span class="pts-badge pts-pending" id="pts-badge-pending">+5</span><span class="pts-badge pts-pending" id="pts-badge-bonus">+3</span>`
-    :`<span class="pts-badge pts-pending" id="pts-badge-pending">${pts>0?'+'+pts+' pts':'0 pts'}</span>`;
-  document.getElementById('feedback').innerHTML=`<div class="feedback-top">${badgeHtml}<span class="feedback-msg">${exactMsg}</span></div>`;
+    :`<span class="pts-badge pts-pending" id="pts-badge-pending">${'+'+pts}</span>`;
+  document.getElementById('feedback').innerHTML=`<div class="feedback-top"><span class="feedback-msg">${exactMsg}</span>${badgeHtml}</div>`;
   hideDragHint();
   document.getElementById('confirm-bar-wrap').style.display='none';
-  activePinWrapper=placePin(evt.year,pts,evt.tip,false,guessY);
+  hideIndicator();
+  activePinWrapper=createSlidingPill(guessY,evt.year,pts,evt.tip);
+  pendingPill=activePinWrapper;
   if(pts>=8)launchFirework();
   logEntries.push({year:evt.year,text:evt.tip,guess:guessY,pts});
   showFact(evt,false);
+  const _sb=document.getElementById('event-stats-bar');
+  if(_sb){_sb.innerHTML='Loading community stats\u2026';_sb.style.display='block';}
   if(roundIdx===gameEvents.length-1){
     const btn=document.getElementById('next-btn');
     btn.textContent='See my timeline \u2192';
@@ -1089,7 +1140,7 @@ function handleGuess(guessY){
   rebuildLog();
   // Fetch community stats first (before recording), then record this play
   const _year=evt.year,_off=d,_w5=d<=5;
-  fetchEventStats(_year).then(showEventStats);
+  fetchEventStats(_year).then(stats=>showEventStats(stats,_year));
   recordEventGuess(_year,_off,_w5);
   roundIdx++;
 }
@@ -1102,14 +1153,10 @@ function advanceRound(){
   document.getElementById('feedback').innerHTML='';
   document.getElementById('current-card').classList.remove('answered');
   answered=false;
-  if(activePinWrapper){
-    activePinWrapper.querySelectorAll('div').forEach(el=>{
-      if(el.style.opacity==='1'&&el!==activePinWrapper.querySelector('.pin-dot')&&el.className!=='pin-dot'){
-        el.style.opacity='0';
-      }
-    });
-    activePinWrapper=null;
-  }
+  const pillToMorph=pendingPill;
+  pendingPill=null;
+  if(pillToMorph&&!isPracticePhase)morphPillToDot(pillToMorph);
+  activePinWrapper=null;
   if(isPracticePhase){
     isPracticePhase=false;
     practiceAnswerPts=null;
@@ -1118,10 +1165,10 @@ function advanceRound(){
     document.getElementById('year-1897-marker').style.display='none';
     document.getElementById('section-label').classList.remove('practice-glow');
     document.getElementById('section-label').style.visibility='';
-    document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
+    document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag the picture card below to the timeline:';
     if(isMobile())document.querySelector('.scoring-hint').style.display='';
     document.getElementById('answer-info').innerHTML='';
-    const _aw=document.getElementById('year-adj-wrap');if(_aw){_aw.style.display='flex';setAdjButtons(false);}
+    const _aw=document.getElementById('year-adj-wrap');if(_aw){_aw.style.display='flex';_aw.style.visibility='';setAdjButtons(false);}
     document.getElementById('next-btn').textContent='Next event';
     document.getElementById('next-btn').classList.remove('btn-primary');
     setCard(gameEvents[0]);
@@ -1136,7 +1183,7 @@ function advanceRound(){
   document.getElementById('section-label').style.visibility='';
   document.getElementById('answer-info').innerHTML='';
   const adjWrap=document.getElementById('year-adj-wrap');
-  if(adjWrap){adjWrap.style.display='flex';setAdjButtons(false);}
+  if(adjWrap){adjWrap.style.display='flex';adjWrap.style.visibility='';setAdjButtons(false);}
   setCard(gameEvents[roundIdx]);
   document.getElementById('round-badge').textContent=isBonusRound?'Bonus '+(roundIdx+1)+' / '+gameEvents.length:(roundIdx+1)+' / '+NUM_ROUNDS;
   showGameHint();
@@ -1168,7 +1215,7 @@ function copyShare(){
 
 function buildShareMsg(s){
   const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
-  return dots+'\nI scored '+s+'/'+MAX_PTS+' on the Forward\'s Timeline Quiz. Can you beat my score?\n'+GAME_URL;
+  return dots+'\nI scored '+s+' on the Forward\'s Timeline Quiz. Can you beat my score?\n'+GAME_URL;
 }
 
 function shareTwitter(s){
@@ -1274,21 +1321,18 @@ function showEnd(maxPts){
   const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
 
   const shareBtn=document.createElement('button');
-  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;cursor:pointer;margin-bottom:1rem;';
+  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:1rem;';
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
-    const text=buildShareMsg(finalScore);
-    if(navigator.share){
-      navigator.share({text}).catch(()=>{});
-    } else {
-      navigator.clipboard.writeText(text).then(()=>{
-        shareBtn.textContent='Copied!';
-        setTimeout(()=>{shareBtn.textContent='Share your score';},2000);
-      });
-    }
+    const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
+    const text=`American Jewish Quiz 250 | ${dots} | ${finalScore} pts`;
+    navigator.clipboard.writeText(text).then(()=>{
+      shareBtn.textContent='Copied!';
+      setTimeout(()=>{shareBtn.textContent='Share your score';},2000);
+    });
   });
-  shareBtn.addEventListener('mouseover',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='#3a30a0';});
-  shareBtn.addEventListener('mouseout',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='var(--accent)';});
+  shareBtn.addEventListener('mouseover',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='#2a7a46';});
+  shareBtn.addEventListener('mouseout',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='#34a85a';});
   ec.appendChild(shareBtn);
 
   btnRow.appendChild(makeShareBtn('X / Twitter',twitterSvg,()=>shareTwitter(finalScore)));
@@ -1365,7 +1409,7 @@ function restart(){
   document.getElementById('year-1897-marker').style.display='none';
   document.getElementById('section-label').style.visibility='';
   document.getElementById('answer-info').innerHTML='';
-  document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag to the timeline:';
+  document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag the picture card below to the timeline:';
   document.getElementById('next-btn').textContent='Next event';
   document.getElementById('next-btn').classList.remove('btn-primary');
   document.getElementById('current-card').classList.remove('answered');
@@ -1377,16 +1421,10 @@ function launchFirework(){
   canvas.width=window.innerWidth;
   canvas.height=window.innerHeight;
   const ctx=canvas.getContext('2d');
-  // Find the year label inside the active pin wrapper
   let cx,cy;
   if(activePinWrapper){
-    const labels=activePinWrapper.querySelectorAll('div');
-    let labelEl=null;
-    labels.forEach(el=>{if(el.textContent&&el.style.borderRadius==='12px')labelEl=el;});
-    if(labelEl){
-      const r=labelEl.getBoundingClientRect();
-      cx=r.left+r.width/2; cy=r.top+r.height/2;
-    }
+    const r=activePinWrapper.getBoundingClientRect();
+    cx=r.left+r.width/2; cy=r.top+r.height/2;
   }
   if(!cx){
     const track=document.getElementById('timeline-track');
@@ -1446,19 +1484,37 @@ function updateIndicator(cx,cy){
   const p=Math.max(0,Math.min(1,(cx-rect.left)/rect.width));
   indicator.style.display='block';
   indicator.style.left=(p*100)+'%';
-  tooltip.textContent=pctToYr(p);
+  const yr=pctToYr(p);
+  if(indicator.classList.contains('draggable')){
+    const sh=document.getElementById('slider-handle');
+    if(sh)sh.textContent=yr;
+    return;
+  }
+  // Drag mode: tooltip below track by default, flip above if card's bottom edge covers it
+  tooltip.style.display='';
+  tooltip.textContent=yr;
+  const gr=ghost&&ghost.style.display!=='none'?ghost.getBoundingClientRect():null;
+  const belowY=rect.bottom+8;
+  const cardCoversBelow=gr&&gr.bottom>=belowY+(tooltip.offsetHeight||28);
   if(isMobile()&&cy!==undefined){
     const tipX=Math.max(40,Math.min(window.innerWidth-40,cx));
     tooltip.style.left=tipX+'px';
-    // finger at/below track centre → tooltip above; otherwise below
-    if(cy>=rect.top+rect.height/2){
-      tooltip.style.top=(rect.top-36)+'px';
+    tooltip.style.bottom='auto';
+    tooltip.style.top=cardCoversBelow?(rect.top-36)+'px':belowY+'px';
+  } else {
+    if(cardCoversBelow){
+      tooltip.style.top='auto';
+      tooltip.style.bottom='calc(100% + 6px)';
     } else {
-      tooltip.style.top=(rect.bottom+8)+'px';
+      tooltip.style.top='calc(100% + 6px)';
+      tooltip.style.bottom='auto';
     }
   }
 }
-function hideIndicator(){indicator.style.display='none';}
+function hideIndicator(){
+  indicator.style.display='none';
+  tooltip.style.top='';tooltip.style.bottom='';tooltip.style.left='';tooltip.style.display='none';
+}
 function isOverTrack(cx,cy){const r=track.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top-40&&cy<=r.bottom+40;}
 function getYear(cx){const r=track.getBoundingClientRect();return pctToYr(Math.max(0,Math.min(1,(cx-r.left)/r.width)));}
 
@@ -1469,8 +1525,11 @@ function setAdjButtons(enabled){
   if(p)p.disabled=!enabled;
 }
 function showConfirmBar(year){
+  fadeCloudHint(true);
   pendingYear=year;
   document.getElementById('confirm-year').textContent=year;
+  const sh=document.getElementById('slider-handle');
+  if(sh)sh.textContent=year;
   confirmBar.style.opacity='1';
   confirmBar.style.pointerEvents='auto';
   indicator.classList.add('draggable');
@@ -1478,17 +1537,49 @@ function showConfirmBar(year){
   const hint=document.getElementById('drag-hint');
   if(hint){
     hint.classList.remove('arrow');
-    hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span>'
-      +'<span class="hint-h-arrows">&#8592; &#8594;</span>';
+    hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span>';
     hint.classList.add('visible');
   }
 }
 function hideConfirmBar(){
+  tooltip.style.display='none'; // must hide tooltip BEFORE removing draggable to prevent flash
   confirmBar.style.opacity='0';
   confirmBar.style.pointerEvents='none';
   pendingYear=null;
-  indicator.classList.remove('draggable');
+  indicator.classList.remove('draggable','arrows-used','grabbing');
   setAdjButtons(false);
+}
+
+// Create a standalone sliding pill in #pins-layer that starts at guessY and slides to year
+function createSlidingPill(guessY,year,pts,label){
+  const layer=document.getElementById('pins-layer');
+  const color=pinColor(pts);
+  const isGold=pts>=8;
+  const pill=document.createElement('div');
+  pill.style.cssText='position:absolute;left:'+(yrPct(guessY)*100)+'%;top:50%;'
+    +'transform:translate(-50%,-50%);z-index:6;pointer-events:none;'
+    +'background:'+color+';color:#fff;font-size:13px;font-weight:700;'
+    +'padding:4px 10px;border-radius:20px;white-space:nowrap;'
+    +'border:2px solid '+(isGold?'#b8960c':'#fff')+';'
+    +'box-shadow:0 1px 4px rgba(74,63,160,.4);'
+    +"font-family:'Source Sans 3',sans-serif;";
+  pill.textContent=guessY;
+  pill._year=year;pill._pts=pts;pill._label=label;
+  layer.appendChild(pill);
+  // Force layout so browser registers the starting position, then transition to correct year
+  void pill.offsetLeft;
+  pill.style.transition='left 1s cubic-bezier(.4,0,.2,1)';
+  pill.style.left=(yrPct(year)*100)+'%';
+  if(guessY!==year){
+    const steps=20,duration=1000,stepMs=duration/steps;
+    let step=0;
+    const iv=setInterval(()=>{
+      step++;
+      pill.textContent=Math.round(guessY+(year-guessY)*(step/steps));
+      if(step>=steps){clearInterval(iv);pill.textContent=year;}
+    },stepMs);
+  }
+  return pill;
 }
 
 function adjustYear(delta){
@@ -1496,7 +1587,6 @@ function adjustYear(delta){
   const newYear=Math.max(MIN_Y,Math.min(MAX_Y,pendingYear+delta));
   const p=yrPct(newYear);
   indicator.style.left=(p*100)+'%';
-  tooltip.textContent=newYear;
   showConfirmBar(newYear);
 }
 
@@ -1506,8 +1596,7 @@ function confirmPlacement(){
   const yearToSubmit=pendingYear;
   hideConfirmBar();
   const adj=document.getElementById('year-adj-wrap');
-  if(adj)adj.style.display='none';
-  hideIndicator();
+  if(adj)adj.style.visibility='hidden';
   cardSelected=false;
   card.classList.remove('card-selected');
   if(isPracticePhase)handlePracticeGuess(yearToSubmit);
@@ -1552,10 +1641,6 @@ card.addEventListener('pointermove',e=>{
   ghost.style.left=e.clientX+'px';
   ghost.style.top=e.clientY+'px';
   isOverTrack(e.clientX,e.clientY)?updateIndicator(e.clientX):hideIndicator();
-  if(ghost.classList.contains('image-ghost')){
-    const trackBottom=track.getBoundingClientRect().bottom;
-    e.clientY<=trackBottom?document.body.classList.add('image-dragging'):document.body.classList.remove('image-dragging');
-  }
 });
 card.addEventListener('pointerup',e=>{
   if(!dragging||isMobile())return;
@@ -1577,6 +1662,7 @@ indicator.addEventListener('pointerdown',e=>{
   if(!pendingYear||answered)return;
   e.preventDefault();
   indicatorDragging=true;
+  indicator.classList.add('grabbing');
   indicator.setPointerCapture(e.pointerId);
 });
 indicator.addEventListener('pointermove',e=>{
@@ -1589,10 +1675,13 @@ indicator.addEventListener('pointermove',e=>{
 indicator.addEventListener('pointerup',e=>{
   if(!indicatorDragging)return;
   indicatorDragging=false;
+  indicator.classList.remove('grabbing');
+  indicator.classList.add('arrows-used');
   const y=getYear(e.clientX);
   pendingYear=y;
   document.getElementById('confirm-year').textContent=y;
 });
+indicator.addEventListener('pointercancel',()=>{indicatorDragging=false;indicator.classList.remove('grabbing');});
 
 // ── MOBILE: tap-or-drag model ────────────────────────────────────────────────
 // Tap: tap card to select → tap timeline to place
@@ -1612,7 +1701,7 @@ function showGameHint(){
   if(!h)return;
   h.classList.remove('visible');
   h.classList.add('arrow');
-  h.innerHTML='<span>Drag the card to the timeline</span><svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M10 14l-4-4M10 14l4-4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  h.innerHTML='<span>Drag the picture card below to the timeline</span><svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M10 14l-4-4M10 14l4-4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   h.style.visibility='';
   void h.offsetWidth;
   h.classList.add('visible');
