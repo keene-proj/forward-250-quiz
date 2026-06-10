@@ -971,8 +971,10 @@ function showTip(year,label,pts){
   popup.innerHTML=`<span style="font-weight:600;color:${pinColor(pts)};">${year}</span><br>${splitTipLabel(label)}`;
   popup.style.display='block';
   const x=yrPct(year)*track.offsetWidth;
-  popup.style.left=Math.min(Math.max(x-80,4),track.offsetWidth-170)+'px';
-  popup.style.top='-68px';
+  popup.style.left=x+'px';
+  popup.style.transform='translateX(-50%)';
+  popup.style.top='';
+  popup.style.bottom='calc(100% + 2px)';
 }
 function hideTip(){document.getElementById('tooltip-popup').style.display='none';}
 
@@ -1328,10 +1330,11 @@ function showEnd(maxPts){
   shareBtn.addEventListener('click',()=>{
     const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
     const text=`Jewish 250 Quiz\n${dots}\n${finalScore} points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/`;
-    navigator.clipboard.writeText(text).then(()=>{
-      shareBtn.textContent='Copied to clipboard!';
-      setTimeout(()=>{shareBtn.textContent='Share your score';},2000);
-    });
+    function onCopied(){shareBtn.textContent='Copied to clipboard!';setTimeout(()=>{shareBtn.textContent='Share your score';},2000);}
+    function fallbackCopy(){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');onCopied();}catch(e){}document.body.removeChild(ta);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(onCopied).catch(fallbackCopy);
+    } else {fallbackCopy();}
   });
   shareBtn.addEventListener('mouseover',()=>{if(shareBtn.textContent!=='Copied to clipboard!')shareBtn.style.background='#2a7a46';});
   shareBtn.addEventListener('mouseout',()=>{if(shareBtn.textContent!=='Copied to clipboard!')shareBtn.style.background='#34a85a';});
@@ -1342,8 +1345,8 @@ function showEnd(maxPts){
   btnRow.appendChild(makeShareBtn('Facebook',fbSvg,()=>shareFacebook()));
   ec.appendChild(btnRow);
 
-  recordGameScore(finalScore,maxPts);
-  fetchScoreStats(finalScore,maxPts).then(stats=>{
+  recordGameScore(finalScore);
+  fetchScoreStats(finalScore).then(stats=>{
     if(stats){
       statsCompare.innerHTML=`You scored better than <strong>${stats.betterThan}%</strong> of players &nbsp;·&nbsp; Average: <strong>${stats.avg}/${maxPts}</strong>`;
     }
@@ -1816,4 +1819,37 @@ track.addEventListener('touchend',e=>{
   showConfirmBar(getYear(t.clientX));
 },{passive:false});
 
+// Supabase score tracking
+const SB_URL='https://phcbubrphewqwcwnibkb.supabase.co';
+const SB_KEY='sb_publishable_6OnZQEW1PWXoh8eKHpCmgg_eb0vnp2o';
+const SB_HEADERS={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+
+function recordGameScore(score){
+  fetch(SB_URL+'/rest/v1/scores',{method:'POST',headers:SB_HEADERS,body:JSON.stringify({score})})
+    .catch(()=>{});
+}
+
+async function fetchScoreStats(userScore){
+  try{
+    const res=await fetch(SB_URL+'/rest/v1/scores?select=score',{headers:SB_HEADERS});
+    if(!res.ok)return null;
+    const rows=await res.json();
+    if(rows.length<5)return null;
+    const scores=rows.map(r=>r.score);
+    const avg=Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+    const betterThan=Math.round(scores.filter(s=>s<userScore).length/scores.length*100);
+    return{avg,betterThan};
+  }catch{return null;}
+}
+
+function updateLogAvgStats(){}
+
+// Auto-resize: notify parent iframe of height changes
+(function(){
+  function postHeight(){
+    window.parent.postMessage({height:document.body.scrollHeight},'*');
+  }
+  new ResizeObserver(postHeight).observe(document.body);
+  postHeight();
+})();
 </script>
