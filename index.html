@@ -94,6 +94,7 @@
   .pts-pending{background:var(--surface2);color:var(--text3);}
   #fact-box{display:none;background:var(--surface);border-left:4px solid var(--accent-mid);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13px;color:var(--text);line-height:1.4;margin-bottom:.5rem;margin-top:21px;margin-left:auto;margin-right:auto;border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border);overflow:hidden;max-width:calc(35% + 8px);display:none;flex-direction:row;flex-wrap:wrap;}
   #fact-body{padding:.5rem .75rem .4rem;flex:1;}
+  #fact-text{text-wrap:pretty;}
   .fact-label{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
   #score-card{width:64px;min-width:64px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;padding:8px 6px;background:var(--surface2);border-left:.5px solid var(--border);box-sizing:border-box;}
   .sc-row{height:10px;border-radius:3px;background:var(--border2);flex-shrink:0;}
@@ -343,7 +344,7 @@ const ALL_EVENTS=[
    fact:"The Virginia Statute for Religious Freedom is one of only three accomplishments Thomas Jefferson instructed be put in his epitaph."},
   {html:"George Washington writes a letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington’s religious liberty letter",year:1790,url:"https://forward.com/news/156067/forward-campaign-led-to-letters-release/",
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-1.56.25-PM.jpg",
-   fact:"The letter had been lost in storage for nearly a decade until a 2012 <em>Forward</em> investigation revealed its whereabouts and helped restore it to public view."},
+   fact:"The letter had been lost in storage for nearly a decade until a 2012 <em>Forward</em> investigation revealed its whereabouts and helped restore it to public view. \"To bigotry no sanction\" were words borrowed from the letter written to Washington by Touro's leader, Moses Seixas."},
   {html:"Rebecca Gratz founds the first American Jewish Sunday school.",tip:"First American Jewish Sunday school",year:1838,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-1.57.47-PM.jpg",
    fact:"Gratz modeled the Hebrew Sunday School of Philadelphia on Protestant schools. It became the template for Jewish education across America."},
@@ -1020,7 +1021,7 @@ function rebuildLog(){
       ?`<img class="log-thumb" src="${evt.image}" alt="" style="object-position:${evt.thumbPosition||'center top'}">`
       :`<div class="log-thumb-placeholder"></div>`;
     const logBadge=e.pts>=8
-      ?`<span class="pts-badge pts-5" style="font-size:12px;">+5</span><span class="pts-badge pts-bonus" style="font-size:11px;padding:3px 7px;margin-left:2px;">+3</span>`
+      ?`<div style="display:flex;gap:3px;"><span class="pts-badge pts-5" style="font-size:12px;">+5</span><span class="pts-badge pts-bonus" style="font-size:11px;padding:3px 7px;">+3 bonus</span></div>`
       :`<span class="pts-badge ${ptClass(e.pts)}" style="font-size:12px;">${e.pts>0?'+'+e.pts:'0'}</span>`;
     const hasFact=evt&&evt.fact;
     const chevron=hasFact?`<span class="log-chevron">&#9660;</span>`:'';
@@ -1100,7 +1101,7 @@ function handleGuess(guessY){
   const phrases6to10=['Nice \u2014 within '+d+' years.','Good \u2014 off by just '+d+' years.','Sharp \u2014 '+d+' years off.'];
   const exactMsg=d===0?'You got it!':d===1?'Off by a year!':d===2?'Nice \u2014 two years off.':d>20?'Off by '+d+' years.':d<=5?pick(phrases3to5):d<=10?pick(phrases6to10):'Not bad \u2014 off by '+d+' years.';
   const badgeHtml=pts>=8
-    ?`<span class="pts-badge pts-pending" id="pts-badge-pending">+5</span><span class="pts-badge pts-pending" id="pts-badge-bonus">+3</span>`
+    ?`<span class="pts-badge pts-pending" id="pts-badge-pending">+5</span><span class="pts-badge pts-pending" id="pts-badge-bonus">+3 bonus</span>`
     :`<span class="pts-badge pts-pending" id="pts-badge-pending">${'+'+pts}</span>`;
   document.getElementById('feedback').innerHTML=`<div class="feedback-top"><span class="feedback-msg">${exactMsg}</span>${badgeHtml}</div>`;
   hideDragHint();
@@ -1122,8 +1123,7 @@ function handleGuess(guessY){
     const badge=document.getElementById('pts-badge-pending');
     if(badge){
       badge.classList.remove('pts-pending');
-      badge.classList.add(pts>=8?'pts-5':ptClass(pts));
-      if(pts>=8)badge.style.border='1.5px solid #b8960c';
+      badge.classList.add(ptClass(pts));
       if(pts>=8){const bonus=document.getElementById('pts-badge-bonus');if(bonus){bonus.classList.remove('pts-pending');bonus.classList.add('pts-bonus');}}
     }
   },500);
@@ -1146,6 +1146,7 @@ function handleGuess(guessY){
 }
 
 function advanceRound(){
+  window.scrollTo({top:0,behavior:'smooth'});
   document.getElementById('event-stats-bar').style.display='none';
   document.getElementById('fact-box').style.display='none';
   document.getElementById('confirm-bar-wrap').style.display='flex';
@@ -1202,7 +1203,7 @@ function getNickname(s,maxPts){
 
 function buildShareText(s){
   const {nick}=getNickname(s);
-  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
+  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
   return `250 Years of American Jewish History\n${dots}\nScore: ${s}/${MAX_PTS} — "${nick}"\nPlay at claude.ai`;
 }
 
@@ -1214,7 +1215,7 @@ function copyShare(){
 }
 
 function buildShareMsg(s){
-  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
+  const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
   return dots+'\nI scored '+s+' on the Forward\'s Timeline Quiz. Can you beat my score?\n'+GAME_URL;
 }
 
@@ -1324,15 +1325,15 @@ function showEnd(maxPts){
   shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:1rem;';
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
-    const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'💚':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🩷':'⬜').join('');
+    const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
     const text=`American Jewish Quiz 250 | ${dots} | ${finalScore} pts`;
     navigator.clipboard.writeText(text).then(()=>{
-      shareBtn.textContent='Copied!';
+      shareBtn.textContent='Copied to clipboard!';
       setTimeout(()=>{shareBtn.textContent='Share your score';},2000);
     });
   });
-  shareBtn.addEventListener('mouseover',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='#2a7a46';});
-  shareBtn.addEventListener('mouseout',()=>{if(shareBtn.textContent!=='Copied!')shareBtn.style.background='#34a85a';});
+  shareBtn.addEventListener('mouseover',()=>{if(shareBtn.textContent!=='Copied to clipboard!')shareBtn.style.background='#2a7a46';});
+  shareBtn.addEventListener('mouseout',()=>{if(shareBtn.textContent!=='Copied to clipboard!')shareBtn.style.background='#34a85a';});
   ec.appendChild(shareBtn);
 
   btnRow.appendChild(makeShareBtn('X / Twitter',twitterSvg,()=>shareTwitter(finalScore)));
@@ -1533,6 +1534,7 @@ function showConfirmBar(year){
   confirmBar.style.opacity='1';
   confirmBar.style.pointerEvents='auto';
   indicator.classList.add('draggable');
+  if(roundIdx>=3)indicator.classList.add('arrows-used');
   setAdjButtons(true);
   const hint=document.getElementById('drag-hint');
   if(hint){
