@@ -51,9 +51,11 @@
   .game-title-sm{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--text);text-align:center;flex:1;line-height:1.3;}
   .game-title-full{font-family:'Playfair Display',serif;font-size:clamp(14px,2vw,20px);font-weight:600;color:var(--text);text-align:center;line-height:1.3;}
   .badge{font-size:14px;font-weight:600;padding:6px 14px;border-radius:20px;background:var(--surface2);color:var(--text2);border:.5px solid var(--border);font-family:'Source Sans 3',sans-serif;white-space:nowrap;}
-  .section-label{font-size:15px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;text-align:center;}
+  .section-label{display:none;}
   .section-label.practice-glow{color:var(--accent);}
-  #middle-block{height:68px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:14px;width:100%;padding-top:14px;position:relative;}
+  #confirm-zone{height:88px;position:relative;width:100%;}
+  #middle-block{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:0;padding-top:0;}
+  #year-adj-wrap{position:absolute;bottom:0;left:0;right:0;margin-bottom:0;}
   #answer-info{font-size:17px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;text-align:center;}
   @keyframes labelGlow{0%,100%{text-shadow:0 0 6px rgba(127,119,221,0.4);}50%{text-shadow:0 0 16px rgba(127,119,221,0.75);}}
   #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:0;}
@@ -79,14 +81,14 @@
   .event-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);border-color:var(--accent-mid);}
   .event-card.answered{cursor:default;}
   .event-card.answered:hover{box-shadow:0 1px 4px rgba(0,0,0,.06);border-color:var(--border2);}
-  #feedback{font-size:16px;color:var(--text2);text-align:center;line-height:1.4;margin-top:-4px;}
+  #feedback{font-size:16px;color:var(--text2);text-align:center;line-height:1.4;}
   .feedback-top{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:3px;}
   .feedback-msg{font-size:17px;font-weight:500;color:var(--text);}
   .feedback-sub{font-size:13px;color:var(--text3);}
   .feedback-sub strong{color:var(--text2);}
   .pts-badge{display:inline-block;font-size:14px;font-weight:600;padding:3px 10px;border-radius:20px;margin-right:6px;font-family:'Source Sans 3',sans-serif;}
   .pts-6{background:#166534;color:#fff;}
-  .pts-bonus{background:#34a85a;color:#fff;border:1.5px solid #b8960c;}
+  .pts-bonus{background:#34a85a;color:#fff;border:1.5px solid #4a3fa0;}
   .pts-5{background:#34a85a;color:#fff;}
   .pts-3{background:#ca8a04;color:#fff;}
   .pts-1{background:#be185d;color:#fff;}
@@ -102,13 +104,13 @@
   #score-card-total span{display:block;font-size:8px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
   @keyframes scRowGlow{0%,100%{opacity:1;}50%{opacity:.45;}}
   .sc-placeholder{font-size:8px;color:var(--accent);text-align:center;line-height:1.4;padding:4px 2px;flex:1;display:flex;align-items:center;justify-content:center;}
-  #event-stats-bar{font-size:12px;color:var(--text3);text-align:center;padding:3px 0 2px;line-height:1.4;margin-top:-7px;}
+  #event-stats-bar{font-size:12px;color:var(--text3);text-align:center;padding:0;line-height:1.4;}
   #next-btn-wrap{display:none;justify-content:center;margin-top:1.5rem;}
   #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s;}
   #next-btn:hover{background:#3a30a0;}
   #next-btn.btn-primary{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;}
   #next-btn.btn-primary:hover{background:#3a30a0;border:none;color:#fff;}
-  #timeline-section{margin-top:1rem;margin-bottom:.5rem;padding:0 1rem;}
+  #timeline-section{margin-top:calc(.4rem - 8px);margin-bottom:.5rem;padding:0 1rem;}
   .tl-label-row{position:relative;height:22px;margin-bottom:16px;}
   .tl-label-row span{position:absolute;font-size:13px;color:var(--text3);font-weight:600;letter-spacing:.03em;transform:translateX(-50%);white-space:nowrap;}
   .tl-label-row span:first-child{transform:translateX(0);}
@@ -122,7 +124,7 @@
     #drag-hint span{white-space:normal;text-align:center;font-size:13px;max-width:260px;}
   }
   @media(max-width:600px){
-    #middle-block{height:auto;min-height:68px;}
+    #confirm-zone{height:auto;min-height:88px;}
     #fact-box{max-width:92%!important;flex-wrap:nowrap;}
   }
   @media(hover:none) and (max-width:768px){
@@ -156,7 +158,7 @@
   #tooltip-popup{position:absolute;pointer-events:none;display:none;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 9px;font-size:11px;color:var(--text);line-height:1.45;max-width:165px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.1);}
   .scoring-hint{font-size:13px;color:var(--text3);margin-top:10px;text-align:center;letter-spacing:.02em;}
   #log-section{margin-top:calc(1.75rem - 8px);display:none;}
-  .log-section-title{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;text-align:center;}
+  .log-section-title{font-size:22px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;text-align:center;}
   #history-log{display:flex;flex-direction:column;gap:6px;}
   .log-row{display:flex;align-items:stretch;border-radius:var(--radius-sm);border:.5px solid var(--border);background:var(--surface);overflow:hidden;}
   .log-content{flex:1;display:flex;flex-direction:column;padding:8px 10px;min-width:0;}
@@ -180,13 +182,13 @@
   #btn-area{text-align:center;margin-top:1.25rem;}
   .main-btn{font-size:14px;font-weight:600;padding:9px 22px;border-radius:24px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s,border-color .12s;}
   .main-btn:hover{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent);}
-  #end-card{padding:1.5rem 0;text-align:center;margin-top:-25px;}
+  #end-card{padding:.75rem 0 .5rem;text-align:center;margin-top:0;}
   .end-summary{font-family:'Playfair Display',Georgia,serif;font-size:clamp(17px,3vw,22px);color:var(--text);line-height:1.5;margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto;}
   .end-summary strong{color:var(--accent);}
-  .end-score{font-family:'Playfair Display',serif;font-size:60px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1;}
-  .end-max{font-size:18px;color:var(--text3);font-family:'Source Sans 3',sans-serif;}
-  .end-nick{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--accent);margin:12px 0 8px;font-style:italic;}
-  .end-msg{font-size:17px;color:var(--text2);margin-bottom:1.5rem;}
+  .end-score{font-family:'Playfair Display',serif;font-size:52px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1;}
+  .end-max{font-size:15px;color:var(--text3);font-family:'Source Sans 3',sans-serif;}
+  .end-nick{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--accent);margin:8px 0 4px;font-style:italic;}
+  .end-msg{font-size:15px;color:var(--text2);margin-bottom:.75rem;}
   #share-box{background:var(--surface2);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:13px;color:var(--text);font-family:monospace;margin-bottom:.75rem;line-height:1.7;border:.5px solid var(--border);text-align:left;}
   #copy-btn{font-size:13px;font-weight:600;padding:6px 18px;border-radius:20px;border:1px solid var(--border2);background:var(--surface);color:var(--text);cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:background .12s;margin-right:8px;}
   #copy-btn:hover{background:var(--green-light);border-color:var(--green);color:var(--green-dark);}
@@ -197,7 +199,7 @@
   #practice-intro h2{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,32px);font-weight:700;color:var(--accent);margin-bottom:.75rem;line-height:1.2;}
   #practice-intro p{font-size:15px;color:var(--text2);line-height:1.7;max-width:380px;}
   #practice-intro .arrow-hint{font-size:13px;color:var(--text3);margin-top:.75rem;font-style:italic;}
-  #practice-banner{background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:var(--radius);padding:.75rem 1.1rem;margin-bottom:.75rem;font-size:14px;color:var(--accent);line-height:1.6;display:none;}
+  #practice-banner{background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:var(--radius);padding:.5rem 1.1rem;margin-bottom:.35rem;font-size:14px;color:var(--accent);line-height:1.6;display:none;}
   #practice-banner strong{font-weight:600;}
   #year-1897-marker{position:absolute;pointer-events:none;z-index:1;top:0;bottom:0;}
   #year-1897-marker .marker-line{position:absolute;top:0;bottom:0;width:0;border-left:2px solid rgba(74,63,160,0.7);left:0;}
@@ -212,7 +214,7 @@
   @keyframes modalSlideUp{from{opacity:0;transform:translateY(24px) scale(0.97);}to{opacity:1;transform:translateY(0) scale(1);}}
   #practice-modal-overlay.animating{animation:overlayFadeIn 0.25s ease both;}
   #practice-modal-overlay.animating #practice-modal{animation:modalSlideUp 0.3s cubic-bezier(0.34,1.2,0.64,1) both;}
-  #drag-hint{position:absolute;top:calc(50% - 2px);left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:4px;visibility:hidden;}
+  #drag-hint{position:absolute;top:calc((100% - 36px) / 2);left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;gap:4px;visibility:hidden;}
   #drag-hint span{font-size:15px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;}
   @keyframes bounceDown{0%,100%{transform:translateY(0);opacity:.7;}50%{transform:translateY(6px);opacity:1;}}
   @keyframes spreadArrows{0%,100%{letter-spacing:2px;opacity:.6;}50%{letter-spacing:8px;opacity:1;}}
@@ -228,7 +230,7 @@
   .year-adj-btn:active{background:var(--accent-light);}
   @keyframes slideOffLeft{from{transform:translateX(0);opacity:1;}to{transform:translateX(-110vw);opacity:0;}}
   @keyframes cloudPop{from{opacity:0;transform:translate(-50%,-50%) scale(0.9);}to{opacity:1;transform:translate(-50%,-50%) scale(1);}}
-  #cloud-hint{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:0.9rem 1.4rem;font-size:15px;color:var(--text);line-height:1.55;text-align:center;box-shadow:0 6px 28px rgba(0,0,0,0.11),0 1px 4px rgba(0,0,0,0.07);border:1px solid rgba(210,206,248,0.7);max-width:300px;z-index:110;pointer-events:none;animation:cloudPop 0.3s cubic-bezier(0.34,1.2,0.64,1) both;}
+  #cloud-hint{position:fixed;top:calc(38% - 15px);left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;padding:0.9rem 1.4rem;font-size:15px;color:var(--text);line-height:1.55;text-align:center;box-shadow:0 6px 28px rgba(0,0,0,0.11),0 1px 4px rgba(0,0,0,0.07);border:1px solid rgba(210,206,248,0.7);max-width:300px;z-index:110;pointer-events:none;animation:cloudPop 0.3s cubic-bezier(0.34,1.2,0.64,1) both;}
 </style>
 </head>
 <body>
@@ -260,23 +262,24 @@
   </div>
 
   <div id="event-area">
-    <div class="section-label practice-glow" id="section-label">Drag the picture card below to the timeline:</div>
+    <div class="section-label practice-glow" id="section-label">Drag the picture card to the timeline below:</div>
     <div class="event-card" id="current-card">The <em>Forward</em> is founded as a Yiddish-language daily newspaper on Manhattan’s Lower East Side.</div>
   </div>
 
-  <div id="middle-block">
-    <div id="drag-hint" class="arrow">
-      <span>Drag to 1897 on the timeline</span>
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M10 14l-4-4M10 14l4-4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div id="confirm-zone">
+    <div id="middle-block">
+      <div id="drag-hint" class="arrow">
+        <span>Drag to 1897 on the timeline</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M10 14l-4-4M10 14l4-4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div id="answer-info"></div>
+      <div id="feedback"></div>
+      <div id="event-stats-bar" style="display:none;"></div>
     </div>
-    <div id="answer-info"></div>
-    <div id="feedback"></div>
-    <div id="event-stats-bar" style="display:none;"></div>
-  </div>
-
-  <div id="year-adj-wrap">
-    <button class="year-adj-btn" id="year-adj-minus" onclick="adjustYear(-1)" disabled>&#8722;1 year</button>
-    <button class="year-adj-btn" id="year-adj-plus" onclick="adjustYear(+1)" disabled>+1 year</button>
+    <div id="year-adj-wrap">
+      <button class="year-adj-btn" id="year-adj-minus" onclick="adjustYear(-1)" disabled>&#8722;1 year</button>
+      <button class="year-adj-btn" id="year-adj-plus" onclick="adjustYear(+1)" disabled>+1 year</button>
+    </div>
   </div>
 
   <div id="timeline-section">
@@ -319,7 +322,7 @@
 <div id="practice-modal-overlay" style="display:none;">
   <div id="practice-modal">
     <h2 id="practice-modal-title">How to play</h2>
-    <p id="practice-modal-instructions">① Read the event card.<br>② Drag the event card to the timeline.<br>③ Fine-tune with the slider, then confirm below.</p>
+    <p id="practice-modal-instructions">① Read the event card.<br>② Drag the event card to the timeline.<br>③ Fine-tune with the slider or by clicking the +/- buttons, then confirm below.</p>
     <p id="practice-modal-1897" style="display:none;margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em> was founded in <strong>1897</strong>.<br>Drag the card there to get started.</p>
     <button id="ready-btn" onclick="dismissPracticeModal()">Got it &mdash; let me try</button>
   </div>
@@ -329,6 +332,7 @@
 <div id="cloud-hint" style="display:none;">The <em>Forward</em> was founded in <strong>1897</strong>. Move the picture card there to practice.</div>
 
 <script>
+const DEV_MODE=new URLSearchParams(location.search).has('dev');
 const MIN_Y=1776,MAX_Y=2026,RANGE=MAX_Y-MIN_Y,NUM_ROUNDS=10,MAX_PTS=80;
 const GAME_URL='https://keene-proj.github.io/forward-250-quiz/';
 
@@ -355,9 +359,9 @@ const ALL_EVENTS=[
   {html:"Katz’s Delicatessen opens on the Lower East Side of Manhattan.",tip:"Katz’s Delicatessen opens",year:1888,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-2.12.03-PM-scaled.jpg",
    fact:"<em>When Harry Met Sally</em>’s most famous scene — &ldquo;I’ll have what she’s having&rdquo; — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase &ldquo;Send a salami to your boy in the Army&rdquo; during World War II."},
-  {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa Banquet.&rdquo;",tip:"HUC's Trefa Banquet",year:1883,url:"https://forward.com/culture/801135/a-kosher-oyster-trefa-banquet-jewish-food-history/",
+  {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa&nbsp;Banquet.&rdquo;",tip:"HUC's Trefa Banquet",year:1883,url:"https://forward.com/culture/801135/a-kosher-oyster-trefa-banquet-jewish-food-history/",
    image:"https://forward.com/wp-content/uploads/2026/06/highland-house1.webp",
-   fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but traditionalists saw it as proof it had abandoned Jewish law entirely. The controversy accelerated the founding of the Jewish Theological Seminary."},
+   fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but some saw it as proof the movement had abandoned Jewish law entirely. The controversy accelerated the founding of the Jewish Theological Seminary."},
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-134641408-scaled.jpg",
    credit:"MCNY/Gottscho-Schleisner/Getty Images",thumbPosition:"60% center",
@@ -418,7 +422,7 @@ const ALL_EVENTS=[
   {html:"Rabbi Menachem Mendel Schneerson becomes the seventh Lubavitcher Rebbe, making him the leader of the Chabad movement.",tip:"Schneerson becomes Lubavitcher Rebbe",year:1951,url:"https://forward.com/culture/474642/how-770-eastern-parkway-chabad-lubavitch-rebbe-schneerson-history-jewish/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-72624304.jpg",
    credit:"Tim Boxer/Getty Images",
-   fact:"Under Schneerson’s 44-year leadership, Chabad-Lubavitch transformed from a small Hasidic sect in Crown Heights into a global outreach movement with emissaries in over 100 countries and 300 college campuses."},
+   fact:"Under Schneerson’s 44-year leadership, Chabad-Lubavitch transformed from a small Hasidic sect in Crown Heights into a global outreach movement with emissaries in over 100 countries and hundreds of college campuses."},
   {html:"<em>Fiddler on the Roof</em> opens on Broadway.",tip:"Fiddler on the Roof opens on Broadway",year:1964,url:"https://forward.com/culture/1710/how-e2-80-98fiddler-e2-80-99-became-folklore/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1262759420.jpg",
    credit:"FilmPublicityArchive/United Archives via Getty Images",
@@ -471,7 +475,7 @@ const ALL_EVENTS=[
   {html:"The <em>Seinfeld</em> pilot airs on NBC, launching one of the most influential sitcoms in television history.",tip:"Seinfeld pilot",year:1989,url:"https://forward.com/culture/201221/seinfeld-revolutionized-pop-culture-25-years-ago/",
    image:"https://forward.com/wp-content/uploads/2026/06/seinfeldcast.0.1498614946.webp",
    credit:"",
-   fact:"NBC executives nearly cancelled <em>Seinfeld</em> after the pilot aired to modest ratings. But the &ldquo;show about nothing&rdquo; wound up lasting nine seasons, giving us Soup Nazis, close talkers, Festivus and &ldquo;yada yada yada.&rdquo;"},
+   fact:"NBC executives nearly cancelled <em>Seinfeld</em> after the pilot aired to modest ratings. But the &ldquo;show about nothing&rdquo; wound up lasting nine seasons, giving us Soup Nazis, close talkers, Festivus and &ldquo;yada yada&nbsp;yada.&rdquo;"},
   {html:"Rabbi Meir Kahane, founder of Israel’s far-right Kach party, is assassinated at a Manhattan hotel.",tip:"Meir Kahane assassinated",year:1990,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-542342402_21.jpg",
    credit:"Jean-Louis Atlan/Sygma via Getty Images",
@@ -506,7 +510,7 @@ const ALL_EVENTS=[
    fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
   {html:"HAIM release the Grammy-nominated <em>Women in Music Pt. III</em>.",tip:"HAIM breakout",year:2020,url:"https://forward.com/culture/film-tv/774409/one-battle-after-another-paul-thomas-anderson-alana-haim-jewish-star/",
    image:"https://forward.com/wp-content/uploads/2026/06/Haim_-_Women_in_Music_Pt._III.png",
-   fact:"The Haim sisters — Danielle, Este and Alana — began playing instruments from an early age in the cover band Rockinhaim, fronted by their parents, Moti and Donna. The family group played their first concert in 2000 in Los Angeles — at Canter's Deli."},
+   fact:"Danielle, Este and Alana Haim made their concert debut as kids in the cover band Rockinhaim, a group fronted by their parents, Moti and Donna. The year was 2000. The venue: the Kibbitz Room, at the iconic Los Angeles restaurant Canter's Deli — where Este said \"we got paid in matzo ball soup.\""},
   {html:"Rabbi Charlie Cytron-Walker escapes a hostage situation at Congregation Beth Israel in Colleyville, Texas.",tip:"Colleyville synagogue hostage situation",year:2022,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1237799972-scaled.jpg",
    credit:"Emil Lippe/Getty Images",
@@ -656,6 +660,7 @@ function selectBonusEvents(){
 
 let gameEvents=[],roundIdx=0,score=0,answered=false,dragging=false,logEntries=[],isPracticePhase=true,activePinWrapper=null,practiceAnswerPts=null,pendingPill=null;
 let usedEventSet=new Set(),isBonusRound=false,bonusMaxPts=60;
+let _cloudHintDone=null;
 
 function setCard(evt){
   const card=document.getElementById('current-card');
@@ -674,7 +679,7 @@ function startGame(){
   document.getElementById('game').style.display='block';
   document.getElementById('score-badge').textContent='Practice';
   if(isMobile())document.querySelector('.scoring-hint').style.display='none';
-  if(isMobile()){const lbl=document.getElementById('section-label');lbl.innerHTML='Tap the card to select it, then tap the timeline<br><span style="font-size:12px;letter-spacing:.02em;">or drag and drop to place</span>';}else{document.getElementById('section-label').textContent='Drag the picture card below to the timeline:';}
+  if(isMobile()){const lbl=document.getElementById('section-label');lbl.innerHTML='Tap the card to select it, then tap the timeline<br><span style="font-size:12px;letter-spacing:.02em;">or drag and drop to place</span>';}else{document.getElementById('section-label').textContent='Drag the picture card to the timeline below:';}
   buildTicks();
   gameEvents=selectEvents();
   setCard(FORWARD_EVENT);
@@ -694,7 +699,7 @@ function setPracticeInstructions(){
   document.getElementById('practice-modal-instructions').innerHTML=
     '① Read the event card.<br>'
     +(mobile?'② Drag the picture card to the timeline, or tap to select it then tap the timeline to place it.<br>':'② Drag the picture card to the timeline.<br>')
-    +'③ Fine-tune with the slider, then confirm below.';
+    +'③ Fine-tune with the slider or by clicking the +/- buttons, then confirm below.';
 }
 
 function showHelpModal(){
@@ -709,7 +714,8 @@ function showHelpModal(){
   ov.classList.add('animating');
 }
 
-function showCloudHint(){
+function showCloudHint(onDone){
+  _cloudHintDone=onDone||null;
   const el=document.getElementById('cloud-hint');
   if(!el)return;
   el.style.transition='';el.style.opacity='';
@@ -721,14 +727,14 @@ function showCloudHint(){
 }
 function fadeCloudHint(fast){
   const el=document.getElementById('cloud-hint');
-  if(!el||el.style.display==='none')return;
+  if(!el||el.style.display==='none'){const cb=_cloudHintDone;_cloudHintDone=null;if(cb)cb();return;}
   const ms=fast?180:1000;
   el.style.animation='none';
   el.style.opacity='1';
   void el.offsetWidth;
   el.style.transition=`opacity ${ms}ms`;
   el.style.opacity='0';
-  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';el.style.animation='';},ms);
+  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';el.style.animation='';const cb=_cloudHintDone;_cloudHintDone=null;if(cb)cb();},ms);
 }
 function hideCloudHint(){
   const el=document.getElementById('cloud-hint');
@@ -745,7 +751,10 @@ function dismissPracticeModal(){
   ov.classList.remove('animating');
 
   if(isPracticePhase){
-    showCloudHint(); // appear immediately as modal slides away
+    showCloudHint(()=>{
+      const hint=document.getElementById('drag-hint');
+      if(hint&&!answered){hint.classList.remove('visible');void hint.offsetWidth;hint.classList.add('visible');}
+    }); // appear immediately as modal slides away
     ov.style.transition='background 0.35s';
     ov.style.background='rgba(0,0,0,0)';
     modal.style.transition='transform 0.4s cubic-bezier(0.4,0,1,1),opacity 0.3s';
@@ -755,10 +764,6 @@ function dismissPracticeModal(){
       ov.style.display='none';
       ov.style.transition='';ov.style.background='';
       modal.style.transition='';modal.style.transform='';modal.style.opacity='';
-      const hint=document.getElementById('drag-hint');
-      hint.classList.remove('visible');
-      void hint.offsetWidth;
-      hint.classList.add('visible');
     },400);
   } else {
     ov.style.display='none';
@@ -810,7 +815,7 @@ function placeForwardPin(year,guessYear,pts){
   const dot=document.createElement('div');
   dot.className='pin-dot';
   const fwdPts=pts!=null?pts:calcPts(guessYear,year);
-  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(fwdPts>=8?'border-color:#b8960c;':'border-color:#fff;');
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(fwdPts>=8?'border-color:#4a3fa0;':'border-color:#fff;');
   dot.style.transition='none';
 
   // Short connector from bottom of dot downward
@@ -877,7 +882,7 @@ function placePin(year,pts,label,isForward,guessYear){
 
   const dot=document.createElement('div');
   dot.className='pin-dot';
-  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(pts>=8?'border-color:#b8960c;':'');
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(pts>=8?'border-color:#4a3fa0;':'');
   dot.style.transition='none';
 
   // Short connector from bottom of dot downward
@@ -951,7 +956,7 @@ function morphPillToDot(pill){
   wrapper.style.cssText='position:absolute;top:0;bottom:0;pointer-events:none;left:'+(yrPct(year)*100)+'%;';
   const dot=document.createElement('div');
   dot.className='pin-dot';
-  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(isGold?'border-color:#b8960c;':'')+'opacity:0;transition:opacity 0.35s;';
+  dot.style.cssText='position:absolute;left:0;pointer-events:auto;background:'+color+';'+(isGold?'border-color:#4a3fa0;':'')+'opacity:0;transition:opacity 0.35s;';
   wrapper.appendChild(dot);
   layer.appendChild(wrapper);
   if(!isMobile()){dot.addEventListener('mouseenter',()=>showTip(year,label,pts));dot.addEventListener('mouseleave',hideTip);}
@@ -987,12 +992,12 @@ function buildScoreCard(){
     const e=logEntries[i];
     const isPending=e&&i===lastIdx&&!isPracticePhase;
     const color=e&&!isPending?pinColor(e.pts):'var(--border2)';
-    const border=e&&!isPending&&e.pts>=8?'border:1.5px solid #b8960c;':'';
+    const border=e&&!isPending&&e.pts>=8?'border:1.5px solid #4a3fa0;':'';
     const id=isPending?' id="sc-row-pending"':'';
     html+=`<div class="sc-row"${id} style="background:${color};${border}"></div>`;
   }
   if(isPracticePhase){
-    html+='<div class="sc-placeholder">Your score accrues here</div>';
+    html+='<div class="sc-placeholder">Your score appears here</div>';
   } else {
     const total=logEntries.reduce((s,e)=>s+e.pts,0);
     html+=`<div id="score-card-total">${total}<span>points</span></div>`;
@@ -1053,7 +1058,7 @@ function handlePracticeGuess(guessY){
   document.getElementById('confirm-bar-wrap').style.display='none';
   document.getElementById('current-card').classList.add('answered');
   document.getElementById('section-label').style.visibility='hidden';
-  const _pc=labelColor(calcPts(guessY,1897));
+    const _pc=labelColor(calcPts(guessY,1897));
   document.getElementById('answer-info').innerHTML=isMobile()?`Correct year: <strong>1897</strong><br><span style="color:${_pc};">Your guess: <strong>${guessY}</strong></span>`:`Correct year: <strong>1897</strong> &nbsp;·&nbsp; <span style="color:${_pc};">Your guess: <strong>${guessY}</strong></span>`;
   collapsePracticeIntro();
   // Hide the full 1897 marker immediately when card is dropped
@@ -1078,7 +1083,7 @@ function handlePracticeGuess(guessY){
     const row=sc.querySelector('.sc-row');
     if(!row)return;
     row.style.background=pinColor(practicePts);
-    row.style.border=practicePts>=8?'1.5px solid #b8960c':'';
+    row.style.border=practicePts>=8?'1.5px solid #4a3fa0':'';
     row.style.animation='scRowGlow 1.5s ease-in-out infinite';
     setTimeout(()=>{row.style.animation='';},3000);
   },1500);
@@ -1090,7 +1095,7 @@ function handleGuess(guessY){
   if(answered)return;
   answered=true;
   document.getElementById('current-card').classList.add('answered');
-  const evt=gameEvents[roundIdx];
+    const evt=gameEvents[roundIdx];
   document.getElementById('section-label').style.visibility='hidden';
   const pts=calcPts(guessY,evt.year);
   const _gc=labelColor(pts);
@@ -1118,7 +1123,7 @@ function handleGuess(guessY){
   if(_sb){_sb.innerHTML='Loading community stats\u2026';_sb.style.display='block';}
   if(roundIdx===gameEvents.length-1){
     const btn=document.getElementById('next-btn');
-    btn.textContent='See my timeline \u2192';
+    btn.textContent='Show my scorecard \u2192';
     btn.classList.add('btn-primary');
   }
   setTimeout(()=>{
@@ -1133,7 +1138,7 @@ function handleGuess(guessY){
     const row=document.getElementById('sc-row-pending');
     if(row){
       row.style.background=pinColor(pts);
-      row.style.border=pts>=8?'1.5px solid #b8960c':'';
+      row.style.border=pts>=8?'1.5px solid #4a3fa0':'';
       row.style.animation='scRowGlow 1.5s ease-in-out infinite';
       row.removeAttribute('id');
       setTimeout(()=>{row.style.animation='';},3000);
@@ -1168,7 +1173,7 @@ function advanceRound(){
     document.getElementById('year-1897-marker').style.display='none';
     document.getElementById('section-label').classList.remove('practice-glow');
     document.getElementById('section-label').style.visibility='';
-    document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag the picture card below to the timeline:';
+    document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag the picture card to the timeline below:';
     if(isMobile())document.querySelector('.scoring-hint').style.display='';
     document.getElementById('answer-info').innerHTML='';
     const _aw=document.getElementById('year-adj-wrap');if(_aw){_aw.style.display='flex';_aw.style.visibility='';setAdjButtons(false);}
@@ -1246,13 +1251,15 @@ function restoreGameUI(){
   document.getElementById('timeline-section').style.marginTop='';
 }
 
-function showEnd(maxPts){
+function showEnd(maxPts,isReplay){
   maxPts=maxPts||MAX_PTS;
   document.getElementById('event-area').style.display='none';
   document.getElementById('feedback').style.display='none';
   document.getElementById('fact-body').style.display='none';
   document.getElementById('next-btn-wrap').style.display='none';
   document.getElementById('middle-block').style.display='none';
+  document.getElementById('year-adj-wrap').style.display='none';
+  document.getElementById('confirm-bar-wrap').style.display='none';
   document.getElementById('answer-info').innerHTML='';
   document.getElementById('score-badge').style.display='none';
   document.getElementById('round-badge').style.display='none';
@@ -1261,8 +1268,7 @@ function showEnd(maxPts){
   const hdr=document.querySelector('.game-header');
   hdr.style.display='flex';
   hdr.style.justifyContent='center';
-  document.getElementById('timeline-section').style.display='block';
-  document.getElementById('timeline-section').style.marginTop='20px';
+  document.getElementById('timeline-section').style.display='none';
   hideIndicator();
   const finalScore=score;
   const {nick,msg}=getNickname(finalScore,maxPts);
@@ -1272,10 +1278,10 @@ function showEnd(maxPts){
 
   // Score bars — game order, larger
   const barsWrap=document.createElement('div');
-  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:0 auto 1rem;';
+  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:-50px auto .5rem;';
   logEntries.forEach(e=>{
     const bar=document.createElement('div');
-    bar.style.cssText=`flex:1;height:28px;border-radius:5px;background:${pinColor(e.pts)};${e.pts>=8?'box-shadow:0 0 0 2px #b8960c;':''}`;
+    bar.style.cssText=`flex:1;height:28px;border-radius:5px;background:${pinColor(e.pts)};${e.pts>=8?'border:2px solid #4a3fa0;':'border:2px solid transparent;'}`;
     barsWrap.appendChild(bar);
   });
   for(let i=logEntries.length;i<NUM_ROUNDS;i++){
@@ -1287,8 +1293,8 @@ function showEnd(maxPts){
 
   // Score number
   const scoreEl=document.createElement('div');
-  scoreEl.style.cssText='margin:0 0 1rem;';
-  scoreEl.innerHTML=`<div style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">Your Score</div><div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
+  scoreEl.style.cssText='margin:0 0 .4rem;';
+  scoreEl.innerHTML=`<div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
   ec.appendChild(scoreEl);
 
   const nn=document.createElement('div');
@@ -1304,11 +1310,11 @@ function showEnd(maxPts){
 
   const statsCompare=document.createElement('div');
   statsCompare.id='score-compare';
-  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:.35rem 0 .9rem;min-height:1.2em;';
+  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:.5rem 0 .5rem;min-height:1.2em;';
   ec.appendChild(statsCompare);
 
   const btnRow=document.createElement('div');
-  btnRow.style.cssText='display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;';
+  btnRow.style.cssText='display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:.75rem;';
 
   function makeShareBtn(label,svgHtml,clickFn){
     const b=document.createElement('button');
@@ -1325,7 +1331,7 @@ function showEnd(maxPts){
   const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
 
   const shareBtn=document.createElement('button');
-  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:1rem;margin-top:-20px;';
+  shareBtn.style.cssText='font-family:"Playfair Display",serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:.6rem;margin-top:calc(.5rem + 14px);';
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
     const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
@@ -1350,10 +1356,31 @@ function showEnd(maxPts){
   btnRow.appendChild(makeShareBtn('Email',emailSvg,()=>window.open('mailto:?subject='+emailSubject+'&body='+emailBody,'_blank')));
   ec.appendChild(btnRow);
 
-  recordGameScore(finalScore);
+  // Email signup
+  const signupWrap=document.createElement('div');
+  signupWrap.style.cssText='margin:calc(.75rem + 25px) auto 0;max-width:380px;text-align:center;';
+  signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops</div><div style="display:flex;gap:8px;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:1;padding:10px 14px;border-radius:20px;border:1px solid var(--border2);font-size:14px;font-family:'Source Sans 3',sans-serif;outline:none;background:var(--surface);color:var(--text);"><button id="notify-btn" style="padding:10px 20px;border-radius:20px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif;white-space:nowrap;">Notify me</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
+  ec.appendChild(signupWrap);
+  signupWrap.querySelector('#notify-btn').addEventListener('click',async function(){
+    const input=signupWrap.querySelector('#notify-email');
+    const msg=signupWrap.querySelector('#notify-msg');
+    const email=input.value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.style.color='var(--red)';msg.textContent='Please enter a valid email address.';return;}
+    this.disabled=true;this.textContent='Sending…';
+    try{
+      await fetch(`${SUPABASE_URL}/rest/v1/email_signups`,{
+        method:'POST',
+        headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${SUPABASE_ANON_KEY}`,'Content-Type':'application/json',Prefer:'return=minimal'},
+        body:JSON.stringify({email,score:finalScore})});
+      input.style.display='none';this.style.display='none';
+      msg.style.color='var(--accent)';msg.textContent='✓ You\'re on the list!';
+    }catch(e){this.disabled=false;this.textContent='Notify me';msg.style.color='var(--red)';msg.textContent='Something went wrong — please try again.';}
+  });
+
+  if(!DEV_MODE&&!isReplay){localStorage.setItem('fwd250_score',finalScore);localStorage.setItem('fwd250_log',JSON.stringify(logEntries.map(e=>({pts:e.pts,year:e.year,guess:e.guess,text:e.text}))));recordGameScore(finalScore);}
   fetchScoreStats(finalScore).then(stats=>{
     if(stats){
-      statsCompare.innerHTML=`You scored better than <strong>${stats.betterThan}%</strong> of players &nbsp;·&nbsp; Average: <strong>${stats.avg}/${maxPts}</strong>`;
+      statsCompare.innerHTML=`You scored better than <strong>${stats.betterThan}%</strong> of players &nbsp;·&nbsp; Average: <strong>${Math.round(stats.avg)} points</strong>`;
     }
   });
   updateLogAvgStats();
@@ -1363,6 +1390,41 @@ function showEnd(maxPts){
   area.appendChild(ec);
   const logSection=document.getElementById('log-section');
   logSection.parentNode.insertBefore(ec,logSection);
+  setupSummarySection();
+}
+
+function setupSummarySection(){
+  const logSection=document.getElementById('log-section');
+  if(!logSection||logSection.dataset.summaryReady)return;
+  logSection.dataset.summaryReady='1';
+  const histLog=document.getElementById('history-log');
+  const logTitle=logSection.querySelector('.log-section-title');
+  const tl=document.getElementById('timeline-section');
+  tl.style.cssText='display:block;margin:.5rem 0 .75rem;';
+  logSection.insertBefore(tl,histLog);
+  logTitle.style.cursor='pointer';
+  logTitle.style.userSelect='none';
+  logTitle.addEventListener('click',function(){
+    logSection.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  if(!document.getElementById('back-to-top-btn')){
+    const btn=document.createElement('button');
+    btn.id='back-to-top-btn';
+    btn.textContent='↑ Top';
+    btn.style.cssText='position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:999;padding:6px 18px;border-radius:20px;border:none;background:#4a3fa0;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:"Source Sans 3",sans-serif;box-shadow:0 2px 8px rgba(74,63,160,.35);display:none;';
+    document.body.appendChild(btn);
+    btn.addEventListener('click',()=>{
+      const ec=document.getElementById('end-card');
+      if(ec)ec.scrollIntoView({behavior:'smooth',block:'start'});
+      else window.scrollTo({top:0,behavior:'smooth'});
+      window.parent.postMessage({scrollToTop:true},'*');
+    });
+    const ec=document.getElementById('end-card');
+    if(ec){
+      const obs=new IntersectionObserver(e=>{btn.style.display=e[0].isIntersecting?'none':'block';},{threshold:0.1});
+      obs.observe(ec);
+    }
+  }
 }
 
 function startBonusRound(){
@@ -1419,7 +1481,7 @@ function restart(){
   document.getElementById('year-1897-marker').style.display='none';
   document.getElementById('section-label').style.visibility='';
   document.getElementById('answer-info').innerHTML='';
-  document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag the picture card below to the timeline:';
+  document.getElementById('section-label').textContent=isMobile()?'When did this happen? Tap the card, then tap the timeline:':'When did this happen? Drag the picture card to the timeline below:';
   document.getElementById('next-btn').textContent='Next event';
   document.getElementById('next-btn').classList.remove('btn-primary');
   document.getElementById('current-card').classList.remove('answered');
@@ -1549,6 +1611,7 @@ function showConfirmBar(year){
   if(hint){
     hint.classList.remove('arrow');
     hint.innerHTML='<span>Drag the slider to fine-tune your guess, then\u00a0confirm\u00a0below</span>';
+    hint.style.top='calc((100% - 36px) / 2 + 5px)';
     hint.classList.add('visible');
   }
 }
@@ -1571,7 +1634,7 @@ function createSlidingPill(guessY,year,pts,label){
     +'transform:translate(-50%,-50%);z-index:6;pointer-events:none;'
     +'background:'+color+';color:#fff;font-size:13px;font-weight:700;'
     +'padding:4px 10px;border-radius:20px;white-space:nowrap;'
-    +'border:2px solid '+(isGold?'#b8960c':'#fff')+';'
+    +'border:2px solid '+(isGold?'#4a3fa0':'#fff')+';'
     +'box-shadow:0 1px 4px rgba(74,63,160,.4);'
     +"font-family:'Source Sans 3',sans-serif;";
   pill.textContent=guessY;
@@ -1712,7 +1775,8 @@ function showGameHint(){
   if(!h)return;
   h.classList.remove('visible');
   h.classList.add('arrow');
-  h.innerHTML='<span>Drag the picture card below to the timeline</span><svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M10 14l-4-4M10 14l4-4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  h.innerHTML='<span>Drag the picture card to the timeline below</span><svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M10 3v11M10 14l-4-4M10 14l4-4" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  h.style.top='';
   h.style.visibility='';
   void h.offsetWidth;
   h.classList.add('visible');
@@ -1823,6 +1887,21 @@ track.addEventListener('touchend',e=>{
   updateIndicator(t.clientX,t.clientY);
   showConfirmBar(getYear(t.clientX));
 },{passive:false});
+
+// Show end card directly if already played
+(function(){
+  const prev=localStorage.getItem('fwd250_score');
+  if(prev===null||DEV_MODE)return;
+  score=parseInt(prev,10);
+  const savedLog=localStorage.getItem('fwd250_log');
+  if(savedLog){try{logEntries=JSON.parse(savedLog);}catch(e){}}
+  document.getElementById('splash').style.display='none';
+  document.getElementById('game').style.display='block';
+  showEnd(MAX_PTS,true);
+  logEntries.forEach(e=>placePin(e.year,e.pts,e.text,false,e.guess));
+  rebuildLog();
+  setupSummarySection();
+})();
 
 // Auto-resize: notify parent iframe of height changes
 (function(){
