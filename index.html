@@ -1398,6 +1398,8 @@ function activateLayoutEditor(ec){
   els.forEach(el=>{el.dataset.extraMargin='0';});
   // Disable all interactive elements so drags don't accidentally trigger them
   ec.querySelectorAll('button,input,a').forEach(el=>el.style.pointerEvents='none');
+  // Re-enable pointer events on direct draggable children (some may be buttons)
+  els.forEach(el=>el.style.pointerEvents='auto');
   let dragging=null,startY=0,startExtra=0;
   const panel=document.createElement('div');
   panel.style.cssText='position:fixed;bottom:20px;right:16px;z-index:99999;background:rgba(20,20,40,0.95);color:#fff;padding:14px 16px;border-radius:12px;font:12px/1.8 monospace;min-width:230px;box-shadow:0 4px 24px rgba(0,0,0,0.5);';
