@@ -1276,7 +1276,7 @@ function showEnd(maxPts,isReplay){
 
   // Score bars — game order, larger
   const barsWrap=document.createElement('div');
-  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:-50px auto .5rem;';
+  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:-86px auto .5rem;';
   logEntries.forEach(e=>{
     const bar=document.createElement('div');
     bar.style.cssText=`flex:1;height:28px;border-radius:5px;background:${pinColor(e.pts)};${e.pts>=8?'border:2px solid #4a3fa0;':'border:2px solid transparent;'}`;
@@ -1291,28 +1291,29 @@ function showEnd(maxPts,isReplay){
 
   // Score number
   const scoreEl=document.createElement('div');
-  scoreEl.style.cssText='margin:0 0 .4rem;';
+  scoreEl.style.cssText='margin:38px 0 .4rem;';
   scoreEl.innerHTML=`<div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
   ec.appendChild(scoreEl);
 
   const nn=document.createElement('div');
   nn.className='end-nick';
-  nn.style.marginTop='0';
+  nn.style.marginTop='27px';
   nn.textContent=nick;
   ec.appendChild(nn);
 
   const mg=document.createElement('div');
   mg.className='end-msg';
+  mg.style.marginTop='9px';
   mg.textContent=msg;
   ec.appendChild(mg);
 
   const statsCompare=document.createElement('div');
   statsCompare.id='score-compare';
-  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:.5rem 0 .5rem;min-height:1.2em;';
+  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:12px 0 .5rem;min-height:1.2em;';
   ec.appendChild(statsCompare);
 
   const btnRow=document.createElement('div');
-  btnRow.style.cssText='display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:.75rem;';
+  btnRow.style.cssText='display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:4px;margin-bottom:.75rem;';
 
   function makeShareBtn(label,svgHtml,clickFn){
     const b=document.createElement('button');
@@ -1356,7 +1357,7 @@ function showEnd(maxPts,isReplay){
 
   // Email signup
   const signupWrap=document.createElement('div');
-  signupWrap.style.cssText='margin:calc(.75rem + 25px) auto 0;max-width:380px;text-align:center;';
+  signupWrap.style.cssText='margin:98px auto 0;max-width:380px;text-align:center;';
   signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops</div><div style="display:flex;gap:8px;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:1;padding:10px 14px;border-radius:20px;border:1px solid var(--border2);font-size:14px;font-family:'Merriweather Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);"><button id="notify-btn" style="padding:10px 20px;border-radius:20px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Merriweather Sans',sans-serif;white-space:nowrap;">Notify me</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
   ec.appendChild(signupWrap);
   signupWrap.querySelector('#notify-btn').addEventListener('click',async function(){
