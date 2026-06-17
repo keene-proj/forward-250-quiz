@@ -6,7 +6,7 @@
 <title>250 Years of American Jewish History</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&family=Merriweather+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Merriweather+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg:#faf8f4;--surface:#ffffff;--surface2:#f3f0ea;
@@ -21,7 +21,7 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   html{overflow-y:scroll;}
   *{-webkit-tap-highlight-color:transparent;}
-  body{background:var(--bg);font-family:'Merriweather Sans',Georgia,sans-serif;color:var(--text);min-height:100vh;scrollbar-gutter:stable;}
+  body{background:var(--bg);font-family:'Merriweather Sans',Georgia,sans-serif;font-weight:300;color:var(--text);min-height:100vh;scrollbar-gutter:stable;}
 
   /* SPLASH */
   #splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1.5rem;text-align:center;}
@@ -59,8 +59,8 @@
   #answer-info{font-size:17px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;text-align:center;}
   @keyframes labelGlow{0%,100%{text-shadow:0 0 6px rgba(127,119,221,0.4);}50%{text-shadow:0 0 16px rgba(127,119,221,0.75);}}
   #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:6px;}
-  .event-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:1.75rem 2.5rem;user-select:none;-webkit-user-select:none;touch-action:none;font-size:20px;color:var(--text);line-height:1.2;cursor:grab;font-family:'Merriweather',Georgia,serif;font-weight:400;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .15s,border-color .15s;display:inline-block;max-width:620px;text-align:center;}
-  .event-card.has-image{display:inline-flex;align-items:center;gap:1rem;text-align:left;padding:.75rem 1rem;font-size:14px;max-width:340px;}
+  .event-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:1.75rem 2.5rem;user-select:none;-webkit-user-select:none;touch-action:none;font-size:20px;color:var(--text);line-height:1.2;cursor:grab;font-family:'Merriweather',Georgia,serif;font-weight:300;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .15s,border-color .15s;display:inline-block;max-width:620px;text-align:center;}
+  .event-card.has-image{display:inline-flex;align-items:center;gap:1rem;text-align:left;padding:.75rem 1rem;font-size:13px;max-width:340px;}
   .card-thumb{width:110px;height:110px;object-fit:cover;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;pointer-events:none;}
   #ghost.image-ghost{padding:0;background:none;border:none;box-shadow:none;width:110px;height:110px;border-radius:6px;overflow:hidden;opacity:.78;}
   #ghost.image-ghost img{width:100%;height:100%;object-fit:cover;border-radius:6px;border:2px solid var(--accent-mid);display:block;}
@@ -94,7 +94,7 @@
   .pts-1{background:#be185d;color:#fff;}
   .pts-0{background:var(--surface2);color:var(--text3);}
   .pts-pending{background:var(--surface2);color:var(--text3);}
-  #fact-box{display:none;background:var(--surface);border-left:4px solid var(--accent-mid);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13px;color:var(--text);line-height:1.4;margin-bottom:.5rem;margin-top:21px;margin-left:auto;margin-right:auto;border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border);overflow:hidden;max-width:calc(35% + 8px);display:none;flex-direction:row;flex-wrap:wrap;}
+  #fact-box{display:none;background:var(--surface);border-left:4px solid var(--accent-mid);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:11px;color:var(--text);line-height:1.4;margin-bottom:.5rem;margin-top:21px;margin-left:auto;margin-right:auto;border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border);overflow:hidden;max-width:calc(35% + 8px);display:none;flex-direction:row;flex-wrap:wrap;}
   #fact-body{padding:.5rem .75rem .4rem;flex:1;display:flex;flex-direction:column;justify-content:center;}
   #fact-text{text-wrap:pretty;}
   .fact-label{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
@@ -103,7 +103,7 @@
   #score-card-total{text-align:center;font-size:22px;font-weight:700;color:var(--accent);line-height:1.1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;}
   #score-card-total span{display:block;font-size:8px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
   @keyframes scRowGlow{0%,100%{opacity:1;}50%{opacity:.45;}}
-  .sc-placeholder{font-size:7px;color:var(--accent);text-align:center;line-height:1.4;padding:4px 2px;flex:1;display:flex;align-items:center;justify-content:center;white-space:nowrap;}
+  .sc-placeholder{font-size:7px;color:var(--accent);text-align:center;line-height:1.4;padding:4px 2px;flex:1;display:flex;align-items:center;justify-content:center;}
   #event-stats-bar{font-size:12px;color:var(--text3);text-align:center;padding:0;line-height:1.4;}
   #next-btn-wrap{display:none;justify-content:center;margin-top:1.5rem;}
   #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:'Merriweather Sans',sans-serif;transition:background .12s;}
@@ -171,8 +171,8 @@
   .log-expand.open{display:block;}
   .log-read-more{font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap;}
   .log-read-more:hover{text-decoration:underline;}
-  .log-thumb{width:60px;flex-shrink:0;object-fit:cover;align-self:stretch;height:auto;border-right:.5px solid var(--border);transition:width 0.3s ease;}
-  .log-row.expanded .log-thumb{width:110px;}
+  .log-thumb{width:60px;height:60px;flex-shrink:0;object-fit:cover;border-right:.5px solid var(--border);transition:width 0.3s ease,height 0.3s ease;}
+  .log-row.expanded .log-thumb{width:110px;height:auto;align-self:stretch;}
   .log-thumb-placeholder{width:60px;flex-shrink:0;background:var(--surface2);border-right:.5px solid var(--border);}
   .log-main{flex:1;min-width:0;}
   .log-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
@@ -372,7 +372,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1226194601-scaled.jpg",
    credit:"Archive Photos/Getty Images",
    imageLayout:"right",
-   fact:"Then called <em>Der Forverts</em>, the print daily was one of the most widely read foreign-language newspapers in America. The <em>Forward</em> publishes online today in both Yiddish and English, reaching millions of readers every year."},
+   fact:"Then called <em>Der Forverts</em>, the print daily was one of the most widely read foreign-language newspapers in America. The <em>Forward</em> publishes online today in both Yiddish and English, reaching millions of readers every&nbsp;year."},
   {html:"Emma Lazarus’s sonnet <em>The New Colossus</em> is engraved on the base of the Statue of Liberty.",tip:"&ldquo;The New Colossus&rdquo; engraved on Statue of Liberty",year:1903,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-515417238-scaled.jpg",
    credit:"Bettmann via Getty Images",
@@ -433,10 +433,6 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-8.27.25-PM-1.jpg",
    credit:"Bettmann/Getty Images",
    fact:"Schwerner, Goodman and James Chaney traveled to Mississippi to register Black voters. Their deaths galvanized the nation and built support for the passage of the Civil Rights Act. It took more than 40 years for an arrest to be made in their murder."},
-  {html:"Sandy Koufax sits out Game 1 of the World Series in observance of Yom Kippur.",tip:"Koufax sits out Yom Kippur World Series game",year:1965,
-   image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-51494215_50.jpg",
-   credit:"Focus On Sport/Getty Images",
-   fact:"Koufax’s stand-in, Don Drysdale, had a bad outing that day. But the Jewish southpaw came back to pitch Games 5 and 7 for the Dodgers, winning both on complete-game shutouts and taking home the series’ Most Valuable Player award."},
   {html:"12-year-old New Yorker Judith Kaplan celebrates her bat mitzvah, the first such ceremony in the United States.",tip:"First bat mitzvah in the United States",year:1922,
    image:"https://forward.com/wp-content/uploads/2026/06/judith-kaplan.jpg",
    credit:"The Ira and Judith Kaplan Eisenstein Reconstructionist Archives, Reconstructionist Rabbinical College",
@@ -477,7 +473,7 @@ const ALL_EVENTS=[
   {html:"The <em>Seinfeld</em> pilot airs on NBC, launching one of the most influential sitcoms in television history.",tip:"Seinfeld pilot",year:1989,url:"https://forward.com/culture/201221/seinfeld-revolutionized-pop-culture-25-years-ago/",
    image:"https://forward.com/wp-content/uploads/2026/06/seinfeldcast.0.1498614946.webp",
    credit:"",
-   fact:"NBC executives nearly cancelled <em>Seinfeld</em> after the pilot aired to modest ratings. But the &ldquo;show about nothing&rdquo; wound up lasting nine seasons, giving us Soup Nazis, close talkers, Festivus and &ldquo;yada&nbsp;yada&nbsp;yada.&rdquo;"},
+   fact:"NBC executives nearly cancelled <em>Seinfeld</em> after the pilot aired to modest ratings. But the &ldquo;show about nothing&rdquo; wound up lasting nine seasons, giving us Soup Nazis, close talkers, Festivus and &ldquo;yada yada&nbsp;yada.&rdquo;"},
   {html:"Rabbi Meir Kahane, founder of Israel’s far-right Kach party, is assassinated at a Manhattan hotel.",tip:"Meir Kahane assassinated",year:1990,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-542342402_21.jpg",
    credit:"Jean-Louis Atlan/Sygma via Getty Images",
@@ -510,9 +506,9 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1247555608-scaled.jpg",
    credit:"Valerie Macon/AFP via Getty Images",
    fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
-  {html:"HAIM release the Grammy-nominated <em>Women in Music Pt. III</em>.",tip:"HAIM breakout",year:2020,url:"https://forward.com/culture/film-tv/774409/one-battle-after-another-paul-thomas-anderson-alana-haim-jewish-star/",
-   image:"https://forward.com/wp-content/uploads/2026/06/Haim_-_Women_in_Music_Pt._III.png",
-   fact:"Danielle, Este and Alana Haim made their concert debut as kids in Rockinhaim, a cover band fronted by their parents, Moti and Donna. The year was 2000. The venue: The Kibbitz Room at iconic Los Angeles restaurant Canter’s Deli. “We got paid in matzo ball soup,” Este said later."},
+  {html:"Sandy Koufax sits out Game 1 of the World Series to observe Yom Kippur.",tip:"Koufax sits out Game 1",year:1965,
+   image:"https://forward.com/wp-content/uploads/2024/10/Koufax.jpg",
+   fact:"Koufax went on to pitch Games 2, 5, and 7 — shutting out the Twins in both Games 5 and 7 to clinch the championship for the Dodgers. Don Drysdale, who started Game 1 in his place, lasted just three innings. He reportedly quipped that manager Walter Alston probably wished he were Jewish too."},
   {html:"Rabbi Charlie Cytron-Walker escapes a hostage situation at Congregation Beth Israel in Colleyville, Texas.",tip:"Colleyville synagogue hostage situation",year:2022,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1237799972-scaled.jpg",
    credit:"Emil Lippe/Getty Images",
@@ -616,7 +612,7 @@ function showEventStats(stats,year){
 const QUIZ_SET_WEEK1_TIPS=[
   'Seinfeld pilot',
   'Washington\'s letter to Touro Synagogue',
-  'HAIM breakout',
+  'Koufax sits out Game 1',
   'Fiddler on the Roof opens on Broadway',
   'HUC\'s Trefa Banquet',
   'Schneerson becomes Lubavitcher Rebbe',
@@ -999,7 +995,7 @@ function buildScoreCard(){
     html+=`<div class="sc-row"${id} style="background:${color};${border}"></div>`;
   }
   if(isPracticePhase){
-    html+='<div class="sc-placeholder">Your score appears here</div>';
+    html+='<div class="sc-placeholder">Your score<br>appears here</div>';
   } else {
     const total=logEntries.reduce((s,e)=>s+e.pts,0);
     html+=`<div id="score-card-total">${total}<span>points</span></div>`;
@@ -1405,7 +1401,7 @@ function activateLayoutEditor(ec){
   let dragging=null,startY=0,startExtra=0;
   const panel=document.createElement('div');
   panel.style.cssText='position:fixed;bottom:20px;right:16px;z-index:99999;background:rgba(20,20,40,0.95);color:#fff;padding:14px 16px;border-radius:12px;font:12px/1.8 monospace;min-width:230px;box-shadow:0 4px 24px rgba(0,0,0,0.5);';
-  panel.innerHTML='<div style="font-weight:700;font-size:13px;margin-bottom:6px;">🎛 Layout Editor</div><div style="font-size:10px;color:#aaa;margin-bottom:10px;">Drag any element up or down</div><div id="le-vals"></div><div style="display:flex;gap:8px;margin-top:10px;"><button id="le-copy" style="flex:1;background:#4a3fa0;color:#fff;border:none;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;">Copy values</button><button id="le-reset" style="flex:1;background:#555;color:#fff;border:none;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;">Reset</button></div>';
+  panel.innerHTML='<div style="font-weight:700;font-size:13px;margin-bottom:6px;">🎛 Layout Editor</div><div style="font-size:10px;color:#aaa;margin-bottom:10px;">Drag any element up or down</div><div id="le-vals"></div><div style="display:flex;gap:8px;margin-top:10px;"><button id="le-copy" style="flex:1;background:#4a3fa0;color:#fff;border:none;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;">Copy values</button><button id="le-reset" style="flex:1;background:#555;color:#fff;border:none;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;">Reset</button></div><div style="margin-top:8px;"><button id="le-toggle" style="width:100%;background:#333;color:#fff;border:none;padding:7px;border-radius:7px;cursor:pointer;font-size:12px;">Hide outlines</button></div>';
   document.body.appendChild(panel);
   function refreshPanel(){
     document.getElementById('le-vals').innerHTML=els.map((el,i)=>{
@@ -1443,6 +1439,12 @@ function activateLayoutEditor(ec){
   });
   document.getElementById('le-reset').addEventListener('click',()=>{
     els.forEach(el=>{el.dataset.extraMargin=0;el.style.marginTop=el.dataset.baseMargin+'px';});refreshPanel();
+  });
+  let outlinesVisible=true;
+  document.getElementById('le-toggle').addEventListener('click',()=>{
+    outlinesVisible=!outlinesVisible;
+    els.forEach(el=>el.style.outline=outlinesVisible?'2px dashed rgba(100,90,220,0.6)':'none');
+    document.getElementById('le-toggle').textContent=outlinesVisible?'Hide outlines':'Show outlines';
   });
   refreshPanel();
 }
