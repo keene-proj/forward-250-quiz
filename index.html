@@ -241,7 +241,7 @@
 <!-- SPLASH SCREEN -->
 <div id="splash">
   <div class="splash-eyebrow">A <em>Forward</em> Quiz</div>
-  <div class="splash-title">250 Years of American Jewish History.</div>
+  <div class="splash-title">250 Years of American Jewish History.</div>
   <div class="splash-subtitle">How Well Do You Know It?</div>
   <div class="splash-divider"></div>
   <div class="splash-desc">Ten events. One timeline. Drag each card to the year you think it happened — the closer you get, the more points&nbsp;you earn.</div>
@@ -261,7 +261,7 @@
   </div>
 
   <div id="practice-banner">
-    <strong>Practice&nbsp;round:</strong> The <em>Forward</em> was founded in <strong>1897</strong> — drag the card to that year on the timeline.
+    <strong>Practice&nbsp;round:</strong> The <em>Forward</em> was founded in <strong>1897</strong> — drag the card to that year on the timeline.
   </div>
 
   <div id="event-area">
@@ -325,14 +325,14 @@
 <div id="practice-modal-overlay" style="display:none;">
   <div id="practice-modal">
     <h2 id="practice-modal-title">How to play</h2>
-    <p id="practice-modal-instructions">① Read the event card.<br>② Drag the event card to the timeline.<br>③ Fine-tune with the slider or by clicking the +/- buttons, then confirm below.</p>
-    <p id="practice-modal-1897" style="display:none;margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em> was founded in <strong>1897</strong>.<br>Drag the card there to get started.</p>
+    <p id="practice-modal-instructions">① Read the event card.<br>② Drag the event card to the timeline.<br>③ Fine-tune with the slider or by clicking the +/- buttons, then confirm below.</p>
+    <p id="practice-modal-1897" style="display:none;margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em> was founded in <strong>1897</strong>.<br>Drag the card there to get&nbsp;started.</p>
     <button id="ready-btn" onclick="dismissPracticeModal()">Got it</button>
   </div>
 </div>
 <canvas id="firework-canvas"></canvas>
 <div id="ghost"></div>
-<div id="cloud-hint" style="display:none;">The <em>Forward</em> was founded in <strong>1897</strong>. Move the picture card there&nbsp;to practice.</div>
+<div id="cloud-hint" style="display:none;">The <em>Forward</em> was founded in <strong>1897</strong>. Move the picture card there to&nbsp;practice.</div>
 
 <script>
 const DEV_MODE=new URLSearchParams(location.search).has('dev');
@@ -346,12 +346,12 @@ const STATS_ENABLED=SUPABASE_URL!=='YOUR_SUPABASE_URL';
 const FORWARD_SVG=`<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 100 100"><rect width="100" height="100" rx="6" fill="#c41230"/><text x="50" y="76" font-family="Georgia,serif" font-size="82" font-weight="700" text-anchor="middle" fill="#ffffff">F</text></svg>`;
 
 const ALL_EVENTS=[
-  {html:"The Virginia Statute for Religious Freedom is signed into law, becoming the first legal guarantee of religious liberty in the Americas.",tip:"Virginia Statute for Religious Freedom",year:1786,
+  {html:"The Virginia Statute for Religious Freedom is signed into law, becoming the first legal guarantee of religious liberty in the&nbsp;Americas.",tip:"Virginia Statute for Religious Freedom",year:1786,
    image:"https://forward.com/wp-content/uploads/2026/06/Thomas_Jeffersons_Grave_Site_46.jpg",
    fact:"The Virginia Statute for Religious Freedom is one of only three accomplishments Thomas Jefferson instructed be put in his epitaph."},
   {html:"George Washington writes his &ldquo;To Bigotry No Sanction&rdquo; letter to Touro Synagogue in Newport, Rhode Island.",tip:"Washington's letter to Touro Synagogue",year:1790,url:"https://forward.com/news/156067/forward-campaign-led-to-letters-release/",
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-1.56.25-PM.jpg",
-   fact:"The letter had been lost in storage for nearly a decade until a 2012 <em>Forward</em> investigation revealed its whereabouts and helped restore it to public view. \"To bigotry no sanction\" were words borrowed from the letter written to Washington by Touro's leader, Moses Seixas."},
+   fact:"The letter had been lost in storage for nearly a decade until a 2012 <em>Forward</em> investigation revealed its whereabouts and helped restore it to public view. \"To bigotry no sanction\" were words borrowed from the letter written to Washington by Touro's leader, Moses&nbsp;Seixas."},
   {html:"Rebecca Gratz founds the first American Jewish Sunday school.",tip:"First American Jewish Sunday school",year:1838,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-1.57.47-PM.jpg",
    fact:"Gratz modeled the Hebrew Sunday School of Philadelphia on Protestant schools. It became the template for Jewish education across America."},
@@ -364,7 +364,7 @@ const ALL_EVENTS=[
    fact:"<em>When Harry Met Sally</em>’s most famous scene — &ldquo;I’ll have what she’s having&rdquo; — was filmed at Katz’s in 1989, cementing its place in American pop culture. But long before that, Katz’s fed generations of Jewish immigrants, hosted celebrities and politicians, and coined the phrase &ldquo;Send a salami to your boy in the Army&rdquo; during World War II."},
   {html:"A celebration of Hebrew Union College’s inaugural ordination class serves shrimp and clams — later remembered as the &ldquo;Trefa&nbsp;Banquet.&rdquo;",tip:"HUC's Trefa Banquet",year:1883,url:"https://forward.com/culture/801135/a-kosher-oyster-trefa-banquet-jewish-food-history/",
    image:"https://forward.com/wp-content/uploads/2026/06/highland-house1.webp",
-   fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but some saw it as proof the movement had abandoned Jewish law entirely. The controversy accelerated the founding of the Jewish Theological Seminary."},
+   fact:"The menu was meant to celebrate American Reform Judaism\u2019s coming of age, but some saw it as proof the movement had abandoned Jewish law entirely. The controversy accelerated the founding of the Jewish Theological&nbsp;Seminary."},
   {html:"The Jewish Theological Seminary of America is founded in New York City as a bastion of traditional, non-Reform Judaism.",tip:"Jewish Theological Seminary founded",year:1886,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-134641408-scaled.jpg",
    credit:"MCNY/Gottscho-Schleisner/Getty Images",thumbPosition:"60% center",
@@ -394,15 +394,15 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-96795389-scaled.jpg",
    credit:"Fotosearch/Getty Images",
    fact:"His nomination by President Woodrow Wilson triggered a four-month Senate confirmation fight that was inflamed by antisemitism. Brandeis went on to become one of the Court’s great champions of free speech and privacy rights."},
-  {html:"The first Hillel chapter is founded at the University of&nbsp;Illinois.",tip:"First Hillel chapter",year:1923,url:"https://forward.com/tag/hillel",
+  {html:"The first Hillel chapter is founded at the University of Illinois.",tip:"First Hillel chapter",year:1923,url:"https://forward.com/tag/hillel",
    image:"https://forward.com/wp-content/uploads/2026/06/UIUC_Hillel_Front_50.jpg",
    credit:"ארז נמרוד כהן via Wikimedia Commons",thumbPosition:"0% 50%",
-   fact:"Rabbi Benjamin Frankel founded B’nai B’rith Hillel at the University of Illinois to provide Jewish students with community, identity, and support on campus. Today, there are more than 500 Hillel chapters worldwide."},
+   fact:"Rabbi Benjamin Frankel founded B’nai B’rith Hillel at the University of Illinois to provide Jewish students with community, identity, and support on campus. Today, there are more than 500 Hillel chapters&nbsp;worldwide."},
   {html:"The New York Times dispatches Joseph Levy to Jerusalem as the newspaper's first Palestine correspondent.",tip:"NYT's first Palestine correspondent",year:1928,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-514897080-scaled.jpg",
    credit:"Bettmann/Getty Images",
    fact:"After he retired from the Times, Levy worked privately to help the Jews living in Arab countries outside of Palestine."},
-  {html:"The <em>MS St. Louis</em>, carrying 937 Jewish refugees, is turned away by Cuba and the United States and forced to return to Europe.",tip:"M.S. St. Louis",year:1939,url:"https://forward.com/culture/355597/for-these-doomed-passengers-there-was-no-refuge-in-cuba/",
+  {html:"The <em>MS St. Louis</em>, carrying 937 Jewish refugees, is turned away by Cuba and the United States and forced to return to&nbsp;Europe.",tip:"M.S. St. Louis",year:1939,url:"https://forward.com/culture/355597/for-these-doomed-passengers-there-was-no-refuge-in-cuba/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-103866610-scaled.jpg",
    credit:"Keystone/Hulton Archive/Getty Images",
    fact:"Despite holding valid Cuban visas, the passengers were refused entry. Historians estimate that approximately 254 of the 937 people originally on board eventually died in the&nbsp;Holocaust."},
@@ -422,14 +422,14 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-109274461_1_24.jpg",
    credit:"PhotoQuest/Getty Images",
    fact:"Salk, the son of Ashkenazi Jewish immigrants, refused to patent the vaccine, saying it belonged to 'the people.' His work essentially ended polio in the United States within a decade."},
-  {html:"Rabbi Menachem Mendel Schneerson becomes the seventh Lubavitcher Rebbe, making him the leader of the Chabad movement.",tip:"Schneerson becomes Lubavitcher Rebbe",year:1951,url:"https://forward.com/culture/474642/how-770-eastern-parkway-chabad-lubavitch-rebbe-schneerson-history-jewish/",
+  {html:"Rabbi Menachem Mendel Schneerson becomes the seventh Lubavitcher Rebbe, making him the leader of the Chabad&nbsp;movement.",tip:"Schneerson becomes Lubavitcher Rebbe",year:1951,url:"https://forward.com/culture/474642/how-770-eastern-parkway-chabad-lubavitch-rebbe-schneerson-history-jewish/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-72624304.jpg",
    credit:"Tim Boxer/Getty Images",
-   fact:"Under Schneerson’s 44-year leadership, Chabad-Lubavitch transformed from a small Hasidic sect in Crown Heights into a global outreach movement with emissaries in over 100 countries and hundreds of college campuses."},
-  {html:"<em>Fiddler on the Roof</em> opens on Broadway.",tip:"Fiddler on the Roof opens on Broadway",year:1964,url:"https://forward.com/culture/1710/how-e2-80-98fiddler-e2-80-99-became-folklore/",
+   fact:"Under Schneerson’s 44-year leadership, Chabad-Lubavitch transformed from a small Hasidic sect in Crown Heights into a global outreach movement with emissaries in over 100 countries and hundreds of college&nbsp;campuses."},
+  {html:"<em>Fiddler on the Roof</em> opens on&nbsp;Broadway.",tip:"Fiddler on the Roof opens on Broadway",year:1964,url:"https://forward.com/culture/1710/how-e2-80-98fiddler-e2-80-99-became-folklore/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1262759420.jpg",
    credit:"FilmPublicityArchive/United Archives via Getty Images",
-   fact:"Based on Sholem Aleichem’s beloved Tevye stories, <em>Fiddler</em> became the first Broadway musical to surpass 3,000 performances. The movie adaptation starred Chaim Topol, who’d played Tevye on the Israeli stage."},
+   fact:"Based on Sholem Aleichem’s beloved Tevye stories, <em>Fiddler</em> became the first Broadway musical to surpass 3,000 performances. The movie adaptation starred Chaim Topol, who’d played Tevye on the Israeli&nbsp;stage."},
   {html:"Jewish civil rights organizers Michael Schwerner and Andrew Goodman are lynched by the Klan in Mississippi.",tip:"Schwerner and Goodman murdered in Mississippi",year:1964,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-8.27.25-PM-1.jpg",
    credit:"Bettmann/Getty Images",
@@ -438,10 +438,10 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/judith-kaplan.jpg",
    credit:"The Ira and Judith Kaplan Eisenstein Reconstructionist Archives, Reconstructionist Rabbinical College",
    fact:"Kaplan’s father, Rabbi Mordecai Kaplan, went on to found Reconstructionist Judaism, a religious movement at the forefront of gender inclusion. Judith Kaplan read from a Torah book, rather than a Torah scroll, at her bat mitzvah."},
-  {html:"Rabbi Sally J. Priesand becomes the first woman in North America to be ordained as a rabbi.",tip:"First female rabbi",year:1972,url:"https://forward.com/life/341622/reform-women-rabbis-celebrate-getting-exact-same-title-as-men-after-44-year/",
+  {html:"Rabbi Sally J. Priesand becomes the first woman in North America to be ordained as a&nbsp;rabbi.",tip:"First female rabbi",year:1972,url:"https://forward.com/life/341622/reform-women-rabbis-celebrate-getting-exact-same-title-as-men-after-44-year/",
    image:"https://forward.com/wp-content/uploads/2026/06/priesand.webp",
    credit:"The Jacob Rader Marcus Center of the American Jewish Archives",
-   fact:"The first woman ordained a rabbi anywhere was Regina Jonas, who was murdered at Auschwitz. Priesand’s ordination by Hebrew Union College, a Reform seminary, opened the door for countless women to follow."},
+   fact:"The first woman ordained a rabbi anywhere was Regina Jonas, who was murdered at Auschwitz. Priesand’s ordination by Hebrew Union College, a Reform seminary, opened the door for countless women to&nbsp;follow."},
   {html:"Harvey Milk becomes the first openly gay man elected to major city office in the United States.",tip:"Harvey Milk elected to San Francisco Board",year:1977,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-514870560_47.jpg",
    credit:"Bettmann/Getty Images",
@@ -471,7 +471,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-119106895-scaled.jpg",
    credit:"Silver Screen Collection/Getty Images",
    fact:"Receiving a Lifetime Achievement Tony Award completed Barb’s achievement in just a six-year span."},
-  {html:"The <em>Seinfeld</em> pilot airs on NBC, launching one of the most influential sitcoms in television history.",tip:"Seinfeld pilot",year:1989,url:"https://forward.com/culture/201221/seinfeld-revolutionized-pop-culture-25-years-ago/",
+  {html:"The <em>Seinfeld</em> pilot airs on NBC, launching one of the most influential sitcoms in television history.",tip:"Seinfeld pilot",year:1989,url:"https://forward.com/culture/201221/seinfeld-revolutionized-pop-culture-25-years-ago/",
    image:"https://forward.com/wp-content/uploads/2026/06/seinfeldcast.0.1498614946.webp",
    credit:"",
    fact:"NBC executives nearly cancelled <em>Seinfeld</em> after the pilot aired to modest ratings. But the &ldquo;show about nothing&rdquo; wound up lasting nine seasons, giving us Soup Nazis, close talkers, Festivus and &ldquo;yada yada&nbsp;yada.&rdquo;"},
@@ -479,10 +479,10 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-542342402_21.jpg",
    credit:"Jean-Louis Atlan/Sygma via Getty Images",
    fact:"Kahane, a New York native who in the US founded the Jewish Defense League, was convicted of multiple acts of terrorism in the United States and in Israel before his assassination by El-Sayyid Nosair, an Egyptian national."},
-  {html:"Ruth Bader Ginsburg is confirmed as the first Jewish woman, and only the second woman ever, appointed to the Supreme Court.",tip:"RBG confirmed to SCOTUS",year:1993,url:"https://forward.com/fast-forward/454762/ruth-bader-ginsburg-dead-87-pancreatic-cancer-supreme-court-justice/",
+  {html:"Ruth Bader Ginsburg is confirmed as the first Jewish woman, and only the second woman ever, appointed to the Supreme&nbsp;Court.",tip:"RBG confirmed to SCOTUS",year:1993,url:"https://forward.com/fast-forward/454762/ruth-bader-ginsburg-dead-87-pancreatic-cancer-supreme-court-justice/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-91237693-scaled.jpg",
    credit:"Mark Wilson/Getty Images",
-   fact:"The liberal justice, who grew up in a working-class Jewish family in Brooklyn, often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (&ldquo;justice, justice, shall you pursue&rdquo;) as her guiding principle."},
+   fact:"The liberal justice, who grew up in a working-class Jewish family in Brooklyn, often cited the Hebrew phrase <em>tzedek, tzedek tirdof</em> (&ldquo;justice, justice, shall you pursue&rdquo;) as her guiding&nbsp;principle."},
   {html:"The Oslo Accords are signed, producing a historic handshake between Yasser Arafat and Yitzhak Rabin on the White House lawn.",tip:"Oslo Accords signed",year:1993,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-463575454_17.jpg",
    credit:"J. David Ake/AFP via Getty Images",
@@ -503,13 +503,13 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1279072809.jpg",
    credit:"Getty Images/Bob Riha, Jr",
    fact:"Though he did not typically wear a kippah, Lieberman spoke openly and frequently about his Orthodox Jewish practice on the campaign trail."},
-  {html:"The Conservative movement’s law committee votes to allow rabbis to officiate same-sex marriages.",tip:"Conservative movement allows same-sex ceremonies",year:2006,
+  {html:"The Conservative movement’s law committee votes to allow rabbis to officiate same-sex marriages.",tip:"Conservative movement allows same-sex ceremonies",year:2006,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1247555608-scaled.jpg",
    credit:"Valerie Macon/AFP via Getty Images",
-   fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
-  {html:"Sandy Koufax sits out Game 1 of the World Series to observe Yom Kippur.",tip:"Koufax sits out Game 1",year:1965,
+   fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
+  {html:"Sandy Koufax sits out Game 1 of the World Series to observe Yom Kippur.",tip:"Koufax sits out Game 1",year:1965,
    image:"https://forward.com/wp-content/uploads/2024/10/Koufax.jpg",
-   fact:"Don Drysdale, who started Game 1 in Koufax’s place, lasted just three innings. He reportedly quipped that manager Walter Alston probably wished he were Jewish too. Koufax pitched shutouts in Games 5 and 7 to clinch the championship for the Dodgers."},
+   fact:"Don Drysdale, who started Game 1 in Koufax’s place, lasted just three innings. He reportedly quipped that manager Walter Alston probably wished he were Jewish too. Koufax pitched shutouts in Games 5 and 7 to clinch the championship for the&nbsp;Dodgers."},
   {html:"Rabbi Charlie Cytron-Walker escapes a hostage situation at Congregation Beth Israel in Colleyville, Texas.",tip:"Colleyville synagogue hostage situation",year:2022,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1237799972-scaled.jpg",
    credit:"Emil Lippe/Getty Images",
@@ -697,8 +697,8 @@ function setPracticeInstructions(){
   const mobile=isMobile();
   document.getElementById('practice-modal-instructions').innerHTML=
     '① Read the event card.<br>'
-    +(mobile?'② Drag the picture card to the timeline, or tap to select it then tap the timeline to place it.<br>':'② Drag the picture card to the timeline.<br>')
-    +'③ Fine-tune with the slider or by clicking the +/- buttons, then confirm below.';
+    +(mobile?'② Drag the picture card to the timeline, or tap to select it then tap the timeline to place it.<br>':'② Drag the picture card to the timeline.<br>')
+    +'③ Fine-tune with the slider or by clicking the +/- buttons, then confirm below.';
 }
 
 function showHelpModal(){
