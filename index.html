@@ -1293,7 +1293,7 @@ function showEnd(maxPts,isReplay){
   // Score number
   const scoreEl=document.createElement('div');
   scoreEl.style.cssText='margin:38px 0 .4rem;';
-  scoreEl.innerHTML=`<div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
+  scoreEl.innerHTML=`<div style="font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Your score</div><div class="end-score">${finalScore}</div><div class="end-max">points</div>`;
   ec.appendChild(scoreEl);
 
   const nn=document.createElement('div');
