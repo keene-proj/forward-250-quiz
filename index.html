@@ -1474,9 +1474,7 @@ function setupSummarySection(){
     btn.style.cssText='position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:999;padding:6px 18px;border-radius:20px;border:none;background:#4a3fa0;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:"Merriweather Sans",sans-serif;box-shadow:0 2px 8px rgba(74,63,160,.35);display:none;';
     document.body.appendChild(btn);
     btn.addEventListener('click',()=>{
-      const ec=document.getElementById('end-card');
-      if(ec)ec.scrollIntoView({behavior:'smooth',block:'start'});
-      else window.scrollTo({top:0,behavior:'smooth'});
+      window.scrollTo({top:0,behavior:'smooth'});
       window.parent.postMessage({scrollToTop:true},'*');
     });
     const ec=document.getElementById('end-card');
