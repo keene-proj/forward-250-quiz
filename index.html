@@ -1277,7 +1277,7 @@ function showEnd(maxPts,isReplay){
 
   // Score bars — game order, larger
   const barsWrap=document.createElement('div');
-  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:-86px auto .5rem;';
+  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:-89px auto .5rem;';
   logEntries.forEach(e=>{
     const bar=document.createElement('div');
     bar.style.cssText=`flex:1;height:28px;border-radius:5px;background:${pinColor(e.pts)};${e.pts>=8?'border:2px solid #4a3fa0;':'border:2px solid transparent;'}`;
@@ -1292,7 +1292,7 @@ function showEnd(maxPts,isReplay){
 
   // Score number
   const scoreEl=document.createElement('div');
-  scoreEl.style.cssText='margin:38px 0 .4rem;';
+  scoreEl.style.cssText='margin:32px 0 .4rem;';
   scoreEl.innerHTML=`<div style="font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Your score</div><div class="end-score">${finalScore}</div><div class="end-max">${finalScore===1?'point':'points'}</div>`;
   ec.appendChild(scoreEl);
 
@@ -1310,7 +1310,7 @@ function showEnd(maxPts,isReplay){
 
   const statsCompare=document.createElement('div');
   statsCompare.id='score-compare';
-  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:26px 0 .5rem;min-height:1.2em;';
+  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:-1px 0 .5rem;min-height:1.2em;';
   ec.appendChild(statsCompare);
 
   const btnRow=document.createElement('div');
@@ -1331,7 +1331,7 @@ function showEnd(maxPts,isReplay){
   const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
 
   const shareBtn=document.createElement('button');
-  shareBtn.style.cssText='font-family:"Merriweather",serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:.6rem;margin-top:3px;';
+  shareBtn.style.cssText='font-family:"Merriweather",serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:.6rem;margin-top:26px;';
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
     const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
@@ -1359,7 +1359,7 @@ function showEnd(maxPts,isReplay){
   // Email signup
   const signupWrap=document.createElement('div');
   signupWrap.style.cssText='margin:76px auto 0;max-width:380px;text-align:center;';
-  signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops</div><div style="display:flex;gap:8px;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:1;padding:10px 14px;border-radius:20px;border:1px solid var(--border2);font-size:14px;font-family:'Merriweather Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);text-align:center;"><button id="notify-btn" style="padding:10px 20px;border-radius:20px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Merriweather Sans',sans-serif;white-space:nowrap;">Submit</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
+  signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops</div><div style="display:flex;gap:8px;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:1;padding:6px 8px;border-radius:12px;border:1px solid var(--border2);font-size:8px;font-family:'Merriweather Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);text-align:center;"><button id="notify-btn" style="padding:6px 12px;border-radius:12px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:8px;font-weight:600;cursor:pointer;font-family:'Merriweather Sans',sans-serif;white-space:nowrap;">Submit</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
   ec.appendChild(signupWrap);
   signupWrap.querySelector('#notify-btn').addEventListener('click',async function(){
     const input=signupWrap.querySelector('#notify-email');
