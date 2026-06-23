@@ -188,8 +188,8 @@
   #end-card{padding:.75rem 0 .5rem;text-align:center;margin-top:0;}
   .end-summary{font-family:'Merriweather',Georgia,serif;font-size:clamp(17px,3vw,22px);color:var(--text);line-height:1.5;margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto;}
   .end-summary strong{color:var(--accent);}
-  .end-score{font-family:'Merriweather',serif;font-size:52px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1;}
-  .end-max{font-size:15px;color:var(--text3);font-family:'Merriweather Sans',sans-serif;}
+  .end-score{font-family:'Merriweather',serif;font-size:74px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1;}
+  .end-max{font-size:22px;color:var(--text3);font-family:'Merriweather Sans',sans-serif;}
   .end-nick{font-family:'Merriweather',serif;font-size:22px;font-weight:600;color:var(--accent);margin:8px 0 4px;font-style:italic;}
   .end-msg{font-size:15px;color:var(--text2);margin-bottom:.75rem;}
   #share-box{background:var(--surface2);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:13px;color:var(--text);font-family:monospace;margin-bottom:.75rem;line-height:1.7;border:.5px solid var(--border);text-align:left;}
@@ -244,7 +244,7 @@
   <div class="splash-title">250 Years of American Jewish History.</div>
   <div class="splash-subtitle">How Well Do You Know It?</div>
   <div class="splash-divider"></div>
-  <div class="splash-desc">Ten events. One timeline. Drag each card to the year you think it happened — the closer you get, the more points&nbsp;you earn.</div>
+  <div class="splash-desc">Can you pin 10 moments from American Jewish history on the year they&nbsp;occurred?</div>
   <button class="splash-btn" onclick="startGame()">Let's Play &rarr;</button>
   <div class="splash-note">Works on mobile &amp; desktop</div>
 </div>
@@ -568,7 +568,7 @@ async function fetchScoreStats(userScore){
     if(!Array.isArray(data)||data.length<5)return null;
     const scores=data.map(r=>r.score);
     const avg=Math.round(scores.reduce((s,v)=>s+v,0)/scores.length);
-    const betterThan=Math.round(scores.filter(s=>s<userScore).length/scores.length*100);
+    const betterThan=Math.min(99,Math.max(1,Math.round(scores.filter(s=>s<userScore).length/scores.length*100)));
     return{avg,betterThan};
   }catch(e){return null;}
 }
@@ -1293,25 +1293,23 @@ function showEnd(maxPts,isReplay){
   // Score number
   const scoreEl=document.createElement('div');
   scoreEl.style.cssText='margin:32px 0 .4rem;';
-  scoreEl.innerHTML=`<div style="font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Your score</div><div class="end-score">${finalScore}</div><div class="end-max">${finalScore===1?'point':'points'}</div>`;
+  scoreEl.innerHTML=`<div style="font-size:17px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Your score</div><div class="end-score">${finalScore}</div><div class="end-max">${finalScore===1?'point':'points'}</div>`;
   ec.appendChild(scoreEl);
+
+  const statsCompare=document.createElement('div');
+  statsCompare.id='score-compare';
+  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:8px 0 0;min-height:1.2em;';
+  ec.appendChild(statsCompare);
 
   const nn=document.createElement('div');
   nn.className='end-nick';
   nn.style.marginTop='21px';
   nn.textContent=nick;
-  ec.appendChild(nn);
 
   const mg=document.createElement('div');
   mg.className='end-msg';
   mg.style.marginTop='9px';
   mg.textContent=msg;
-  ec.appendChild(mg);
-
-  const statsCompare=document.createElement('div');
-  statsCompare.id='score-compare';
-  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:-1px 0 .5rem;min-height:1.2em;';
-  ec.appendChild(statsCompare);
 
   const btnRow=document.createElement('div');
   btnRow.style.cssText='display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:4px;margin-bottom:.75rem;';
@@ -1359,7 +1357,7 @@ function showEnd(maxPts,isReplay){
   // Email signup
   const signupWrap=document.createElement('div');
   signupWrap.style.cssText='margin:76px auto 0;max-width:380px;text-align:center;';
-  signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops</div><div style="display:flex;gap:8px;justify-content:center;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:0 0 60%;padding:10px 14px;border-radius:20px;border:1px solid var(--border2);font-size:14px;font-family:'Merriweather Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);text-align:center;"><button id="notify-btn" style="padding:10px 20px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Merriweather Sans',sans-serif;white-space:nowrap;">Submit</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
+  signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops</div><div style="display:flex;gap:8px;justify-content:center;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:0 0 60%;padding:9px 13px;border-radius:18px;border:1px solid var(--border2);font-size:13px;font-family:'Merriweather Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);text-align:center;"><button id="notify-btn" style="padding:9px 18px;border-radius:18px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:'Merriweather Sans',sans-serif;white-space:nowrap;">Submit</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
   ec.appendChild(signupWrap);
   signupWrap.querySelector('#notify-btn').addEventListener('click',async function(){
     const input=signupWrap.querySelector('#notify-email');
@@ -1462,6 +1460,50 @@ function setupSummarySection(){
   const tl=document.getElementById('timeline-section');
   tl.style.cssText='display:block;margin:.5rem 0 .75rem;';
   logSection.insertBefore(tl,histLog);
+
+  // CSS: hide label row, year bubbles, connectors, scoring hint, tooltip popup
+  const s=document.createElement('style');
+  s.textContent='.tl-label-row{display:none!important;}#pins-layer>*>div:not(.pin-dot){display:none!important;}.scoring-hint{display:none!important;}#tooltip-popup{display:none!important;}';
+  document.head.appendChild(s);
+  showTip=()=>{};
+
+  // String look: thin line flanked by 1776 / 2026
+  const track=document.getElementById('timeline-track');
+  track.style.height='2px';
+  track.style.border='none';
+  track.style.background='var(--border2)';
+  track.style.boxShadow='none';
+  track.style.marginTop='0';
+  const endLblStyle='font-size:12px;color:var(--text3);font-weight:600;white-space:nowrap;flex-shrink:0;';
+  const trackWrap=document.createElement('div');
+  trackWrap.style.cssText='display:flex;align-items:center;gap:10px;';
+  track.parentNode.insertBefore(trackWrap,track);
+  const lblL=document.createElement('span');lblL.textContent='1776';lblL.style.cssText=endLblStyle;
+  const lblR=document.createElement('span');lblR.textContent='2026';lblR.style.cssText=endLblStyle;
+  track.style.flex='1';
+  track.style.minWidth='0';
+  trackWrap.appendChild(lblL);
+  trackWrap.appendChild(track);
+  trackWrap.appendChild(lblR);
+
+  // Year tooltip on dot hover — event delegation bubbles through pointer-events:none ancestors
+  const yearTip=document.createElement('div');
+  yearTip.style.cssText='position:absolute;bottom:24px;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:13px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;pointer-events:none;display:none;z-index:100;font-family:"Merriweather Sans",sans-serif;';
+  track.appendChild(yearTip);
+  const pinsLayer=document.getElementById('pins-layer');
+  pinsLayer.addEventListener('mouseover',e=>{
+    const dot=e.target.closest('.pin-dot');
+    if(!dot)return;
+    const outer=dot.parentElement;
+    const pct=parseFloat(outer.style.left)/100;
+    yearTip.textContent=Math.round(MIN_Y+pct*RANGE);
+    yearTip.style.left=outer.style.left;
+    yearTip.style.display='block';
+  });
+  pinsLayer.addEventListener('mouseout',e=>{
+    if(e.target.classList.contains('pin-dot'))yearTip.style.display='none';
+  });
+
   logTitle.style.cursor='pointer';
   logTitle.style.userSelect='none';
   logTitle.addEventListener('click',function(){
