@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>American Jewish Chronicles Quiz</title>
+<title>American Jewish History Quiz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Merriweather+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -253,7 +253,7 @@
 <div id="game">
   <div class="game-header">
     <span class="badge" id="score-badge">Score: 0</span>
-    <div class="game-title-full" id="game-title-full">American Jewish Chronicles Quiz</div>
+    <div class="game-title-full" id="game-title-full">American Jewish History Quiz</div>
     <div style="display:flex;align-items:center;gap:6px;">
       <span class="badge" id="round-badge" style="display:none;">Practice</span>
       <button id="help-btn" onclick="showHelpModal()" title="How to play">?</button>
@@ -1222,7 +1222,7 @@ function copyShare(){
 
 function buildShareMsg(s){
   const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
-  return dots+'\nI scored '+s+' on the American Jewish Chronicles Quiz. Can you beat my score?\n'+GAME_URL;
+  return dots+'\nI scored '+s+' on the American Jewish History Quiz. Can you beat my score?\n'+GAME_URL;
 }
 
 function shareTwitter(s){
@@ -1292,24 +1292,26 @@ function showEnd(maxPts,isReplay){
 
   // Score number
   const scoreEl=document.createElement('div');
-  scoreEl.style.cssText='margin:-83px 0 .4rem;';
+  scoreEl.style.cssText='margin:-86px 0 .4rem;';
   scoreEl.innerHTML=`<div style="font-size:17px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Your score</div><div class="end-score">${finalScore}</div><div class="end-max">${finalScore===1?'point':'points'}</div>`;
   ec.appendChild(scoreEl);
 
   const statsCompare=document.createElement('div');
   statsCompare.id='score-compare';
-  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:19px 0 0;min-height:1.2em;';
+  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:55px 0 0;min-height:1.2em;';
   ec.appendChild(statsCompare);
 
   const nn=document.createElement('div');
   nn.className='end-nick';
-  nn.style.marginTop='21px';
+  nn.style.marginTop='14px';
   nn.textContent=nick;
+  ec.appendChild(nn);
 
   const mg=document.createElement('div');
   mg.className='end-msg';
-  mg.style.marginTop='9px';
+  mg.style.marginTop='31px';
   mg.textContent=msg;
+  ec.appendChild(mg);
 
   const btnRow=document.createElement('div');
   btnRow.style.cssText='display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:4px;margin-bottom:.75rem;';
@@ -1329,11 +1331,11 @@ function showEnd(maxPts,isReplay){
   const fbSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
 
   const shareBtn=document.createElement('button');
-  shareBtn.style.cssText='font-family:"Merriweather",serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:.6rem;margin-top:22px;';
+  shareBtn.style.cssText='font-family:"Merriweather",serif;font-size:16px;font-weight:600;padding:11px 32px;border-radius:32px;border:none;background:#34a85a;color:#fff;cursor:pointer;margin-bottom:.6rem;margin-top:24px;';
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
     const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
-    const text=`American Jewish Chronicles Quiz\n${dots}\n${finalScore} points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/`;
+    const text=`American Jewish History Quiz\n${dots}\n${finalScore} points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/`;
     function onCopied(){shareBtn.textContent='Copied to clipboard!';setTimeout(()=>{shareBtn.textContent='Share your score';},2000);}
     function fallbackCopy(){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');onCopied();}catch(e){}document.body.removeChild(ta);}
     if(navigator.clipboard&&navigator.clipboard.writeText){
@@ -1349,8 +1351,8 @@ function showEnd(maxPts,isReplay){
   btnRow.appendChild(makeShareBtn('Facebook',fbSvg,()=>shareFacebook()));
   const emailSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
   const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
-  const emailSubject=encodeURIComponent('I scored '+finalScore+' pts on the American Jewish Chronicles Quiz');
-  const emailBody=encodeURIComponent('American Jewish Chronicles Quiz\n'+dots+'\n'+finalScore+' points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/');
+  const emailSubject=encodeURIComponent('I scored '+finalScore+' pts on the American Jewish History Quiz');
+  const emailBody=encodeURIComponent('American Jewish History Quiz\n'+dots+'\n'+finalScore+' points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/');
   btnRow.appendChild(makeShareBtn('Email',emailSvg,()=>window.open('mailto:?subject='+emailSubject+'&body='+emailBody,'_blank')));
   ec.appendChild(btnRow);
 
