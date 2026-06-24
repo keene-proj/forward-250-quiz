@@ -56,7 +56,7 @@
   #confirm-zone{height:88px;position:relative;width:100%;}
   #middle-block{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:0;padding-top:0;}
   #year-adj-wrap{position:absolute;bottom:0;left:0;right:0;margin-bottom:0;}
-  #answer-info{font-size:17px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;text-align:center;}
+  #answer-info{font-size:17px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;text-align:center;scroll-margin-top:72px;}
   @keyframes labelGlow{0%,100%{text-shadow:0 0 6px rgba(127,119,221,0.4);}50%{text-shadow:0 0 16px rgba(127,119,221,0.75);}}
   #event-area{display:flex;flex-direction:column;align-items:center;margin-bottom:6px;}
   .event-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:1.75rem 2.5rem;user-select:none;-webkit-user-select:none;touch-action:none;font-size:20px;color:var(--text);line-height:1.2;cursor:grab;font-family:'Merriweather',Georgia,serif;font-weight:300;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .15s,border-color .15s;display:inline-block;max-width:620px;text-align:center;}
@@ -106,7 +106,7 @@
   @keyframes scRowGlow{0%,100%{opacity:1;}50%{opacity:.45;}}
   .sc-placeholder{font-size:7px;color:var(--accent);text-align:center;line-height:1.4;padding:4px 2px;flex:1;display:flex;align-items:center;justify-content:center;}
   #event-stats-bar{font-size:13px;color:#7a7470;text-align:center;padding:0;line-height:1.4;margin-top:15px;}
-  #next-btn-wrap{display:none;justify-content:center;margin-top:calc(1.5rem - 3px);}
+  #next-btn-wrap{display:none;justify-content:center;margin-top:calc(1.5rem - 8px);}
   #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:'Merriweather Sans',sans-serif;transition:background .12s;}
   #next-btn:hover{background:#3a30a0;}
   #next-btn.btn-primary{font-family:'Merriweather',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;}
@@ -116,13 +116,21 @@
   .tl-label-row span{position:absolute;font-size:13px;color:var(--text3);font-weight:600;letter-spacing:.03em;transform:translateX(-50%);white-space:nowrap;}
   .tl-label-row span:first-child{transform:translateX(0);}
   .tl-label-row span:last-child{transform:translateX(-100%);}
+  .mobile-br{display:none;}
   @media(max-width:480px){
+    .mobile-br{display:block;}
+    .badge{font-size:11px;padding:4px 8px;}
     .tl-label-row span{font-size:9px;color:var(--text2);}
     .tl-label-row{height:16px;}
     .event-card{line-height:1.2;margin:0 0.75rem;}
     #game{padding:1.25rem 1rem 3rem;}
     .section-label{font-size:12px;}
-    #drag-hint span{white-space:normal;text-align:center;font-size:13px;max-width:260px;}
+    #drag-hint span{white-space:normal;text-align:center;max-width:200px;}
+    #drag-hint.arrow span{font-size:13px;}
+    #drag-hint.arrow svg{display:none;}
+    #drag-hint:not(.arrow) span{font-size:11px;text-transform:none;letter-spacing:.01em;white-space:normal;text-align:center;max-width:90vw;}
+    .year-adj-btn{height:29px;padding:0 13px;font-size:12px;}
+    #confirm-zone{min-height:72px;}
   }
   @media(max-width:600px){
     #confirm-zone{height:auto;min-height:88px;}
@@ -254,7 +262,7 @@
 <div id="game">
   <div class="game-header">
     <span class="badge" id="score-badge">Score: 0</span>
-    <div class="game-title-full" id="game-title-full">The Great American Jewish History Quiz!</div>
+    <div class="game-title-full" id="game-title-full">The Great American<br class="mobile-br"> Jewish History Quiz!</div>
     <div style="display:flex;align-items:center;gap:6px;">
       <span class="badge" id="round-badge" style="display:none;">Practice</span>
       <button id="help-btn" onclick="showHelpModal()" title="How to play">?</button>
@@ -334,7 +342,7 @@
 </div>
 <canvas id="firework-canvas"></canvas>
 <div id="ghost"></div>
-<div id="cloud-hint" style="display:none;">The <em>Forward</em> was founded in <strong>1897</strong>. Move the picture card there to&nbsp;practice.</div>
+<div id="cloud-hint" style="display:none;">The <em>Forward</em> was founded in <strong>1897</strong>. Move the card there to&nbsp;practice.</div>
 
 <script>
 const DEV_MODE=new URLSearchParams(location.search).has('dev');
@@ -431,7 +439,7 @@ const ALL_EVENTS=[
   {html:"<em>Fiddler on the Roof</em> opens on&nbsp;Broadway.",tip:"Fiddler on the Roof opens on Broadway",year:1964,url:"https://forward.com/culture/1710/how-e2-80-98fiddler-e2-80-99-became-folklore/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1262759420.jpg",
    credit:"FilmPublicityArchive/United Archives via Getty Images",
-   fact:"Based on Sholem Aleichem’s beloved Tevye stories, <em>Fiddler</em> became the first Broadway musical to surpass 3,000 performances. The movie adaptation starred Chaim Topol, who’d played Tevye on the Israeli&nbsp;stage."},
+   fact:"Based on Sholem Aleichem’s beloved Tevye stories, <em>Fiddler</em> became the first Broadway musical to surpass 3,000 performances. The movie adaptation starred Chaim Topol, who had previously played Tevye the Dairyman on the Israeli stage."},
   {html:"Jewish civil rights organizers Michael Schwerner and Andrew Goodman are lynched by the Klan in Mississippi.",tip:"Schwerner and Goodman murdered in Mississippi",year:1964,
    image:"https://forward.com/wp-content/uploads/2026/06/Screen-Shot-2026-06-03-at-8.27.25-PM-1.jpg",
    credit:"Bettmann/Getty Images",
@@ -606,7 +614,7 @@ function showEventStats(stats,year){
     pct=20+(s*7)%27;
     avg=9+(s*3)%14;
   }
-  bar.innerHTML=`<strong>${pct}%</strong> of players guessed within 5 years &nbsp;·&nbsp; Average guess: <strong>${avg}</strong> years off`;
+  bar.innerHTML=isMobile()?`<strong>${pct}%</strong> of players guessed within 5 years<br>Average guess: <strong>${avg}</strong> years off`:`<strong>${pct}%</strong> of players guessed within 5 years &nbsp;·&nbsp; Average guess: <strong>${avg}</strong> years off`;
   bar.style.display='';
 }
 
@@ -616,9 +624,9 @@ const QUIZ_SET_WEEK1_TIPS=[
   'Seinfeld pilot',
   'Washington\'s letter to Touro Synagogue',
   'Koufax sits out Game 1',
-  'Fiddler on the Roof opens on Broadway',
   'HUC\'s Trefa Banquet',
   'Schneerson becomes Lubavitcher Rebbe',
+  'Fiddler on the Roof opens on Broadway',
   'RBG confirmed to SCOTUS',
   'First bat mitzvah in the United States',
   'Conservative movement allows same-sex ceremonies',
@@ -1071,10 +1079,10 @@ function handlePracticeGuess(guessY){
   const close=d<=15;
   document.getElementById('feedback').innerHTML=
     d===0?`<span style="color:var(--green);font-weight:600;">Perfect!</span>`
-    :d<=5?`<span style="color:var(--green);font-weight:600;">Well done!</span> You were ${d} year${d===1?'':'s'} off.`
-    :d<=10?`<span style="color:var(--amber);font-weight:600;">Not bad.</span> You were ${d} years off — the Forward was founded in 1897.`
-    :d<=25?`<span style="color:var(--amber);font-weight:600;">Not quite.</span> You were ${d} years off — the Forward was founded in 1897.`
-    :`<span style="color:var(--red);font-weight:600;">Off by ${d} years.</span> The Forward was founded in 1897.`;
+    :d<=5?`<span style="color:var(--green);font-weight:600;">Well done!</span> Off by ${d} year${d===1?'':'s'}.`
+    :d<=10?`<span style="color:var(--amber);font-weight:600;">Not bad.</span> Off by ${d} years.`
+    :d<=25?`<span style="color:var(--amber);font-weight:600;">Not quite.</span> Off by ${d} years.`
+    :`<span style="color:var(--red);font-weight:600;">Off by ${d} years.</span>`;
   const practicePts=calcPts(guessY,1897);
   practiceAnswerPts=practicePts;
   activePinWrapper=createSlidingPill(guessY,1897,practicePts,'The Forward founded');
@@ -1123,6 +1131,7 @@ function handleGuess(guessY){
   if(pts>=8)launchFirework();
   logEntries.push({year:evt.year,text:evt.tip,guess:guessY,pts});
   showFact(evt,false);
+  scrollToAnswerOnMobile();
   const _sb=document.getElementById('event-stats-bar');
   if(_sb){_sb.innerHTML='Loading community stats\u2026';_sb.style.display='block';}
   if(roundIdx===gameEvents.length-1){
@@ -1702,13 +1711,16 @@ function updateIndicator(cx,cy){
   const belowY=rect.bottom+8;
   const cardCoversBelow=gr&&gr.bottom>=belowY+(tooltip.offsetHeight||28);
   if(isMobile()&&cy!==undefined){
-    const tipX=Math.max(40,Math.min(window.innerWidth-40,cx));
+    tooltip.style.position='fixed';
+    tooltip.style.transform='translateX(-50%)';
+    const timelineX=rect.left+p*rect.width;
+    const tipX=Math.max(40,Math.min(window.innerWidth-40,timelineX));
     tooltip.style.left=tipX+'px';
     tooltip.style.bottom='auto';
-    // Always show above the ghost so it clears the dragged image
-    const aboveGhost=gr?Math.max(4,gr.top-36):rect.top-44;
-    tooltip.style.top=aboveGhost+'px';
+    tooltip.style.top=Math.max(4,rect.top-36)+'px';
   } else {
+    tooltip.style.position='';
+    tooltip.style.transform='';
     if(cardCoversBelow){
       tooltip.style.top='auto';
       tooltip.style.bottom='calc(100% + 6px)';
@@ -1720,7 +1732,7 @@ function updateIndicator(cx,cy){
 }
 function hideIndicator(){
   indicator.style.display='none';
-  tooltip.style.top='';tooltip.style.bottom='';tooltip.style.left='';tooltip.style.display='none';
+  tooltip.style.top='';tooltip.style.bottom='';tooltip.style.left='';tooltip.style.position='';tooltip.style.transform='';tooltip.style.display='none';
 }
 function isOverTrack(cx,cy){const r=track.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top-40&&cy<=r.bottom+40;}
 function getYear(cx){const r=track.getBoundingClientRect();return pctToYr(Math.max(0,Math.min(1,(cx-r.left)/r.width)));}
@@ -1791,8 +1803,23 @@ function createSlidingPill(guessY,year,pts,label){
   return pill;
 }
 
+function scrollToAnswerOnMobile(){
+  if(!isMobile())return;
+  setTimeout(()=>{
+    const card=document.getElementById('current-card');
+    const btn=document.getElementById('next-btn-wrap');
+    if(!card||!btn)return;
+    const cardTop=window.scrollY+card.getBoundingClientRect().top;
+    const btnBottom=window.scrollY+btn.getBoundingClientRect().bottom;
+    const target=(cardTop+btnBottom-window.innerHeight)/2;
+    window.scrollTo({top:Math.max(0,target),behavior:'smooth'});
+  },400);
+}
+
+let _adjLast=0;
 function adjustYear(delta){
   if(pendingYear===null)return;
+  const now=Date.now();if(now-_adjLast<120)return;_adjLast=now;
   const newYear=Math.max(MIN_Y,Math.min(MAX_Y,pendingYear+delta));
   const p=yrPct(newYear);
   indicator.style.left=(p*100)+'%';
@@ -1810,8 +1837,8 @@ function confirmPlacement(){
   card.classList.remove('card-selected');
   if(isPracticePhase)handlePracticeGuess(yearToSubmit);
   else handleGuess(yearToSubmit);
-  // On mobile, scroll event card to top of screen
-  if(isMobile()){
+  // On mobile, scroll for gameplay rounds only (practice has no auto-scroll)
+  if(isMobile()&&!isPracticePhase){
     setTimeout(()=>{
       const cardEl=document.getElementById('current-card');
       if(cardEl){
