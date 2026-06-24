@@ -178,7 +178,8 @@
   .log-row-main{display:flex;align-items:center;gap:10px;cursor:pointer;}
   .log-chevron{font-size:10px;color:var(--text3);flex-shrink:0;transition:transform .2s;margin-left:2px;}
   .log-row.expanded .log-chevron{transform:rotate(180deg);}
-  .log-expand{display:none;margin-top:8px;padding-top:8px;border-top:.5px solid var(--border);font-size:13px;color:var(--text2);line-height:1.6;}
+  .log-expand{display:none;margin-top:8px;padding-top:8px;border-top:.5px solid var(--border);font-size:13px;color:var(--text2);line-height:1.6;cursor:pointer;}
+  .log-expand.open{cursor:pointer;}
   .log-expand.open{display:block;}
   .log-read-more{font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap;}
   .log-read-more:hover{text-decoration:underline;}
@@ -1050,10 +1051,24 @@ function rebuildLog(){
     const expandHtml=hasFact?`<div class="log-expand">${evt.fact}${readMore}</div>`:'';
     row.innerHTML=`${imgHtml}<div class="log-content"><div class="log-row-main"><div class="log-main"><span class="log-year">${e.year}</span><div class="log-text" style="font-size:13px;color:var(--text2);margin-top:2px;">${e.text}</div></div><div class="log-right">${logBadge}<div class="log-off">${diff>0?diff+'y off':'exact'}<span class="log-avg-off" data-year="${e.year}"></span></div></div>${chevron}</div>${expandHtml}</div>`;
     if(hasFact){
-      row.querySelector('.log-row-main').addEventListener('click',()=>{
-        row.classList.toggle('expanded');
-        row.querySelector('.log-expand').classList.toggle('open');
-      });
+      const thumb=row.querySelector('.log-thumb');
+      const expand=row.querySelector('.log-expand');
+      if(thumb){
+        thumb.style.cursor='zoom-in';
+        thumb.addEventListener('click',()=>{
+          row.classList.add('expanded');
+          expand.classList.add('open');
+          thumb.style.cursor='default';
+        });
+      }
+      if(expand){
+        expand.addEventListener('click',e=>{
+          if(e.target.tagName==='A')return;
+          row.classList.remove('expanded');
+          expand.classList.remove('open');
+          if(thumb)thumb.style.cursor='zoom-in';
+        });
+      }
     }
     log.appendChild(row);
   });
@@ -1377,6 +1392,12 @@ function showEnd(maxPts,isReplay){
   signupWrap.style.cssText='margin:41px auto 0;max-width:380px;text-align:center;';
   signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops.</div><div style="display:flex;gap:8px;justify-content:center;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:0 0 60%;padding:9px 13px;border-radius:18px;border:1px solid var(--border2);font-size:13px;font-family:'Merriweather Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);text-align:center;"><button id="notify-btn" style="padding:9px 18px;border-radius:18px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:'Merriweather Sans',sans-serif;white-space:nowrap;">Submit</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
   ec.appendChild(signupWrap);
+
+  const credits=document.createElement('div');
+  credits.style.cssText='margin:48px auto 0;max-width:420px;font-size:8pt;font-weight:700;color:var(--text3);text-align:left;line-height:1.6;padding:0 1rem;';
+  credits.innerHTML='<em>The Great American Jewish History Quiz!</em> was developed for desktop and mobile using Claude, a generative artificial intelligence tool by Anthropic. Quiz design, clues and infographics were created by Louis Keene.<br><br>Photo credits: Judith Kaplan — Archives, Reconstructionist Rabbinical College; MS St Louis — Keystone/Hulton Archive/Getty Images; Schneerson — Tim Boxer/Getty Images; Fiddler — FilmPublicityArchive/United Archives via Getty Images; Koufax — Focus On Sport/Getty Images; Seinfeld — Andrew Eccles/NBC/NBCU Photo Bank via Getty Images; Ginsburg — Mark Wilson/Getty Images; Marriage — Valerie Macon/AFP via Getty Images';
+  ec.appendChild(credits);
+
   signupWrap.querySelector('#notify-btn').addEventListener('click',async function(){
     const input=signupWrap.querySelector('#notify-email');
     const msg=signupWrap.querySelector('#notify-msg');
