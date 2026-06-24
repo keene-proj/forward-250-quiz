@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>American Jewish History Quiz</title>
+<title>The Great American Jewish History Quiz!</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Merriweather+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,9 +26,9 @@
   /* SPLASH */
   #splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem 1.5rem;text-align:center;}
   .splash-eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;}
-  .splash-title{font-family:'Merriweather',Georgia,serif;font-size:clamp(28px,6vw,42px);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:.6rem;max-width:480px;}
+  .splash-title{font-family:'Merriweather',Georgia,serif;font-size:clamp(31px,6.6vw,46px);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:1.5rem;max-width:480px;}
   .splash-subtitle{font-family:'Merriweather',Georgia,serif;font-size:clamp(17px,3.5vw,22px);font-weight:400;font-style:italic;color:var(--text2);margin-bottom:2.5rem;max-width:400px;}
-  .splash-divider{width:48px;height:3px;background:var(--accent);border-radius:2px;margin:0 auto 2rem;}
+  .splash-divider{width:48px;height:3px;background:var(--accent);border-radius:2px;margin:0 auto 1.5rem;}
   .splash-desc{font-size:18px;color:var(--text2);line-height:1.7;max-width:420px;margin-bottom:2.5rem;}
   .splash-btn{font-family:'Merriweather',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;cursor:pointer;letter-spacing:.02em;transition:background .15s,transform .1s;}
   .splash-btn:hover{background:#3a30a0;transform:translateY(-1px);}
@@ -105,8 +105,8 @@
   #score-card-total span{display:block;font-size:8px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
   @keyframes scRowGlow{0%,100%{opacity:1;}50%{opacity:.45;}}
   .sc-placeholder{font-size:7px;color:var(--accent);text-align:center;line-height:1.4;padding:4px 2px;flex:1;display:flex;align-items:center;justify-content:center;}
-  #event-stats-bar{font-size:12px;color:var(--text3);text-align:center;padding:0;line-height:1.4;}
-  #next-btn-wrap{display:none;justify-content:center;margin-top:1.5rem;}
+  #event-stats-bar{font-size:13px;color:#7a7470;text-align:center;padding:0;line-height:1.4;margin-top:15px;}
+  #next-btn-wrap{display:none;justify-content:center;margin-top:calc(1.5rem - 3px);}
   #next-btn{font-size:16px;font-weight:600;padding:10px 28px;border-radius:24px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-family:'Merriweather Sans',sans-serif;transition:background .12s;}
   #next-btn:hover{background:#3a30a0;}
   #next-btn.btn-primary{font-family:'Merriweather',serif;font-size:16px;font-weight:600;padding:13px 36px;border-radius:32px;border:none;background:var(--accent);color:#fff;}
@@ -240,12 +240,13 @@
 
 <!-- SPLASH SCREEN -->
 <div id="splash">
-  <div class="splash-eyebrow">A <em>Forward</em> Quiz</div>
-  <div class="splash-title">250 Years of American Jewish History.</div>
-  <div class="splash-subtitle">How Well Do You Know It?</div>
-  <div class="splash-divider"></div>
-  <div class="splash-desc">Can you pin 10 moments from American Jewish history on the year they&nbsp;occurred?</div>
-  <button class="splash-btn" onclick="startGame()">Let's Play &rarr;</button>
+  <img src="https://forward.com/wp-content/uploads/2022/04/forward-logo-290x50-1.png" alt="The Forward" style="width:131px;margin-bottom:1.25rem;display:block;margin-left:auto;margin-right:auto;position:relative;top:-15px;">
+  <div class="splash-title">The Great American Jewish History Quiz!</div>
+  <div class="splash-eyebrow" style="margin-top:.5rem;margin-bottom:0;text-transform:none;font-size:12px;">By Louis Keene</div>
+  <div class="splash-subtitle" style="display:none;">Let's see how well you know it.</div>
+  <div class="splash-divider" style="margin-top:1.5rem;display:none;"></div>
+  <div class="splash-desc" style="display:none;">Place historic Jewish moments<br>on the year they occurred.</div>
+  <button class="splash-btn" style="margin-top:30px;" onclick="startGame()">Let's Play &rarr;</button>
   <div class="splash-note">Works on mobile &amp; desktop</div>
 </div>
 
@@ -253,7 +254,7 @@
 <div id="game">
   <div class="game-header">
     <span class="badge" id="score-badge">Score: 0</span>
-    <div class="game-title-full" id="game-title-full">American Jewish History Quiz</div>
+    <div class="game-title-full" id="game-title-full">The Great American Jewish History Quiz!</div>
     <div style="display:flex;align-items:center;gap:6px;">
       <span class="badge" id="round-badge" style="display:none;">Practice</span>
       <button id="help-btn" onclick="showHelpModal()" title="How to play">?</button>
@@ -277,7 +278,6 @@
       </div>
       <div id="answer-info"></div>
       <div id="feedback"></div>
-      <div id="event-stats-bar" style="display:none;"></div>
     </div>
     <div id="year-adj-wrap">
       <button class="year-adj-btn" id="year-adj-minus" onclick="adjustYear(-1)" disabled>&#8722;1 year</button>
@@ -310,6 +310,8 @@
     <div id="score-card"></div>
   </div>
 
+  <div id="event-stats-bar" style="display:none;"></div>
+
   <div id="next-btn-wrap" style="display:none;">
     <button id="next-btn" onclick="advanceRound()">Next event</button>
   </div>
@@ -325,8 +327,8 @@
 <div id="practice-modal-overlay" style="display:none;">
   <div id="practice-modal">
     <h2 id="practice-modal-title">How to play</h2>
-    <p id="practice-modal-instructions" style="text-align:left;"><strong>1.</strong> Read the picture card.<br><strong>2.</strong> Drag the picture card to the timeline.<br><strong>3.</strong> Fine-tune with the slider or by clicking the +/- buttons, then confirm below.</p>
-    <p id="practice-modal-1897" style="display:none;margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em> was founded in <strong>1897</strong>.<br>Drag the card there to get&nbsp;started.</p>
+    <p id="practice-modal-instructions" style="text-align:left;"></p>
+    <p id="practice-modal-1897" style="display:none;margin-top:-.5rem;color:var(--accent);font-weight:600;">The <em>Forward</em>&nbsp; was founded in <strong>1897</strong>.<br>Drag the card there to get&nbsp;started.</p>
     <button id="ready-btn" onclick="dismissPracticeModal()">Got it</button>
   </div>
 </div>
@@ -373,7 +375,7 @@ const ALL_EVENTS=[
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1226194601-scaled.jpg",
    credit:"Archive Photos/Getty Images",
    imageLayout:"right",
-   fact:"Then called <em>Der Forverts</em>, the print daily was one of the most widely read foreign-language newspapers in America. The <em>Forward</em> publishes online today in both Yiddish and English, reaching millions of readers every&nbsp;year."},
+   fact:"Originally called <em>Der Forverts</em>, the print daily was one of the most widely read foreign-language newspapers in America. The <em>Forward</em> publishes online today in both Yiddish and English, reaching millions of readers every&nbsp;year."},
   {html:"Emma Lazarus’s sonnet <em>The New Colossus</em> is engraved on the base of the Statue of Liberty.",tip:"&ldquo;The New Colossus&rdquo; engraved on Statue of Liberty",year:1903,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-515417238-scaled.jpg",
    credit:"Bettmann via Getty Images",
@@ -425,7 +427,7 @@ const ALL_EVENTS=[
   {html:"Rabbi Menachem Mendel Schneerson becomes the seventh Lubavitcher Rebbe, making him the leader of the Chabad&nbsp;movement.",tip:"Schneerson becomes Lubavitcher Rebbe",year:1951,url:"https://forward.com/culture/474642/how-770-eastern-parkway-chabad-lubavitch-rebbe-schneerson-history-jewish/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-72624304.jpg",
    credit:"Tim Boxer/Getty Images",
-   fact:"Prior to his transformational 44-year leadership of Chabad, Schneerson — a trained electrical engineer — volunteered on the Brooklyn Navy Yard during World War II, helping design wiring schematics for the battleship USS&nbsp;Missouri."},
+   fact:"Prior to his leadership of Chabad, Schneerson — a trained electrical engineer — volunteered on the Brooklyn Navy Yard during World War II, helping design wiring schematics for the battleship <em>USS Missouri</em>."},
   {html:"<em>Fiddler on the Roof</em> opens on&nbsp;Broadway.",tip:"Fiddler on the Roof opens on Broadway",year:1964,url:"https://forward.com/culture/1710/how-e2-80-98fiddler-e2-80-99-became-folklore/",
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1262759420.jpg",
    credit:"FilmPublicityArchive/United Archives via Getty Images",
@@ -435,7 +437,7 @@ const ALL_EVENTS=[
    credit:"Bettmann/Getty Images",
    fact:"Schwerner, Goodman and James Chaney traveled to Mississippi to register Black voters. Their deaths galvanized the nation and built support for the passage of the Civil Rights Act. It took more than 40 years for an arrest to be made in their murder."},
   {html:"12-year-old New Yorker Judith Kaplan celebrates her bat mitzvah, the first such ceremony in the United States.",tip:"First bat mitzvah in the United States",year:1922,
-   image:"https://forward.com/wp-content/uploads/2026/06/judith-kaplan.jpg",
+   image:"https://forward.com/wp-content/uploads/2026/06/judith-kaplan.jpg",thumbPosition:"center center",
    credit:"The Ira and Judith Kaplan Eisenstein Reconstructionist Archives, Reconstructionist Rabbinical College",
    fact:"Kaplan’s father, Rabbi Mordecai Kaplan, went on to found Reconstructionist Judaism, a religious movement at the forefront of gender inclusion. Judith Kaplan read from a Torah book, rather than a Torah scroll, at her bat mitzvah."},
   {html:"Rabbi Sally J. Priesand becomes the first woman in North America to be ordained as a&nbsp;rabbi.",tip:"First female rabbi",year:1972,url:"https://forward.com/life/341622/reform-women-rabbis-celebrate-getting-exact-same-title-as-men-after-44-year/",
@@ -618,8 +620,8 @@ const QUIZ_SET_WEEK1_TIPS=[
   'HUC\'s Trefa Banquet',
   'Schneerson becomes Lubavitcher Rebbe',
   'RBG confirmed to SCOTUS',
-  'First Hillel chapter',
-  'First female rabbi',
+  'First bat mitzvah in the United States',
+  'Conservative movement allows same-sex ceremonies',
   'M.S. St. Louis'
 ];
 
@@ -695,10 +697,13 @@ function startGame(){
 
 function setPracticeInstructions(){
   const mobile=isMobile();
+  const step2=mobile?'Drag the picture card to the timeline, or tap to select it then tap the timeline to place it.':'Drag the picture card to the timeline.';
   document.getElementById('practice-modal-instructions').innerHTML=
-    '<strong>1.</strong> Read the picture card.<br>'
-    +(mobile?'<strong>2.</strong> Drag the picture card to the timeline, or tap to select it then tap the timeline to place it.<br>':'<strong>2.</strong> Drag the picture card to the timeline.<br>')
-    +'<strong>3.</strong> Fine-tune with the slider or by clicking the +/- buttons, then confirm below.';
+    '<div style="display:table;border-spacing:0 3px;width:100%;">'
+    +'<div style="display:table-row;"><span style="display:table-cell;font-weight:700;padding-right:10px;white-space:nowrap;">1.</span><span style="display:table-cell;">Read the picture card.</span></div>'
+    +'<div style="display:table-row;"><span style="display:table-cell;font-weight:700;padding-right:10px;white-space:nowrap;">2.</span><span style="display:table-cell;">'+step2+'</span></div>'
+    +'<div style="display:table-row;"><span style="display:table-cell;font-weight:700;padding-right:10px;white-space:nowrap;">3.</span><span style="display:table-cell;">Fine-tune with the slider or by clicking the <strong>+/−</strong> buttons, then confirm below.</span></div>'
+    +'</div>';
 }
 
 function showHelpModal(){
@@ -1222,7 +1227,7 @@ function copyShare(){
 
 function buildShareMsg(s){
   const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
-  return dots+'\nI scored '+s+' on the American Jewish History Quiz. Can you beat my score?\n'+GAME_URL;
+  return dots+'\nI scored '+s+' on the The Great American Jewish History Quiz!. Can you beat my score?\n'+GAME_URL;
 }
 
 function shareTwitter(s){
@@ -1277,7 +1282,7 @@ function showEnd(maxPts,isReplay){
 
   // Score bars — game order, larger
   const barsWrap=document.createElement('div');
-  barsWrap.style.cssText='display:flex;gap:5px;max-width:400px;margin:-89px auto .5rem;';
+  barsWrap.style.cssText='display:none;gap:5px;max-width:400px;margin:-89px auto .5rem;';
   logEntries.forEach(e=>{
     const bar=document.createElement('div');
     bar.style.cssText=`flex:1;height:28px;border-radius:5px;background:${pinColor(e.pts)};${e.pts>=8?'border:2px solid #4a3fa0;':'border:2px solid transparent;'}`;
@@ -1292,24 +1297,24 @@ function showEnd(maxPts,isReplay){
 
   // Score number
   const scoreEl=document.createElement('div');
-  scoreEl.style.cssText='margin:-71px 0 .4rem;';
-  scoreEl.innerHTML=`<div style="font-size:17px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Your score</div><div class="end-score">${finalScore}</div><div class="end-max">${finalScore===1?'point':'points'}</div>`;
+  scoreEl.style.cssText='margin:-86px 0 .4rem;';
+  scoreEl.innerHTML=`<div style="font-size:17px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Your score</div><div class="end-score">${finalScore}</div><div class="end-max"${finalScore<36?' style="font-size:19px;"':''}>${finalScore===1?'point':'points'}</div>`;
   ec.appendChild(scoreEl);
 
   const statsCompare=document.createElement('div');
   statsCompare.id='score-compare';
-  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:55px 0 0;min-height:1.2em;';
+  statsCompare.style.cssText='text-align:center;font-size:13px;color:var(--text2);margin:20px 0 0;min-height:1.2em;';
   ec.appendChild(statsCompare);
 
   const nn=document.createElement('div');
   nn.className='end-nick';
-  nn.style.marginTop='-22px';
+  nn.style.cssText='display:none;margin-top:-152px;';
   nn.textContent=nick;
   ec.appendChild(nn);
 
   const mg=document.createElement('div');
   mg.className='end-msg';
-  mg.style.marginTop='31px';
+  mg.style.cssText='display:none;margin-top:31px;';
   mg.textContent=msg;
   ec.appendChild(mg);
 
@@ -1335,7 +1340,7 @@ function showEnd(maxPts,isReplay){
   shareBtn.textContent='Share your score';
   shareBtn.addEventListener('click',()=>{
     const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
-    const text=`American Jewish History Quiz\n${dots}\n${finalScore} points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/`;
+    const text=`The Great American Jewish History Quiz!\n${dots}\n${finalScore} points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/`;
     function onCopied(){shareBtn.textContent='Copied to clipboard!';setTimeout(()=>{shareBtn.textContent='Share your score';},2000);}
     function fallbackCopy(){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:0;opacity:0;';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');onCopied();}catch(e){}document.body.removeChild(ta);}
     if(navigator.clipboard&&navigator.clipboard.writeText){
@@ -1351,14 +1356,14 @@ function showEnd(maxPts,isReplay){
   btnRow.appendChild(makeShareBtn('Facebook',fbSvg,()=>shareFacebook()));
   const emailSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';
   const dots=logEntries.sort((a,b)=>a.year-b.year).map(e=>e.pts>=8?'🎉':e.pts===5?'🟢':e.pts===3?'🟡':e.pts===1?'🟣':'⚪️').join('');
-  const emailSubject=encodeURIComponent('I scored '+finalScore+' pts on the American Jewish History Quiz');
-  const emailBody=encodeURIComponent('American Jewish History Quiz\n'+dots+'\n'+finalScore+' points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/');
+  const emailSubject=encodeURIComponent('I scored '+finalScore+' pts on the The Great American Jewish History Quiz!');
+  const emailBody=encodeURIComponent('The Great American Jewish History Quiz!\n'+dots+'\n'+finalScore+' points\n\nGo here to play: https://keene-proj.github.io/forward-250-quiz/');
   btnRow.appendChild(makeShareBtn('Email',emailSvg,()=>window.open('mailto:?subject='+emailSubject+'&body='+emailBody,'_blank')));
   ec.appendChild(btnRow);
 
   // Email signup
   const signupWrap=document.createElement('div');
-  signupWrap.style.cssText='margin:76px auto 0;max-width:380px;text-align:center;';
+  signupWrap.style.cssText='margin:41px auto 0;max-width:380px;text-align:center;';
   signupWrap.innerHTML=`<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;">Get notified when the next quiz drops.</div><div style="display:flex;gap:8px;justify-content:center;"><input id="notify-email" type="email" placeholder="your@email.com" style="flex:0 0 60%;padding:9px 13px;border-radius:18px;border:1px solid var(--border2);font-size:13px;font-family:'Merriweather Sans',sans-serif;outline:none;background:var(--surface);color:var(--text);text-align:center;"><button id="notify-btn" style="padding:9px 18px;border-radius:18px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;font-family:'Merriweather Sans',sans-serif;white-space:nowrap;">Submit</button></div><div id="notify-msg" style="font-size:12px;margin-top:6px;min-height:1.2em;color:var(--text3);"></div>`;
   ec.appendChild(signupWrap);
   signupWrap.querySelector('#notify-btn').addEventListener('click',async function(){
@@ -1377,7 +1382,7 @@ function showEnd(maxPts,isReplay){
     }catch(e){this.disabled=false;this.textContent='Submit';msg.style.color='var(--red)';msg.textContent='Something went wrong — please try again.';}
   });
 
-  if(!DEV_MODE&&!isReplay){localStorage.setItem('fwd250_score',finalScore);localStorage.setItem('fwd250_log',JSON.stringify(logEntries.map(e=>({pts:e.pts,year:e.year,guess:e.guess,text:e.text}))));recordGameScore(finalScore);}
+  if(!DEV_MODE&&!isReplay){localStorage.setItem('fwd250_score',finalScore);localStorage.setItem('fwd250_log',JSON.stringify(logEntries.map(e=>({pts:e.pts,year:e.year,guess:e.guess,text:e.text}))));localStorage.setItem('fwd250_v','2');recordGameScore(finalScore);}
   fetchScoreStats(finalScore).then(stats=>{
     if(stats){
       statsCompare.innerHTML=`<strong>You scored better than ${stats.betterThan}% of players &nbsp;·&nbsp; Average: ${Math.round(stats.avg)} points</strong>`;
@@ -1741,7 +1746,7 @@ function showConfirmBar(year){
   if(hint){
     hint.classList.remove('arrow');
     hint.innerHTML='<span>Drag the slider or use +/\u2212 buttons to fine-tune</span>';
-    hint.style.top='calc((100% - 36px) / 2 + 5px)';
+    hint.style.top='calc((100% - 36px) / 2)';
     hint.classList.add('visible');
   }
 }
@@ -2028,6 +2033,7 @@ track.addEventListener('touchend',e=>{
 
 // Show end card directly if already played
 (function(){
+  if(localStorage.getItem('fwd250_v')!=='2'){localStorage.removeItem('fwd250_score');localStorage.removeItem('fwd250_log');localStorage.removeItem('fwd250_v');}
   const prev=localStorage.getItem('fwd250_score');
   if(prev===null||DEV_MODE)return;
   score=parseInt(prev,10);
