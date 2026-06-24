@@ -129,6 +129,8 @@
     #drag-hint.arrow span{font-size:13px;}
     #drag-hint.arrow svg{display:none;}
     #drag-hint:not(.arrow) span{font-size:11px;text-transform:none;letter-spacing:.01em;white-space:normal;text-align:center;max-width:90vw;}
+    .end-score{margin-top:2px;}
+    .end-max{position:relative;top:-2px;}
     .year-adj-btn{height:29px;padding:0 13px;font-size:12px;}
     #confirm-zone{min-height:72px;}
   }
@@ -519,7 +521,7 @@ const ALL_EVENTS=[
    fact:"The responsum from the movement’s Committee on Jewish Law and Standards was one of the most significant shifts in Conservative halacha in the movement’s history."},
   {html:"Sandy Koufax sits out Game 1 of the World Series to observe Yom Kippur.",tip:"Koufax sits out Game 1",year:1965,
    image:"https://forward.com/wp-content/uploads/2024/10/Koufax.jpg",
-   fact:"Don Drysdale, who started Game 1 in Koufax’s place, lasted just three innings. He reportedly quipped that manager Walter Alston probably wished he were Jewish too. Koufax pitched shutouts in Games 5 and 7 to clinch the championship for the&nbsp;Dodgers."},
+   fact:"Don Drysdale, who started Game 1 in Koufax’s place, lasted just three innings. (He reportedly quipped that manager Walter Alston probably wished he were Jewish instead.) Koufax pitched shutouts in Games 5 and 7 to clinch the championship for the&nbsp;Dodgers."},
   {html:"Rabbi Charlie Cytron-Walker escapes a hostage situation at Congregation Beth Israel in Colleyville, Texas.",tip:"Colleyville synagogue hostage situation",year:2022,
    image:"https://forward.com/wp-content/uploads/2026/06/GettyImages-1237799972-scaled.jpg",
    credit:"Emil Lippe/Getty Images",
@@ -623,14 +625,14 @@ function showEventStats(stats,year){
 const QUIZ_SET_WEEK1_TIPS=[
   'Seinfeld pilot',
   'Washington\'s letter to Touro Synagogue',
-  'Koufax sits out Game 1',
+  'M.S. St. Louis',
   'HUC\'s Trefa Banquet',
   'Schneerson becomes Lubavitcher Rebbe',
   'Fiddler on the Roof opens on Broadway',
   'RBG confirmed to SCOTUS',
   'First bat mitzvah in the United States',
   'Conservative movement allows same-sex ceremonies',
-  'M.S. St. Louis'
+  'Koufax sits out Game 1'
 ];
 
 function selectEvents(){
@@ -1394,7 +1396,7 @@ function showEnd(maxPts,isReplay){
   if(!DEV_MODE&&!isReplay){localStorage.setItem('fwd250_score',finalScore);localStorage.setItem('fwd250_log',JSON.stringify(logEntries.map(e=>({pts:e.pts,year:e.year,guess:e.guess,text:e.text}))));localStorage.setItem('fwd250_v','2');recordGameScore(finalScore);}
   fetchScoreStats(finalScore).then(stats=>{
     if(stats){
-      statsCompare.innerHTML=`<strong>You scored better than ${stats.betterThan}% of players &nbsp;·&nbsp; Average: ${Math.round(stats.avg)} points</strong>`;
+      statsCompare.innerHTML=`<strong>You scored better than ${stats.betterThan}% of players &nbsp;·&nbsp; <span style="white-space:nowrap;">Average: ${Math.round(stats.avg)} points</span></strong>`;
     }
   });
   updateLogAvgStats();
