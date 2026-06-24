@@ -2039,7 +2039,8 @@ card.addEventListener('touchend',e=>{
     touchDragging=false;
     ghost.style.display='none';ghost.classList.remove('image-ghost');document.body.classList.remove('image-dragging');
     const t=e.changedTouches[0];
-    if(isOverTrack(t.clientX,t.clientY)){
+    const tr=track.getBoundingClientRect();
+    if(t.clientX>=tr.left&&t.clientX<=tr.right){
       updateIndicator(t.clientX,t.clientY);
       showConfirmBar(getYear(t.clientX));
     } else {
